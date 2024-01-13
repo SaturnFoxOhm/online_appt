@@ -8,7 +8,6 @@ const logout = () => {
   window.location.reload();
 }
 
-
 export const navbar = () => {
   return (
     <div>

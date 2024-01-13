@@ -41,9 +41,9 @@ const Test1 = () => {
     const [statusMessage, setStatusMessage] = useState("");
     const [userId, setUserId] = useState("");
 
-    useEffect(() => {
-        initLine();
-    }, []);
+    // useEffect(() => {
+    //     initLine();
+    // }, []);
 
   return (
     <div style={{textAlign: "center"}}>

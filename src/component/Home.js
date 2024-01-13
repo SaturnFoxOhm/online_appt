@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Navbar from './navbar'; // Assuming Navbar is the correct filename and default export
 import '../css/Home.css';
 import liff from '@line/liff';
+import Button from '@material-ui/core/Button';
 
 const logout = () => {
   liff.logout();
@@ -89,6 +90,7 @@ const Home = () => {
             </div>
           </div>
         </div>
+        <button type="submit" onClick={initLine}> Click Here</button>
       </div>
     </div>
   );
