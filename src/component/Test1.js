@@ -17,7 +17,7 @@ const Test1 = () => {
       if (liff.isLoggedIn()) {
         runApp();
       } else {
-        liff.login( {redirectUri: "https://online-appt-9snh.vercel.app/test" });
+        liff.login( {redirectUri: "https://online-appt.vercel.app/test" });
       }
     }, err => console.error(err));
   }
