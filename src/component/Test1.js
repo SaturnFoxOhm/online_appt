@@ -28,7 +28,7 @@ const Test1 = () => {
       liff.getProfile().then(profile => {
         console.log(profile);
         setDisplayName(profile.displayname);
-        setPictureUrl(profile.pictureUr);
+        setPictureUrl(profile.pictureUrl);
         setStatusMessage(profile.statusMessage);
         setUserId(profile.userId);
       }).catch(err => console.error(err));
@@ -48,7 +48,7 @@ const Test1 = () => {
     <div style={{textAlign: "center"}}>
         <h1>Angular with LINE Login</h1>
         <hr/>
-        <img src={pictureUrl} />
+        <img src={pictureUrl} width="300px" height="300px"/>
         <p style={{ textAlign: "left", marginLeft: "20%"}}><b>id token: </b> { idToken }</p>
         <p style={{ textAlign: "left", marginLeft: "20%"}}><b>display name: </b> { displayName }</p>
         <p style={{ textAlign: "left", marginLeft: "20%"}}><b>status message: </b> { statusMessage }</p>
