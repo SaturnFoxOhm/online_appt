@@ -3,6 +3,22 @@ import ScrollReveal from 'scrollreveal';
 import { Link } from 'react-router-dom';
 import Navbar from './navbar'; // Assuming Navbar is the correct filename and default export
 import '../css/Home.css';
+import liff from '@line/liff';
+
+const logout = () => {
+  liff.logout();
+  window.location.reload();
+}
+
+const initLine = () => {
+  liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
+    if (liff.isLoggedIn()) {
+      this.runApp();
+    } else {
+      liff.login();
+    }
+  }, err => console.error(err));
+}
 
 const Home = () => {
   const sr = ScrollReveal({

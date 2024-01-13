@@ -1,8 +1,29 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import '../css/navbar.css';
+import liff from '@line/liff';
+
+const logout = () => {
+  liff.logout();
+  window.location.reload();
+}
+
+const initLine = () => {
+  liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
+    if (liff.isLoggedIn()) {
+      this.runApp();
+    } else {
+      liff.login({redirectUri: "https://online-appt.onrender.com/test"});
+    }
+  }, err => console.error(err));
+}
 
 export const navbar = () => {
+  const el = document.getElementById('foo');
+  el.onclick = initLine;
+  const le = document.getElementById('signout');
+  le.onclick = logout;
+
   return (
     <div>
         <meta charSet="utf-8" />
@@ -42,7 +63,10 @@ export const navbar = () => {
                 <a className='Navbar' href="active">Contact Us</a>
               </li>
               <li>
-                <a className='Navbar' href="active">Sign in</a>
+                <a className='Navbar' href="active" id='foo'>Sign in</a>
+              </li>
+              <li>
+                <a className='Navbar' href="active" id='signout'>Sign out</a>
               </li>
             </ul>
           </nav>

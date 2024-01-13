@@ -2,6 +2,22 @@ import { useEffect } from 'react';
 import ScrollReveal from 'scrollreveal';
 import '../css/about.css'; // Import your about.css file
 import Navbar from "./navbar"
+import liff from '@line/liff';
+
+const logout = () => {
+  liff.logout();
+  window.location.reload();
+}
+
+const initLine = () => {
+  liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
+    if (liff.isLoggedIn()) {
+      this.runApp();
+    } else {
+      liff.login();
+    }
+  }, err => console.error(err));
+}
 
 const AboutPage = () => {
     const sr = ScrollReveal({
