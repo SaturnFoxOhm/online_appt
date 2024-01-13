@@ -12,9 +12,9 @@ const logout = () => {
 const initLine = () => {
   liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
     if (liff.isLoggedIn()) {
-      this.runApp();
+      runApp();
     } else {
-      liff.login();
+      liff.login( {redirectUri: "https://online-appt-9snh.vercel.app/test" });
     }
   }, err => console.error(err));
 }
