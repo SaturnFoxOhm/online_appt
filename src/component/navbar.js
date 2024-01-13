@@ -19,11 +19,6 @@ const initLine = () => {
 }
 
 export const navbar = () => {
-  const el = document.getElementById('foo');
-  el.onclick = initLine;
-  const le = document.getElementById('signout');
-  le.onclick = logout;
-
   return (
     <div>
         <meta charSet="utf-8" />
@@ -63,10 +58,10 @@ export const navbar = () => {
                 <a className='Navbar' href="active">Contact Us</a>
               </li>
               <li>
-                <a className='Navbar' href="active" id='foo'>Sign in</a>
+                <a className='Navbar' href="active" id='foo' onClick={() => initLine()}>Sign in</a>
               </li>
               <li>
-                <a className='Navbar' href="active" id='signout'>Sign out</a>
+                <a className='Navbar' href="active" id='signout' onClick={() => logout()}>Sign out</a>
               </li>
             </ul>
           </nav>

@@ -2,7 +2,7 @@
 // import './App.css';
 import Home from './component/Home';
 import About from './component/About'
-import Test from './component/test'
+import Test from './component/Test'
 import { Routes, Route } from 'react-router-dom';
 
 function App() {
