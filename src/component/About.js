@@ -9,15 +9,15 @@ const logout = () => {
   window.location.reload();
 }
 
-const initLine = () => {
-  liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
-    if (liff.isLoggedIn()) {
-      runApp();
-    } else {
-      liff.login( {redirectUri: "https://online-appt-9snh.vercel.app/test" });
-    }
-  }, err => console.error(err));
-}
+// const initLine = () => {
+//   liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
+//     if (liff.isLoggedIn()) {
+//       runApp();
+//     } else {
+//       liff.login( {redirectUri: "https://online-appt-9snh.vercel.app/test" });
+//     }
+//   }, err => console.error(err));
+// }
 
 const AboutPage = () => {
     const sr = ScrollReveal({
