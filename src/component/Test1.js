@@ -27,7 +27,7 @@ const Test1 = () => {
       setIdToken(idToken)
       liff.getProfile().then(profile => {
         console.log(profile);
-        setDisplayName(profile.displayname);
+        setDisplayName(profile.displayName);
         setPictureUrl(profile.pictureUrl);
         setStatusMessage(profile.statusMessage);
         setUserId(profile.userId);
