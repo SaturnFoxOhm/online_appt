@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ScrollReveal from 'scrollreveal';
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import Navbar from './navbar'; // Assuming Navbar is the correct filename and default export
 import '../css/Home.css';
 import liff from '@line/liff';
@@ -18,7 +18,7 @@ const Test1 = () => {
       if (liff.isLoggedIn()) {
         this.runApp();
       } else {
-        liff.login('https://online-appt.onrender.com/test');
+        liff.login( {redirectUri: "https://online-appt.onrender.com/test" });
       }
     }, err => console.error(err));
   }
