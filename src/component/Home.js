@@ -21,7 +21,7 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <div className="bg-gradient-to-r from-green-500 to-emerald-300">
+      <div className="min-h-screen min-w-screen bg-gradient-to-r from-green-500 to-emerald-300">
         <div className="mx-auto max-w-7xl py-12 sm:px-6 sm:py-16 lg:px-8 reveal-container">
           <div className="relative isolate overflow-hidden bg-green-800 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
             <svg
