@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ScrollReveal from 'scrollreveal';
 import { Link } from 'react-router-dom';
 import Navbar from './navbar'; // Assuming Navbar is the correct filename and default export
@@ -41,6 +41,10 @@ const Test1 = () => {
     const [statusMessage, setStatusMessage] = useState("");
     const [userId, setUserId] = useState("");
 
+    useEffect(() => {
+        initLine();
+    }, []);
+
   return (
     <div style={{textAlign: "center"}}>
         <h1>Angular with LINE Login</h1>
@@ -51,7 +55,7 @@ const Test1 = () => {
         <p style={{ textAlign: "left", marginLeft: "20%"}}><b>status message: </b> { statusMessage }</p>
         <p style={{ textAlign: "left", marginLeft: "20%"}}><b>user id: </b> { userId }</p>
 
-        <button onClick={() => logout()} style={{width: "100%", height: "30px"}}>Logout</button>
+        <Link className='Navbar' to="/" onClick={() => logout()}> Sign Out </Link>
     </div>
   )
 }

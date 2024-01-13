@@ -3,32 +3,11 @@ import { Link, redirect } from 'react-router-dom';
 import '../css/navbar.css';
 import liff from '@line/liff';
 
-const runApp = () =>{
-  const idToken = liff.getIDToken();
-  setIdToken(idToken)
-  liff.getProfile().then(profile => {
-    console.log(profile);
-    setDisplayName(profile.displayname);
-    setPictureUrl(profile.pictureUr);
-    setStatusMessage(profile.statusMessage);
-    setUserId(profile.userId);
-  }).catch(err => console.error(err));
-}
-
 const logout = () => {
   liff.logout();
   window.location.reload();
 }
 
-const initLine = () => {
-  liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
-    if (liff.isLoggedIn()) {
-      runApp();
-    } else {
-      liff.login({redirectUri: "https://online-appt.onrender.com/test"});
-    }
-  }, err => console.error(err));
-}
 
 export const navbar = () => {
   return (
@@ -70,10 +49,10 @@ export const navbar = () => {
                 <a className='Navbar' href="active">Contact Us</a>
               </li>
               <li>
-                <Link className='Navbar' to="/test" onClick={() => initLine()}> Sign In </Link>
+                <Link className='Navbar' to="/test"> Sign In </Link>
               </li>
               <li>
-                <Link className='Navbar' to="/home" onClick={() => logout()}> Sign In </Link>
+                <Link className='Navbar' to="/" onClick={() => logout()}> Sign Out </Link>
               </li>
             </ul>
           </nav>
