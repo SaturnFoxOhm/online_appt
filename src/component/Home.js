@@ -15,7 +15,7 @@ const initLine = () => {
     if (liff.isLoggedIn()) {
       this.runApp();
     } else {
-      liff.login();
+      liff.login( {redirectUri: "https://online-appt.onrender.com/test/" });
     }
   }, err => console.error(err));
 }
