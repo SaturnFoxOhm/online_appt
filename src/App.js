@@ -1,8 +1,8 @@
 // import logo from './logo.svg';
 // import './App.css';
 import Home from './component/Home';
-import About from './component/About'
-import Test from './component/Test'
+import About from './component/About';
+import Test from './component/Test1';
 import { Routes, Route } from 'react-router-dom';
 
 function App() {

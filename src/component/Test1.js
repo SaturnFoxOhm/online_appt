@@ -6,7 +6,7 @@ import '../css/Home.css';
 import liff from '@line/liff';
 import logo from '../logo.svg';
 
-const Test = () => {
+const Test1 = () => {
 
   const logout = () => {
     liff.logout();
@@ -56,4 +56,4 @@ const Test = () => {
   )
 }
 
-export default Test
+export default Test1
