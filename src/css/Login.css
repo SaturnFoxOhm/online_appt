@@ -1,0 +1,97 @@
+* {
+    font-family: "Inter";
+}
+
+.body {
+    margin: auto;
+    margin-top: 10%;
+    width: 50%;
+    border: 5px solid #06985F;
+    border-radius: 60px; 
+    padding: 60px;
+    text-align: center;
+}
+
+.Login-topic {
+    font-size: 35px;
+    margin-bottom: 30px;
+}
+
+.Btn button {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    background-color: #06C755;
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 18px;
+    text-align: center;
+    padding: 15px;
+    padding-left: 160px;
+    padding-right: 160px;
+    border-radius: 8px;
+}
+
+.Btn button:hover {
+    background-color: #05b34c;
+}
+
+.Btn button:active {
+    background-color: #048b3b;
+}
+
+hr.solid {
+    border-top: 2px solid #bbb;
+    width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.SignUp {
+    font-size: 18px;
+}
+
+.signupbtn {
+    margin-left: 10px;
+    color: #06985F;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.signupbtn:hover {
+    color: #0aac6e;
+}
+
+/* Tablet Horizontal */
+@media screen and (min-width: 1024px) and (max-width: 1600px){
+    .Btn button {
+        width: auto; /* Reset width to auto for desktop screens */
+        padding: 12px 80px;
+        font-size: 16px;
+        text-align: center;
+    }
+}
+
+/* Tablet Vertical*/
+@media screen and (min-width: 768px) and (max-width: 1023px){
+    .Btn button{
+        width: 85%;
+        padding: 8px 16px;
+        font-size: 16px;
+    }
+}
+
+/* Mobile */
+@media screen and (max-width: 767px){
+    .body {
+        width: 100%;
+    }
+
+    .Btn button{
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+}

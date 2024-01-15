@@ -48,10 +48,7 @@ export const navbar = () => {
                 <a className='Navbar' href="active">Contact Us</a>
               </li>
               <li>
-                <Link className='Navbar' to="/test"> Sign In </Link>
-              </li>
-              <li>
-                <Link className='Navbar' to="/" onClick={() => logout()}> Sign Out </Link>
+                <Link className='Navbar' to="/login"> Sign In </Link>
               </li>
             </ul>
           </nav>

@@ -1,0 +1,63 @@
+* {
+    font-family: "Inter";
+}
+
+.SignUp-topic {
+    font-size: 35px;
+    margin-bottom: 30px;
+    text-align: center;
+    padding-top: 50px;
+}
+
+.SignUpPage {
+    background-color: #fcf5dd;
+}
+
+form {
+    max-width: 400px;
+    margin: auto;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="tel"],
+input[type="date"] {
+    width: 100%;
+    padding: 8px; /* Optional: Add padding for better visual appearance */
+    margin: 8px 0; /* Optional: Add margin for better spacing */
+    box-sizing: border-box;
+    border: 1px solid #ccc; /* Add a 1px solid border */
+    border-radius: 4px; /* Optional: Add border-radius for rounded corners */
+}
+
+.SubmitBtn {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    background-color: #58B1A1;
+    color: #fff; /* Text color */
+    padding: 10px 150px; /* Adjust padding as needed */
+    font-size: 18px; /* Adjust font size as needed */
+    border: none;
+    border-radius: 16px;
+}
+
+/* Mobile */
+@media screen and (max-width: 767px){
+    form {
+        padding: 0 20px; /* Adjust padding for smaller screens */
+    }
+
+    input[type="email"],
+    input[type="text"],
+    input[type="tel"],
+    input[type="date"] {
+        padding: 10px; /* Adjust padding for smaller screens */
+        margin: 10px 0; /* Adjust margin for smaller screens */
+    }
+
+    .SubmitBtn {
+        padding: 10px 20px; /* Adjust padding for smaller screens */
+    }
+}
