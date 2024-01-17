@@ -39,13 +39,13 @@ export const navbar = () => {
                 <Link className='Navbar' to="/"> Home </Link>
               </li>
               <li>
-                <a className='Navbar' href="active">Service</a>
+                <a className='Navbar' href="/service">Service</a>
               </li>
               <li>
                 <Link className='Navbar' to="/about"> About </Link>
               </li>
               <li>
-                <a className='Navbar' href="active">Contact Us</a>
+                <a className='Navbar' href="/contactus">Contact Us</a>
               </li>
               <li>
                 <Link className='Navbar' to="/login"> Sign In </Link>
