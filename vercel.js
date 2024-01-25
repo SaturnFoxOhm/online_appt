@@ -10,9 +10,9 @@ app.use(cors());
 app.use(express.json());
 
 const connection = mysql.createConnection({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  database: process.env.DB_NAME || 'mydb'
+  host: 'localhost',
+  user: 'root',
+  database: 'mydb'
 });
 
 router.post('/store-line-login-data', async (req, res) => {
