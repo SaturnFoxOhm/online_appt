@@ -22,8 +22,10 @@ const Login = () => {
     try{
       if (liff.isLoggedIn()) {
         runApp();
-      } else {
+      } 
+      else {
         liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
+        runApp();
       }
     }catch(err){
       console.error(err)
