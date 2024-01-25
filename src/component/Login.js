@@ -15,7 +15,12 @@ const Login = () => {
   }
 
   useEffect(() => {
-    liff.init({ liffId: '2002781192-5JV9lL87' });
+    // liff.init({ liffId: '2002781192-5JV9lL87' });
+    liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
+      if (liff.isLoggedIn()) {
+        runApp();
+      }
+    }, err => console.error(err));
   }, [])
   
   const initLine = () => {
