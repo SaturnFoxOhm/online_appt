@@ -25,13 +25,9 @@ const Login = () => {
   const initLine = async () => {
     try{
       if (liff.isLoggedIn()) {
-        runApp();
-      } 
-      else {
-        liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
-        runApp();
+        await runApp();
 
-        const lineUserId = userId;
+        const lineUserId = liff.getProfile().userId;
         const data = { lineUserId, displayName };
 
         fetch('https://online-appt.vercel.app/store-line-login-data', {
@@ -41,13 +37,16 @@ const Login = () => {
           },
           body: JSON.stringify(data),
         })
-        .then(response => response.json())
-        .then(result => {
-          console.log('Line login data stored successfully:', result);
-        })
-        .catch(error => {
-          console.error('Error storing Line login data:', error);
-        });
+          .then(response => response.json())
+          .then(result => {
+            console.log('Line login data stored successfully:', result);
+          })
+          .catch(error => {
+            console.error('Error storing Line login data:', error);
+          });
+      } 
+      else {
+        liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
       }
     }catch(err){
       console.error(err)

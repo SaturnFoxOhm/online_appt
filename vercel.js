@@ -11,7 +11,8 @@ app.use(express.json());
 
 const connection = mysql.createConnection({
   // Your database connection details
-  host: process.env.DB_HOST || 'localhost',
+  host: 'localhost',
+  port: 5000,
   user: process.env.DB_USER || 'root',
   database: process.env.DB_NAME || 'mydb'
 });
@@ -42,7 +43,7 @@ router.post('/store-line-login-data', async (req, res) => {
   }
 });
 
-app.use('https://online-appt.vercel.app/', router); // Adapt to your serverless function path
+app.use('https://online-appt.vercel.app/store-line-login-data', router); // Adapt to your serverless function path
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
