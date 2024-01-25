@@ -33,13 +33,16 @@ const Login = () => {
   const runApp = () =>{
       const idToken = liff.getIDToken();
       setIdToken(idToken)
-      liff.getProfile().then(profile => {
+
+      liff.getProfile()
+      .then(profile => {
         console.log(profile);
         setDisplayName(profile.displayName);
         setPictureUrl(profile.pictureUrl);
         setStatusMessage(profile.statusMessage);
         setUserId(profile.userId);
-      }).catch(err => console.error(err));
+      })
+      .catch(err => console.error(err));
     }
     
     const [pictureUrl, setPictureUrl] = useState(logo);
@@ -47,6 +50,8 @@ const Login = () => {
     const [displayName, setDisplayName] = useState("");
     const [statusMessage, setStatusMessage] = useState("");
     const [userId, setUserId] = useState("");
+
+    console.log('user id: ', userId);
 
     const sr = ScrollReveal({
       distance: '65px',
@@ -85,6 +90,12 @@ const Login = () => {
                 Don't have an account?
                 <a href="/signup" class="signupbtn">Sign Up</a>
               </span>
+              <p style={{ textAlign: "left", marginLeft: "20%"}}><b>id token: </b> { idToken }</p>
+              <p style={{ textAlign: "left", marginLeft: "20%"}}><b>display name: </b> { displayName }</p>
+              <p style={{ textAlign: "left", marginLeft: "20%"}}><b>status message: </b> { statusMessage }</p>
+              <p style={{ textAlign: "left", marginLeft: "20%"}}><b>user id: </b> { userId }</p>
+
+              <button type='submit' onClick={() => logout()} className='Logout'>Log out</button>
             </div>
           </body>
             

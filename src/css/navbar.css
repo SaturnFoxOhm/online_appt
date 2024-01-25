@@ -71,7 +71,7 @@ i:hover{
     height: 100vh;
     background: rgb(1, 106, 112);
     top: 80px;
-    left: -100%;
+    top: -100%;
     text-align: center;
     transition: all .5s;
     position: absolute;
@@ -90,6 +90,6 @@ i:hover{
     color: rgb(1, 175, 108);
   }
   #check:checked ~ ul{
-    left: 0;
+    top: 0;
   }
 }
