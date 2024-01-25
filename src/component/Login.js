@@ -16,7 +16,9 @@ const Login = () => {
 
   useEffect(() => {
     liff.init({ liffId: '2002781192-5JV9lL87' });
-    runApp();
+    if (liff.isLoggedIn()) {
+        runApp();
+    } 
   }, [])
   
   const initLine = () => {
