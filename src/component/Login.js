@@ -30,7 +30,7 @@ const Login = () => {
         const lineUserId = liff.getProfile().userId;
         const data = { lineUserId, displayName };
 
-        fetch('https://online-appt.vercel.app/store-line-login-data', {
+        fetch('https://online-appt.vercel.app/api/store-line-login-data', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

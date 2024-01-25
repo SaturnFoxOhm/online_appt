@@ -10,22 +10,20 @@ app.use(cors());
 app.use(express.json());
 
 const connection = mysql.createConnection({
-  // Your database connection details
   host: 'localhost',
-  port: 5000,
-  user: process.env.DB_USER || 'root',
-  database: process.env.DB_NAME || 'mydb'
+  user: 'root',
+  database: 'mydb'
 });
 
 router.post('/store-line-login-data', async (req, res) => {
   try {
     const { lineUserId, displayName } = req.body;
 
-    console.log('Received Line Login data:', { lineUserId, displayName });
+    console.log('Received Line Login data:', {lineUserId, displayName});
 
     // Your database insertion logic here
     connection.query(
-        'INSERT INTO `lineaccount` (`LineUserID`, `DisplayName`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `DisplayName` = VALUES(`DisplayName`)', 
+        'INSERT INTO `lineaccount` (`LineUserID`, `displayName`) VALUES (?, ?)', 
         [lineUserId, displayName], 
         (error, results) => {
           if (error) {
@@ -43,9 +41,9 @@ router.post('/store-line-login-data', async (req, res) => {
   }
 });
 
-app.use('https://online-appt.vercel.app/store-line-login-data', router); // Adapt to your serverless function path
+app.use('/api', router); // Adapt to your serverless function path
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
