@@ -15,7 +15,7 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME || 'mydb'
 });
 
-router.post('/store-line-login-data', async (req, res) => {
+app.post('/store-line-login-data', async (req, res) => {
   try {
     const { lineUserId, displayName } = req.body;
 
