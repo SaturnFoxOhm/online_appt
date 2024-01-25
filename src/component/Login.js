@@ -27,10 +27,9 @@ const Login = () => {
       if (liff.isLoggedIn()) {
         await runApp();
 
-        const lineUserId = liff.getProfile().userId;
-        const data = { lineUserId, displayName };
+        const data = { userId, displayName };
 
-        console.log('user id: ', lineUserId);
+        console.log('user id: ', userId);
         console.log('display name: ', displayName);
         console.log('data: ', data);
 
