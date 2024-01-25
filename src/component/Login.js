@@ -30,6 +30,10 @@ const Login = () => {
         const lineUserId = liff.getProfile().userId;
         const data = { lineUserId, displayName };
 
+        console.log('user id: ', lineUserId);
+        console.log('display name: ', displayName);
+        console.log('data: ', data);
+
         fetch('https://online-appt.vercel.app/store-line-login-data', {
           method: 'POST',
           headers: {
@@ -73,9 +77,6 @@ const Login = () => {
     const [displayName, setDisplayName] = useState("");
     const [statusMessage, setStatusMessage] = useState("");
     const [userId, setUserId] = useState("");
-
-    console.log('user id: ', userId);
-    console.log('display name: ', displayName);
 
     const sr = ScrollReveal({
       distance: '65px',
