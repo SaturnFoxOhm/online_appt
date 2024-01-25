@@ -41,7 +41,11 @@ router.post('/store-line-login-data', async (req, res) => {
   }
 });
 
-app.use('/api', router); // Adapt to your serverless function path
+app.use(cors({
+    origin: 'https://online-appt.vercel.app',
+    methods: ['POST'],
+    allowedHeaders: ['Content-Type']
+}));
 
 const PORT = process.env.PORT || 6000;
 app.listen(PORT, () => {
