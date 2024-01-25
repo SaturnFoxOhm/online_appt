@@ -1,9 +1,0 @@
-{
-    "routes": {
-      "/store-line-login-data": {
-        "methods": ["POST"],
-        "dest": "/Login.js"
-      }
-    }
-  }
-  
