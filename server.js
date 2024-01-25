@@ -33,23 +33,23 @@ app.post('/submit-form', function (req, res, next) {
   });
 });
 
-app.post('https://online-appt.vercel.app/store-line-login-data', function (req, res, next) {
-  const { lineUserId, displayName } = req.body;
+// app.post('https://online-appt.vercel.app/store-line-login-data', function (req, res, next) {
+//   const { lineUserId, displayName } = req.body;
 
-  console.log('Received Line Login data:', { lineUserId, displayName });
+//   console.log('Received Line Login data:', { lineUserId, displayName });
 
-  connection.query(
-    'INSERT INTO `lineaccount` (`LineUserID`, `displayName`) VALUES (?, ?)', 
-    [lineUserId, displayName], 
-    (error, results) => {
-      if (error) {
-        console.error('Error updating Line Login data:', error);
-        res.status(500).send('Internal Server Error');
-      } else {
-        console.log('Line Login data stored successfully');
-        res.status(200).json({ message: 'Line Login data stored successfully' });
-      }
-    }
-  );
-});
+//   connection.query(
+//     'INSERT INTO `lineaccount` (`LineUserID`, `displayName`) VALUES (?, ?)', 
+//     [lineUserId, displayName], 
+//     (error, results) => {
+//       if (error) {
+//         console.error('Error updating Line Login data:', error);
+//         res.status(500).send('Internal Server Error');
+//       } else {
+//         console.log('Line Login data stored successfully');
+//         res.status(200).json({ message: 'Line Login data stored successfully' });
+//       }
+//     }
+//   );
+// });
 
