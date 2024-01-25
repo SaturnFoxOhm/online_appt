@@ -33,7 +33,7 @@ app.post('/submit-form', function (req, res, next) {
   });
 });
 
-app.post('/store-line-login-data', function (req, res, next) {
+app.post('https://online-appt.vercel.app/store-line-login-data', function (req, res, next) {
   const { lineUserId, displayName } = req.body;
 
   console.log('Received Line Login data:', { lineUserId, displayName });

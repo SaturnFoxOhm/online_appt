@@ -34,7 +34,7 @@ const Login = () => {
         const lineUserId = userId;
         const data = { lineUserId, displayName };
 
-        fetch('http://localhost:5000/store-line-login-data', {
+        fetch('https://online-appt.vercel.app/store-line-login-data', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
