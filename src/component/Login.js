@@ -1,5 +1,4 @@
 import React from "react";
-import { TEInput, TERipple } from "tw-elements-react";
 import { useState, useEffect } from 'react';
 import ScrollReveal from 'scrollreveal';
 import '../css/Login.css';
@@ -23,7 +22,7 @@ const Login = () => {
     }, err => console.error(err));
   }, [])
   
-  const initLine = () => {
+  const initLine = async () => {
     try{
       if (liff.isLoggedIn()) {
         runApp();
@@ -31,6 +30,24 @@ const Login = () => {
       else {
         liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
         runApp();
+
+        const lineUserId = userId;
+        const data = { lineUserId, displayName };
+
+        fetch('http://localhost:5000/store-line-login-data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(result => {
+          console.log('Line login data stored successfully:', result);
+        })
+        .catch(error => {
+          console.error('Error storing Line login data:', error);
+        });
       }
     }catch(err){
       console.error(err)
@@ -59,6 +76,7 @@ const Login = () => {
     const [userId, setUserId] = useState("");
 
     console.log('user id: ', userId);
+    console.log('display name: ', displayName);
 
     const sr = ScrollReveal({
       distance: '65px',
