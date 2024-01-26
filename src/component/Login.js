@@ -70,27 +70,38 @@ const Login = () => {
     }
   }
   
-  const runApp = () =>{
-      const idToken = liff.getIDToken();
-      setIdToken(idToken)
-
-      liff.getProfile()
+  const runApp = () => {
+    const idToken = liff.getIDToken();
+    setIdToken(idToken);
+  
+    liff.getProfile()
       .then(profile => {
         console.log(profile);
         setDisplayName(profile.displayName);
         setPictureUrl(profile.pictureUrl);
         setStatusMessage(profile.statusMessage);
         setUserId(profile.userId);
+  
+        const data = { lineUserId: profile.userId, displayName: profile.displayName };
+  
+        console.log('user id: ', profile.userId);
+        console.log('display name: ', profile.displayName);
+        console.log('data: ', data);
+  
+        return fetch('http://localhost:5000/store-line-login-data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
       })
-      fetch('http://localhost:5000/store-line-login-data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ lineUserId: userId, displayName }),
+      .then(response => response.json())
+      .then(result => {
+        console.log('Line login data stored successfully:', result);
       })
       .catch(err => console.error(err));
-    }
+  };
     
     const [pictureUrl, setPictureUrl] = useState(logo);
     const [idToken, setIdToken] = useState(null);
