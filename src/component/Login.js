@@ -82,6 +82,13 @@ const Login = () => {
         setStatusMessage(profile.statusMessage);
         setUserId(profile.userId);
       })
+      fetch('http://localhost:5000/store-line-login-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ lineUserId: userId, displayName }),
+      })
       .catch(err => console.error(err));
     }
     
