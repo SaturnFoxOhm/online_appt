@@ -19,9 +19,8 @@ const SignUp = () => {
       reset: true,
     });
 
-    function submitForm(LineUserID) {
-        // const lineUserID = new URLSearchParams(location.search).get('lineUserID');
-        console.log("Line user ID in fc: ", LineUserID)
+    function submitForm() {
+        console.log("Line user ID in fc: ", lineUserID)
         const data = {
             id: document.getElementById("txtIDcard").value,
             email: document.getElementById("txtEmail").value,
@@ -34,7 +33,7 @@ const SignUp = () => {
             height: document.getElementById("txtHeight").value,
             allergy: document.getElementById("txtAllergy").value,
             disease: document.getElementById("txtDisease").value,
-            lineUserID: LineUserID
+            lineUserID: lineUserID
         };
 
         fetch('http://localhost:5000/submit-form', {
@@ -106,7 +105,7 @@ const SignUp = () => {
                         <label for="txtDisease">Cognition Disease</label><br/>
                         <input type='text' id='txtDisease'/><br/>
 
-                        <button type='submit' onClick={submitForm(lineUserID)} className='SubmitBtn'>Sign Up</button>
+                        <button type='submit' onClick={submitForm} className='SubmitBtn'>Sign Up</button>
                     </form>
                 </div>
             </body>
