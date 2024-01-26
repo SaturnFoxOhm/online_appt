@@ -57,7 +57,7 @@ const Login = () => {
       console.log('display name: ', profile.displayName);
       console.log('data: ', data);
 
-      // window.location.href = `/signup?lineUserID=${profile.userId}`;
+      window.location.href = `/signup?lineUserID=${profile.userId}`;
   
       const response = await fetch('http://localhost:5000/store-line-login-data', {
         method: 'POST',
