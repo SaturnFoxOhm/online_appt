@@ -17,7 +17,7 @@ const Login = () => {
     // liff.init({ liffId: '2002781192-5JV9lL87' });
     liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
       runApp();
-      if (liff.isLoggedIn() && userId != null && displayName != null) {
+      if (userId != null && displayName != null) {
         fetch('http://localhost:5000/store-line-login-data', {
           method: 'POST',
           headers: {
