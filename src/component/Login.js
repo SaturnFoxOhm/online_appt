@@ -17,7 +17,28 @@ const Login = () => {
     // liff.init({ liffId: '2002781192-5JV9lL87' });
     liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
       if (liff.isLoggedIn()) {
-        runApp();
+        await runApp();
+
+        const data = { userId, displayName };
+
+        console.log('user id: ', userId);
+        console.log('display name: ', displayName);
+        console.log('data: ', data);
+
+        fetch('http://localhost:5000/store-line-login-data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ lineUserId: userId, displayName }),
+        })
+          .then(response => response.json())
+          .then(result => {
+            console.log('Line login data stored successfully:', result);
+          })
+          .catch(error => {
+            console.error('Error storing Line login data:', error);
+          });
       }
     }, err => console.error(err));
   }, [])
