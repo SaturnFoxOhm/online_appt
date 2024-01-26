@@ -20,6 +20,7 @@ const SignUp = () => {
     });
 
     function submitForm() {
+        const lineUserID = new URLSearchParams(location.search).get('lineUserID');
         console.log("Line user ID in fc: ", lineUserID)
         const data = {
             id: document.getElementById("txtIDcard").value,
