@@ -26,12 +26,15 @@ const Login = () => {
         runApp();
       } 
       else {
-        const loginResponse = await liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
-        if (loginResponse) {
-          const lineUserId = loginResponse.profile.userId
-          window.location.href = `/signup?lineUserId=${lineUserId}`;
+        liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
+        // const loginResponse = await liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
+        // if (loginResponse) {
+        //   const lineUserID = loginResponse.profile.userId
+        //   console.log('Line User ID:', lineUserID);
+        //   navigate(`/signup?lineUserID=${lineUserID}`);
+          // window.location.href = `/signup?lineUserId=${lineUserId}`;
           // window.location.href = `/signup?lineUserID=${profile.userId}`;
-        }
+        // }
       }
     }catch(err){
       console.error(err)
@@ -57,7 +60,7 @@ const Login = () => {
       console.log('display name: ', profile.displayName);
       console.log('data: ', data);
 
-      window.location.href = `/signup?lineUserID=${profile.userId}`;
+      // window.location.href = `/signup?lineUserID=${profile.userId}`;
   
       const response = await fetch('http://localhost:5000/store-line-login-data', {
         method: 'POST',
@@ -73,7 +76,7 @@ const Login = () => {
         console.log('Line login data already exists:', result);
       } else if (response.status === 302) {
         // Redirect to the sign-up page
-        window.location.href = '/signup';
+        window.location.href = `/signup?lineUserID=${profile.userId}`;
       } else {
         throw new Error('Unexpected response status');
       }
