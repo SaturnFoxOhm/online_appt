@@ -29,6 +29,7 @@ const Login = () => {
         const loginResponse = await liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
         if (loginResponse) {
           const lineUserID = loginResponse.profile.userId;
+          console.log("Login Line User ID", lineUserID)
           window.location.href = `/signup?lineUserID=${lineUserID}`;
         }
       }
