@@ -6,11 +6,11 @@ import { useLocation } from 'react-router-dom';
 
 const SignUp = () => {
     const location = useLocation();
-    // const lineUserID = new URLSearchParams(location.search).get('lineUserID');
+    const lineUserID = new URLSearchParams(location.search).get('lineUserID');
 
-    // useEffect(() => {
-    //     console.log("Line login user ID: ", lineUserID)
-    // }, [lineUserID]);
+    useEffect(() => {
+        console.log("Line login user ID: ", lineUserID)
+    }, [lineUserID]);
 
     const sr = ScrollReveal({
       distance: '65px',
@@ -19,9 +19,9 @@ const SignUp = () => {
       reset: true,
     });
 
-    function submitForm() {
-        const lineUserID = new URLSearchParams(location.search).get('lineUserID');
-        console.log("Line user ID in fc: ", lineUserID)
+    function submitForm(LineUserID) {
+        // const lineUserID = new URLSearchParams(location.search).get('lineUserID');
+        console.log("Line user ID in fc: ", LineUserID)
         const data = {
             id: document.getElementById("txtIDcard").value,
             email: document.getElementById("txtEmail").value,
@@ -34,7 +34,7 @@ const SignUp = () => {
             height: document.getElementById("txtHeight").value,
             allergy: document.getElementById("txtAllergy").value,
             disease: document.getElementById("txtDisease").value,
-            lineUserID: lineUserID
+            lineUserID: LineUserID
         };
 
         fetch('http://localhost:5000/submit-form', {
@@ -106,7 +106,7 @@ const SignUp = () => {
                         <label for="txtDisease">Cognition Disease</label><br/>
                         <input type='text' id='txtDisease'/><br/>
 
-                        <button type='submit' onClick={submitForm} className='SubmitBtn'>Sign Up</button>
+                        <button type='submit' onClick={submitForm(lineUserID)} className='SubmitBtn'>Sign Up</button>
                     </form>
                 </div>
             </body>
