@@ -39,7 +39,7 @@ const Login = () => {
   const initLine = async () => {
     try{
       if (liff.isLoggedIn()) {
-        await runApp();
+        runApp();
 
         const data = { userId, displayName };
 
