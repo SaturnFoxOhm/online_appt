@@ -16,7 +16,7 @@ const Login = () => {
   useEffect(() => {
     // liff.init({ liffId: '2002781192-5JV9lL87' });
     liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
-      if (liff.isLoggedIn()) {
+      if (liff.isLoggedIn() && userId != "" && displayName != "") {
         fetch('http://localhost:5000/store-line-login-data', {
           method: 'POST',
           headers: {
