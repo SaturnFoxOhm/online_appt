@@ -16,7 +16,7 @@ const Login = () => {
   useEffect(() => {
     // liff.init({ liffId: '2002781192-5JV9lL87' });
     liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
-      if (liff.isLoggedIn() && userId != "" && displayName != "") {
+      if (liff.isLoggedIn() && userId != null && displayName != null) {
         fetch('http://localhost:5000/store-line-login-data', {
           method: 'POST',
           headers: {
@@ -85,10 +85,10 @@ const Login = () => {
     }
     
     const [pictureUrl, setPictureUrl] = useState(logo);
-    const [idToken, setIdToken] = useState("");
-    const [displayName, setDisplayName] = useState("");
-    const [statusMessage, setStatusMessage] = useState("");
-    const [userId, setUserId] = useState("");
+    const [idToken, setIdToken] = useState(null);
+    const [displayName, setDisplayName] = useState(null);
+    const [statusMessage, setStatusMessage] = useState(null);
+    const [userId, setUserId] = useState(null);
 
     const sr = ScrollReveal({
       distance: '65px',
