@@ -19,10 +19,11 @@ app.listen(5000, function () {
 });
 
 app.post('/submit-form', function (req, res, next) {
-  const { id, email, fname, lname, phone, BD, sex, weight, height, allergy, disease, lineUserId } = req.body;
+  const { id, email, fname, lname, phone, BD, sex, weight, height, allergy, disease} = req.body;
+  var ReceivedLineUserID = localStorage.getItem("SendLineUserID");
 
   connection.query('INSERT INTO `userinfo` (`InfoID`, `email`, `first_name`, `last_name`, `birthday`, `sex`, `phone`, `weight`, `height`, `allergic`, `congenital_disease`, `LineUserID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-  [id, email, fname, lname, BD, sex, phone, weight, height, allergy, disease, lineUserId], (error, results) => {
+  [id, email, fname, lname, BD, sex, phone, weight, height, allergy, disease, ReceivedLineUserID], (error, results) => {
     if (error) {
       console.error('Error executing query:', error);
       res.status(500).send('Internal Server Error');

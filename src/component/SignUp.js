@@ -21,9 +21,9 @@ const SignUp = () => {
     });
 
     function submitForm() {
-        var ReceivedLineUserID = localStorage.getItem("SendLineUserID");
+        // var ReceivedLineUserID = localStorage.getItem("SendLineUserID");
 
-        console.log("Line user ID in fc: ", ReceivedLineUserID)
+        // console.log("Line user ID in fc: ", ReceivedLineUserID)
 
         const data = {
             id: document.getElementById("txtIDcard").value,
@@ -37,7 +37,7 @@ const SignUp = () => {
             height: document.getElementById("txtHeight").value,
             allergy: document.getElementById("txtAllergy").value,
             disease: document.getElementById("txtDisease").value,
-            lineUserID: ReceivedLineUserID
+            // lineUserID: ReceivedLineUserID
         };
 
         fetch('http://localhost:5000/submit-form', {
