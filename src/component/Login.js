@@ -33,7 +33,7 @@ const Login = () => {
         console.log('display name: ', displayName);
         console.log('data: ', data);
 
-        fetch('https://online-appt.vercel.app/store-line-login-data', {
+        fetch('http://localhost:5000/store-line-login-data', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
