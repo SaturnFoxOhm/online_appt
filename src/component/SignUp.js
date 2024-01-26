@@ -21,7 +21,7 @@ const SignUp = () => {
     });
 
     function submitForm() {
-        var ReceivedLineUserID = sessionStorage.getItem("SendLineUserID");
+        var ReceivedLineUserID = localStorage.getItem("SendLineUserID");
 
         console.log("Line user ID in fc: ", ReceivedLineUserID)
 

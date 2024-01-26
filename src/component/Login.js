@@ -48,7 +48,7 @@ const Login = () => {
   
       const data = { lineUserId: profile.userId, displayName: profile.displayName };
       var SendLineUserID =  profile.userId;
-      sessionStorage.setItem("SendLineUserID", SendLineUserID);
+      localStorage.setItem("SendLineUserID", SendLineUserID);
   
       console.log('user id: ', profile.userId);
       console.log('display name: ', profile.displayName);
