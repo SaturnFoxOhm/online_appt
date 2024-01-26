@@ -76,48 +76,48 @@ const Login = () => {
     }
   }
   
-  const runApp = () => {
-    const idToken = liff.getIDToken();
-    setIdToken(idToken);
+  const runApp = async () => {
+    try {
+      const idToken = liff.getIDToken();
+      setIdToken(idToken);
   
-    liff.getProfile()
-      .then(profile => {
-        console.log(profile);
-        setDisplayName(profile.displayName);
-        setPictureUrl(profile.pictureUrl);
-        setStatusMessage(profile.statusMessage);
-        setUserId(profile.userId);
+      const profile = await liff.getProfile();
   
-        const data = { lineUserId: profile.userId, displayName: profile.displayName };
+      console.log(profile);
+      setDisplayName(profile.displayName);
+      setPictureUrl(profile.pictureUrl);
+      setStatusMessage(profile.statusMessage);
+      setUserId(profile.userId);
   
-        console.log('user id: ', profile.userId);
-        console.log('display name: ', profile.displayName);
-        console.log('data: ', data);
+      const data = { lineUserId: profile.userId, displayName: profile.displayName };
   
-        return fetch('http://localhost:5000/store-line-login-data', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
-      })
-        .then(response => {
-          if (response.status === 200) {
-            // User already exists, handle as needed
-            return response.json();
-          } else if (response.status === 302) {
-            // Redirect to the sign-up page
-            window.location.href = '/signup';
-          } else {
-            throw new Error('Unexpected response status');
-          }
-        })
-      .then(result => {
-        console.log('Line login data stored successfully:', result);
-      })
-      .catch(err => console.error(err));
+      console.log('user id: ', profile.userId);
+      console.log('display name: ', profile.displayName);
+      console.log('data: ', data);
+  
+      const response = await fetch('http://localhost:5000/store-line-login-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (response.status === 200) {
+        // User already exists, handle as needed
+        const result = await response.json();
+        console.log('Line login data already exists:', result);
+      } else if (response.status === 302) {
+        // Redirect to the sign-up page
+        window.location.href = '/signup';
+      } else {
+        throw new Error('Unexpected response status');
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
+
     
     const [pictureUrl, setPictureUrl] = useState(logo);
     const [idToken, setIdToken] = useState(null);
