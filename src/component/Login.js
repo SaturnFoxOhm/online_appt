@@ -14,7 +14,8 @@ const Login = () => {
   }
 
   useEffect(() => {
-      liff.init({ liffId: '2002781192-5JV9lL87' });
+    // liff.init({ liffId: '2002781192-5JV9lL87' });
+    liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
       runApp();
       if (userId != null && displayName != null) {
         fetch('http://localhost:5000/store-line-login-data', {
@@ -33,38 +34,37 @@ const Login = () => {
           });
       }
     }, err => console.error(err));
+  }, [])
   
   const initLine = async () => {
     try{
-      liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
-        if (liff.isLoggedIn()) {
-          runApp();
-  
-          const data = { userId, displayName };
-  
-          console.log('user id: ', userId);
-          console.log('display name: ', displayName);
-          console.log('data: ', data);
-  
-          fetch('http://localhost:5000/store-line-login-data', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ lineUserId: userId, displayName }),
+      if (liff.isLoggedIn()) {
+        runApp();
+
+        const data = { userId, displayName };
+
+        console.log('user id: ', userId);
+        console.log('display name: ', displayName);
+        console.log('data: ', data);
+
+        fetch('http://localhost:5000/store-line-login-data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ lineUserId: userId, displayName }),
+        })
+          .then(response => response.json())
+          .then(result => {
+            console.log('Line login data stored successfully:', result);
           })
-            .then(response => response.json())
-            .then(result => {
-              console.log('Line login data stored successfully:', result);
-            })
-            .catch(error => {
-              console.error('Error storing Line login data:', error);
-            });
-        } 
-        else {
-          liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
-        }
-        }, [])
+          .catch(error => {
+            console.error('Error storing Line login data:', error);
+          });
+      } 
+      else {
+        liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
+      }
     }catch(err){
       console.error(err)
     }
