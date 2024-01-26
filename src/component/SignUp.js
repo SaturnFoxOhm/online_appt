@@ -6,11 +6,11 @@ import { useLocation } from 'react-router-dom';
 
 const SignUp = () => {
     const location = useLocation();
-    const lineUserID = new URLSearchParams(location.search).get('lineUserID');
+    // const lineUserID = new URLSearchParams(location.search).get('lineUserID');
 
-    useEffect(() => {
-        console.log("Line login user ID: ", lineUserID)
-    }, [lineUserID]);
+    // useEffect(() => {
+    //     console.log("Line login user ID: ", lineUserID)
+    // }, [lineUserID]);
 
     const sr = ScrollReveal({
       distance: '65px',
@@ -20,6 +20,8 @@ const SignUp = () => {
     });
 
     function submitForm() {
+        const lineUserID = new URLSearchParams(location.search).get('lineUserID');
+        console.log("Line user ID in fc: ", lineUserID)
         const data = {
             id: document.getElementById("txtIDcard").value,
             email: document.getElementById("txtEmail").value,
