@@ -5,13 +5,13 @@ import Navbar from "./navbar"
 import { useLocation } from 'react-router-dom';
 
 const SignUp = () => {
-    const location = useLocation();
-    const lineUserID = new URLSearchParams(location.search).get('lineUserID');
+    // const location = useLocation();
+    // const lineUserID = new URLSearchParams(location.search).get('lineUserID');
     
 
-    useEffect(() => {
-        console.log("Line login user ID: ", lineUserID)
-    }, [lineUserID]);
+    // useEffect(() => {
+    //     console.log("Line login user ID: ", lineUserID)
+    // }, [lineUserID]);
 
     const sr = ScrollReveal({
       distance: '65px',
@@ -21,9 +21,10 @@ const SignUp = () => {
     });
 
     function submitForm() {
-        // window.location.href = `/signup?lineUserID=${profile.userId}`;
-        
-        console.log("Line user ID in fc: ", lineUserID)
+        var ReceivedLineUserID = sessionStorage.getItem("SendLineUserID");
+
+        console.log("Line user ID in fc: ", ReceivedLineUserID)
+
         const data = {
             id: document.getElementById("txtIDcard").value,
             email: document.getElementById("txtEmail").value,
@@ -36,7 +37,7 @@ const SignUp = () => {
             height: document.getElementById("txtHeight").value,
             allergy: document.getElementById("txtAllergy").value,
             disease: document.getElementById("txtDisease").value,
-            lineUserID: lineUserID
+            lineUserID: ReceivedLineUserID
         };
 
         fetch('http://localhost:5000/submit-form', {

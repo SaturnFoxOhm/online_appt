@@ -27,13 +27,6 @@ const Login = () => {
       } 
       else {
         liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
-        // const loginResponse = await liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
-        // if (loginResponse) {
-        //   const lineUserID = loginResponse.profile.userId
-        //   console.log('Line User ID:', lineUserID);
-        //   navigate(`/signup?lineUserID=${lineUserID}`);
-          // window.location.href = `/signup?lineUserId=${lineUserId}`;
-        // }
       }
     }catch(err){
       console.error(err)
@@ -54,12 +47,12 @@ const Login = () => {
       setUserId(profile.userId);
   
       const data = { lineUserId: profile.userId, displayName: profile.displayName };
+      var SendLineUserID =  profile.userId;
+      sessionStorage.setItem("SendLineUserID", SendLineUserID);
   
       console.log('user id: ', profile.userId);
       console.log('display name: ', profile.displayName);
       console.log('data: ', data);
-
-      // window.location.href = `/signup?lineUserID=${profile.userId}`;
   
       const response = await fetch('http://localhost:5000/store-line-login-data', {
         method: 'POST',
