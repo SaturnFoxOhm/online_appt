@@ -33,7 +33,6 @@ const Login = () => {
         //   console.log('Line User ID:', lineUserID);
         //   navigate(`/signup?lineUserID=${lineUserID}`);
           // window.location.href = `/signup?lineUserId=${lineUserId}`;
-          // window.location.href = `/signup?lineUserID=${profile.userId}`;
         // }
       }
     }catch(err){
