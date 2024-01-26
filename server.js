@@ -5,8 +5,8 @@ const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'ohm0817742474',
-  database: 'healthcheckupplatform'
+  // password: 'ohm0817742474',
+  database: 'mydb'
 });
 
 var app = express();
@@ -19,10 +19,10 @@ app.listen(5000, function () {
 });
 
 app.post('/submit-form', function (req, res, next) {
-  const { id, email, fname, lname, phone, BD, sex, weight, height, allergy, disease } = req.body;
+  const { id, email, fname, lname, phone, BD, sex, weight, height, allergy, disease, lineUserId } = req.body;
 
-  connection.query('INSERT INTO `userinfo` (`InfoID`, `email`, `first_name`, `last_name`, `birthday`, `sex`, `phone`, `weight`, `height`, `allergic`, `congenital_disease`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-  [id, email, fname, lname, BD, sex, phone, weight, height, allergy, disease], (error, results) => {
+  connection.query('INSERT INTO `userinfo` (`InfoID`, `email`, `first_name`, `last_name`, `birthday`, `sex`, `phone`, `weight`, `height`, `allergic`, `congenital_disease`, `LineUserID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+  [id, email, fname, lname, BD, sex, phone, weight, height, allergy, disease, lineUserId], (error, results) => {
     if (error) {
       console.error('Error executing query:', error);
       res.status(500).send('Internal Server Error');

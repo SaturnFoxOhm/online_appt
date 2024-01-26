@@ -2,8 +2,16 @@ import { useEffect } from 'react';
 import ScrollReveal from 'scrollreveal';
 import '../css/SignUp.css';
 import Navbar from "./navbar"
+import { useLocation } from 'react-router-dom';
 
 const SignUp = () => {
+    const location = useLocation();
+    const lineUserID = new URLSearchParams(location.search).get('lineUserID');
+
+    useEffect(() => {
+        console.log("Line login user ID: ", lineUserID)
+    }, [lineUserID]);
+
     const sr = ScrollReveal({
       distance: '65px',
       duration: 2600,
@@ -12,24 +20,27 @@ const SignUp = () => {
     });
 
     function submitForm() {
-        const id = document.getElementById("txtIDcard").value;
-        const email = document.getElementById("txtEmail").value;
-        const fname = document.getElementById("txtFirstname").value;
-        const lname = document.getElementById("txtLastname").value;
-        const phone = document.getElementById("txtPhone").value;
-        const BD = document.getElementById("txtBD").value;
-        const sex = document.querySelector('input[name="sex"]:checked').value;
-        const weight = document.getElementById("txtWeight").value;
-        const height = document.getElementById("txtHeight").value;
-        const allergy = document.getElementById("txtAllergy").value;
-        const disease = document.getElementById("txtDisease").value;
+        const data = {
+            id: document.getElementById("txtIDcard").value,
+            email: document.getElementById("txtEmail").value,
+            fname: document.getElementById("txtFirstname").value,
+            lname: document.getElementById("txtLastname").value,
+            phone: document.getElementById("txtPhone").value,
+            BD: document.getElementById("txtBD").value,
+            sex: document.querySelector('input[name="sex"]:checked').value,
+            weight: document.getElementById("txtWeight").value,
+            height: document.getElementById("txtHeight").value,
+            allergy: document.getElementById("txtAllergy").value,
+            disease: document.getElementById("txtDisease").value,
+            lineUserID: lineUserID
+        };
 
         fetch('http://localhost:5000/submit-form', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id, email, fname, lname, phone, BD, sex, weight, height, allergy, disease }),
+            body: JSON.stringify(data),
         })
         .then(response => {
             if (response.ok) {

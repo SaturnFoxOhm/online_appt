@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import ScrollReveal from 'scrollreveal';
 import { Link } from 'react-router-dom';
 import Navbar from './navbar'; // Assuming Navbar is the correct filename and default export
-import '../css/Home.css';
+import './css/Home.css';
 import liff from '@line/liff';
 
 const logout = () => {

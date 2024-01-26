@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, redirect } from 'react-router-dom';
-import '../css/navbar.css';
+import './css/navbar.css';
 import liff from '@line/liff';
 
 const logout = () => {
