@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 const SignUp = () => {
     const location = useLocation();
     const lineUserID = new URLSearchParams(location.search).get('lineUserID');
+    
 
     useEffect(() => {
         console.log("Line login user ID: ", lineUserID)
@@ -19,7 +20,7 @@ const SignUp = () => {
       reset: true,
     });
 
-    function submitForm(lineUserID) {
+    function submitForm() {
         // window.location.href = `/signup?lineUserID=${profile.userId}`;
         
         console.log("Line user ID in fc: ", lineUserID)
@@ -71,7 +72,7 @@ const SignUp = () => {
                 <Navbar />
                 <div className='Content'>
                     <h1 className="SignUp-topic">Sign Up</h1>
-                    <form name='signUp' onSubmit={submitForm(lineUserID)}>
+                    <form name='signUp' onSubmit={submitForm}>
                         <label for="txtEmail">E-mail</label><br/>
                         <input type='email' id='txtEmail' required title='Required E-mail'/><br/>
 
@@ -107,7 +108,7 @@ const SignUp = () => {
                         <label for="txtDisease">Cognition Disease</label><br/>
                         <input type='text' id='txtDisease'/><br/>
 
-                        <button type='submit' onClick={submitForm(lineUserID)} className='SubmitBtn'>Sign Up</button>
+                        <button type='submit' onClick={submitForm} className='SubmitBtn'>Sign Up</button>
                     </form>
                 </div>
             </body>
