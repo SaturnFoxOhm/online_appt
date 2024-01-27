@@ -4,7 +4,9 @@ import '../css/SignUp.css';
 import Navbar from "./navbar"
 import { useLocation } from 'react-router-dom';
 
-const SignupPage = (props) => {
+const SignUp = (props) => {
+    const location = useLocation();
+    const lineUserID = new URLSearchParams(location.search).get('lineUserID');
     useEffect(() => {
         const searchParams = new URLSearchParams(props.location.search);
         const lineUserID = searchParams.get('lineUserID');
@@ -22,7 +24,7 @@ const SignupPage = (props) => {
     function submitForm() {
         // var ReceivedLineUserID = localStorage.getItem("SendLineUserID");
 
-        console.log("Line user ID in fc: ", lineUserID)
+        console.log("Line user ID in fc: ", lineUserID);
 
         const data = {
             id: document.getElementById("txtIDcard").value,
