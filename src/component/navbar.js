@@ -36,22 +36,19 @@ export const navbar = () => {
             <label className="logo">FastAppt</label>
             <ul>
               <li>
-                <Link className='Navbar' to="/user"> Home </Link>
+                <Link className='Navbar' to="/"> Home </Link>
               </li>
               <li>
-                <a className='Navbar' href="/user/service">Service</a>
+                <a className='Navbar' href="/service">Service</a>
               </li>
               <li>
-                <Link className='Navbar' to="/user/about"> About </Link>
+                <Link className='Navbar' to="/about"> About </Link>
               </li>
               <li>
-                <a className='Navbar' href="/user/contactus">Contact Us</a>
+                <a className='Navbar' href="/contactus">Contact Us</a>
               </li>
               <li>
-                <Link className='Navbar' to="/user/profile"> Profile </Link>
-              </li>
-              <li>
-                <Link className='Navbar' to="/"> Sign Out </Link>
+                <Link className='Navbar' to="/login"> Sign In </Link>
               </li>
             </ul>
           </nav>
