@@ -50,6 +50,7 @@ const SignUp = (props) => {
                 const { token } = result;
                 console.log('JWT Token:', token);
                 localStorage.setItem('token', result);
+                window.location.href = `/user`;
             } else {
                 console.error('Error submitting form:', response.status, response.statusText);
             }
