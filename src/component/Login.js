@@ -14,24 +14,26 @@ const Login = () => {
     window.location.reload();
   }
 
-  useEffect(() => {
-    // liff.init({ liffId: '2002781192-5JV9lL87' });
-    liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
-      runApp();
-    }, err => console.error(err));
-  }, [])
+  // useEffect(() => {
+  //   // liff.init({ liffId: '2002781192-5JV9lL87' });
+  //   liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
+  //     runApp();
+  //   }, err => console.error(err));
+  // }, [])
   
   const initLine = async () => {
-    try{
-      if (liff.isLoggedIn()) {
-        runApp();
-      } 
-      else {
-        liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
+    liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
+      try{
+        if (liff.isLoggedIn()) {
+          runApp();
+        } 
+        else {
+          liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
+        }
+      }catch(err){
+        console.error(err)
       }
-    }catch(err){
-      console.error(err)
-    }
+    }, err => console.error(err));
   }
   
   const runApp = async () => {
