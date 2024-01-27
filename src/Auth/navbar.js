@@ -4,6 +4,7 @@ import './css/navbar.css';
 import liff from '@line/liff';
 
 const logout = () => {
+  console.log("LOGOUT");
   liff.logout();
   localStorage.removeItem('token');
   window.location.reload();
