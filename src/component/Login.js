@@ -65,6 +65,7 @@ const Login = () => {
       if (response.status === 200) {
         // User already exists, handle as needed
         // Access the token from the response
+        const result = await response.json();
         const { token } = result;
         console.log('JWT Token:', token);
         localStorage.setItem('token', result);
