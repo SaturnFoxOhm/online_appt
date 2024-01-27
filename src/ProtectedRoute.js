@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ element, path }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -17,17 +17,17 @@ const ProtectedRoute = ({ element, path }) => {
 
         if (response.status === 200) {
           // User is authenticated
-          setIsAuthenticated(false);
+          setIsAuthenticated(true);
         } else if (response.status === 401) {
           // User is not authenticated, or token is invalid
-          setIsAuthenticated(true);
+          setIsAuthenticated(false);
         } else {
           // Handle other status codes if needed
           console.error('Unexpected response status:', response.status);
         }
       } catch (error) {
         console.error('Error while checking authentication:', error);
-        setIsAuthenticated(true);
+        setIsAuthenticated(false);
       }
     };
 
