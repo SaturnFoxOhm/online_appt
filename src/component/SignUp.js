@@ -5,8 +5,8 @@ import Navbar from "./navbar"
 import { useLocation } from 'react-router-dom';
 
 const SignUp = () => {
-    // const location = useLocation();
-    // const lineUserID = new URLSearchParams(location.search).get('lineUserID');
+    const location = useLocation();
+    const lineUserID = new URLSearchParams(location.search).get('lineUserID');
     
 
     // useEffect(() => {
@@ -23,7 +23,7 @@ const SignUp = () => {
     function submitForm() {
         // var ReceivedLineUserID = localStorage.getItem("SendLineUserID");
 
-        // console.log("Line user ID in fc: ", ReceivedLineUserID)
+        console.log("Line user ID in fc: ", lineUserID)
 
         const data = {
             id: document.getElementById("txtIDcard").value,
@@ -37,24 +37,24 @@ const SignUp = () => {
             height: document.getElementById("txtHeight").value,
             allergy: document.getElementById("txtAllergy").value,
             disease: document.getElementById("txtDisease").value,
-            // lineUserID: ReceivedLineUserID
+            lineUserID: lineUserID
         };
 
-        fetch('http://localhost:5000/submit-form', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Form submitted successfully');
-            } else {
-                console.error('Error submitting form:', response.status, response.statusText);
-            }
-        })
-        .catch(error => console.error('Error submitting form:', error));
+        // fetch('http://localhost:5000/submit-form', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(data),
+        // })
+        // .then(response => {
+        //     if (response.ok) {
+        //         console.log('Form submitted successfully');
+        //     } else {
+        //         console.error('Error submitting form:', response.status, response.statusText);
+        //     }
+        // })
+        // .catch(error => console.error('Error submitting form:', error));
     }
   
     useEffect(() => {
