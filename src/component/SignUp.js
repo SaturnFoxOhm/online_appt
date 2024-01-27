@@ -17,6 +17,7 @@ const SignUp = (props) => {
 
     function submitForm() {
         // var ReceivedLineUserID = localStorage.getItem("SendLineUserID");
+        event.preventDefault();
 
         console.log("Line user ID in fc: ", lineUserID);
 
@@ -104,7 +105,7 @@ const SignUp = (props) => {
                         <label for="txtDisease">Cognition Disease</label><br/>
                         <input type='text' id='txtDisease'/><br/>
 
-                        <button type='submit' onClick={submitForm} className='SubmitBtn'>Sign Up</button>
+                        <button type='submit' className='SubmitBtn'>Sign Up</button>
                     </form>
                 </div>
             </body>
