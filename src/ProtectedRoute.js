@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = async ({ element }) => {
   // You can implement your authentication logic here
+  const isAuthenticated = false;
   const response = await fetch('http://localhost:5000/user-auth', {
     method: 'GET',
     headers: {
