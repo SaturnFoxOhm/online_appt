@@ -14,12 +14,12 @@ const Login = () => {
     window.location.reload();
   }
 
-  // useEffect(() => {
-  //   // liff.init({ liffId: '2002781192-5JV9lL87' });
-  //   liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
-  //     runApp();
-  //   }, err => console.error(err));
-  // }, [])
+  useEffect(() => {
+    // liff.init({ liffId: '2002781192-5JV9lL87' });
+    liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
+      runApp();
+    }, err => console.error(err));
+  }, [])
   
   const initLine = async () => {
     liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
@@ -28,10 +28,7 @@ const Login = () => {
           runApp();
         } 
         else {
-          liff.login({ redirectUri: "https://online-appt.vercel.app/login" }, async () => {
-            // This code will be executed after the user logs in
-            await runApp();
-          });
+          liff.login( {redirectUri: "https://online-appt.vercel.app/login" });
         }
       }catch(err){
         console.error(err)
