@@ -49,7 +49,7 @@ const SignUp = (props) => {
                 const result = await response.json();
                 const { token } = result;
                 console.log('JWT Token:', token);
-                localStorage.setItem('token', result);
+                localStorage.setItem('token', token);
                 window.location.href = `/user`;
             } else {
                 console.error('Error submitting form:', response.status, response.statusText);
