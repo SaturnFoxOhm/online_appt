@@ -33,7 +33,7 @@ const SignUp = (props) => {
             height: document.getElementById("txtHeight").value,
             allergy: document.getElementById("txtAllergy").value,
             disease: document.getElementById("txtDisease").value,
-            lineUserID: lineUserID
+            lineUserId: lineUserID
         };
 
         fetch('http://localhost:5000/submit-form', {
