@@ -10,6 +10,7 @@ const Login = () => {
 
   const logout = () => {
     liff.logout();
+    localStorage.removeItem('token');
     window.location.reload();
   }
 
@@ -70,7 +71,9 @@ const Login = () => {
         console.log('JWT Token:', token);
         localStorage.setItem('token', token);
         window.location.href = `/user`;
-      } else if (response.status === 302) {
+      } else if(response.status === 500){
+        logout();
+      }else if (response.status === 302) {
         // Redirect to the sign-up page
         window.location.href = `/signup?lineUserID=${profile.userId}`;
       } else {
