@@ -64,8 +64,10 @@ const Login = () => {
   
       if (response.status === 200) {
         // User already exists, handle as needed
-        const result = await response.json();
-        console.log('Line login data already exists:', result);
+        // Access the token from the response
+        const { token } = result;
+        console.log('JWT Token:', token);
+        localStorage.setItem('token', result);
       } else if (response.status === 302) {
         // Redirect to the sign-up page
         window.location.href = `/signup?lineUserID=${profile.userId}`;
