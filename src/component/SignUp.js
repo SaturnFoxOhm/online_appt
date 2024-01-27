@@ -43,9 +43,10 @@ const SignUp = (props) => {
             },
             body: JSON.stringify(data),
         })
-        .then(response => {
+        .then(async response => {
             if (response.ok) {
                 console.log('Form submitted successfully');
+                const result = await response.json();
                 const { token } = result;
                 console.log('JWT Token:', token);
                 localStorage.setItem('token', result);
