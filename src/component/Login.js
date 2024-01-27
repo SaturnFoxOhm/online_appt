@@ -68,7 +68,7 @@ const Login = () => {
         const result = await response.json();
         const { token } = result;
         console.log('JWT Token:', token);
-        localStorage.setItem('token', result);
+        localStorage.setItem('token', token);
         window.location.href = `/user`;
       } else if (response.status === 302) {
         // Redirect to the sign-up page
