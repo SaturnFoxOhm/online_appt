@@ -4,8 +4,15 @@ import './css/navbar.css';
 import liff from '@line/liff';
 
 const logout = () => {
-  console.log("LOGOUT");
-  liff.logout();
+  liff.init({ liffId: '2002781192-5JV9lL87' }, () => {
+    try{
+      if (liff.isLoggedIn()) {
+        liff.logout();
+      } 
+    }catch(err){
+      console.error(err)
+    }
+  }, err => console.error(err)); 
   localStorage.removeItem('token');
   window.location.reload();
 }
