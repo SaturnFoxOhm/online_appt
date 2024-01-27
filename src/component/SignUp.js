@@ -46,6 +46,9 @@ const SignUp = (props) => {
         .then(response => {
             if (response.ok) {
                 console.log('Form submitted successfully');
+                const { token } = result;
+                console.log('JWT Token:', token);
+                localStorage.setItem('token', result);
             } else {
                 console.error('Error submitting form:', response.status, response.statusText);
             }
