@@ -52,7 +52,7 @@ export const navbar = () => {
                 <Link className='Navbar' to="/user/profile"> Profile </Link>
               </li>
               <li>
-                <Link className='Navbar' to="/" onClick={logout}> Sign Out </Link>
+                <Link className='Navbar' to="/" onClick={() => logout()}> Sign Out </Link>
               </li>
             </ul>
           </nav>
