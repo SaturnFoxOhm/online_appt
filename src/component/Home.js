@@ -73,13 +73,7 @@ const Home = () => {
                 >
                   Get started
                 </a>
-                <a
-                  href="/user/appointmentlist"
-                  className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-green-900 shadow-sm hover:bg-gray-400"
-                >
-                  My Appointment
-                </a>
-                <Link to="/user/about"
+                <Link to="/about"
                   className="text-sm font-semibold leading-6 text-white"
                 >
                   Learn more <span aria-hidden="true">→</span>
