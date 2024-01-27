@@ -7,12 +7,6 @@ import { useLocation } from 'react-router-dom';
 const SignUp = (props) => {
     const location = useLocation();
     const lineUserID = new URLSearchParams(location.search).get('lineUserID');
-    useEffect(() => {
-        const searchParams = new URLSearchParams(props.location.search);
-        const lineUserID = searchParams.get('lineUserID');
-        console.log('Line User ID:', lineUserID);
-        // Now you can use lineUserID as needed in your signup page
-    }, [props.location.search]);
 
     const sr = ScrollReveal({
       distance: '65px',
