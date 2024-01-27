@@ -5,6 +5,7 @@ import liff from '@line/liff';
 
 const logout = () => {
   liff.logout();
+  localStorage.removeItem('token');
   window.location.reload();
 }
 
@@ -51,7 +52,7 @@ export const navbar = () => {
                 <Link className='Navbar' to="/user/profile"> Profile </Link>
               </li>
               <li>
-                <Link className='Navbar' to="/"> Sign Out </Link>
+                <Link className='Navbar' to="/" onClick={logout}> Sign Out </Link>
               </li>
             </ul>
           </nav>
