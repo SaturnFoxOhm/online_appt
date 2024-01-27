@@ -15,7 +15,7 @@ const SignUp = (props) => {
       reset: true,
     });
 
-    function submitForm() {
+    function submitForm(event) {
         // var ReceivedLineUserID = localStorage.getItem("SendLineUserID");
         event.preventDefault();
 
