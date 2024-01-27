@@ -5,8 +5,8 @@ const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  // password: 'ohm0817742474',
-  database: 'mydb'
+  password: 'ohm0817742474',
+  database: 'healthcheckupplatform'
 });
 
 var app = express();
