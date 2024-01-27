@@ -4,14 +4,13 @@ import '../css/SignUp.css';
 import Navbar from "./navbar"
 import { useLocation } from 'react-router-dom';
 
-const SignUp = () => {
-    const location = useLocation();
-    const lineUserID = new URLSearchParams(location.search).get('lineUserID');
-    
-
-    // useEffect(() => {
-    //     console.log("Line login user ID: ", lineUserID)
-    // }, [lineUserID]);
+const SignupPage = (props) => {
+    useEffect(() => {
+        const searchParams = new URLSearchParams(props.location.search);
+        const lineUserID = searchParams.get('lineUserID');
+        console.log('Line User ID:', lineUserID);
+        // Now you can use lineUserID as needed in your signup page
+    }, [props.location.search]);
 
     const sr = ScrollReveal({
       distance: '65px',
@@ -40,21 +39,21 @@ const SignUp = () => {
             lineUserID: lineUserID
         };
 
-        // fetch('http://localhost:5000/submit-form', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(data),
-        // })
-        // .then(response => {
-        //     if (response.ok) {
-        //         console.log('Form submitted successfully');
-        //     } else {
-        //         console.error('Error submitting form:', response.status, response.statusText);
-        //     }
-        // })
-        // .catch(error => console.error('Error submitting form:', error));
+        fetch('http://localhost:5000/submit-form', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Form submitted successfully');
+            } else {
+                console.error('Error submitting form:', response.status, response.statusText);
+            }
+        })
+        .catch(error => console.error('Error submitting form:', error));
     }
   
     useEffect(() => {
