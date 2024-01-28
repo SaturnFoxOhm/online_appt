@@ -6,8 +6,8 @@ const jwt = require('jsonwebtoken');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'ohm0817742474',
-  database: 'healthcheckupplatform'
+  // password: 'ohm0817742474',
+  database: 'mydb'
 });
 
 var app = express();
@@ -15,14 +15,12 @@ var app = express();
 app.use(cors());
 app.use(express.json());
 
-// Secret key for Token
 const secret = 'mysecret';
 
 app.listen(5000, function () {
   console.log('CORS-enabled web server listening on port 5000')
 });
 
-// Function for checking if the Token is valid or not
 function validate(token) {
   // is expired?
   try {
@@ -36,7 +34,6 @@ function validate(token) {
   }
 }
 
-// Check the user's token validation
 app.get('/user-auth', async (req, res) => {
     const authToken = req.headers['authorization']
     console.log('authToken', authToken);
@@ -53,7 +50,6 @@ app.get('/user-auth', async (req, res) => {
   }
 });
 
-// Send the User's information to the database
 app.post('/submit-form', function (req, res, next) {
   const { id, email, fname, lname, phone, BD, sex, weight, height, allergy, disease, lineUserId } = req.body;
 
@@ -74,7 +70,6 @@ app.post('/submit-form', function (req, res, next) {
   });
 });
 
-// Send the User's Line ID and information to database and check if this is the first time to login
 app.post('/store-line-login-data', async function (req, res, next) {
   const { lineUserId, displayName } = req.body;
   console.log(req.body);
