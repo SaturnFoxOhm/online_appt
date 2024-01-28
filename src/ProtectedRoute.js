@@ -5,7 +5,6 @@ import liff from '@line/liff';
 const ProtectedRoute = ({ element, path }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Add a loading state
-  const [isTokenCheckComplete, setIsTokenCheckComplete] = useState(false); //for temporarlily closed token
   const logout = () => {
     liff.logout();
     localStorage.removeItem('token');
@@ -14,7 +13,7 @@ const ProtectedRoute = ({ element, path }) => {
 
   useEffect(() => {
     const checkAuthentication = async () => {
-      // setIsLoading(true); // Start loading
+      setIsLoading(true); // Start loading
 
       try {
         const response = await fetch('http://localhost:5000/user-auth', {
@@ -37,21 +36,16 @@ const ProtectedRoute = ({ element, path }) => {
         console.error('Error while checking authentication:', error);
         setIsAuthenticated(false);
       } finally {
-        // setIsLoading(false); // Stop loading regardless of the result
-        setIsTokenCheckComplete(true);
+        setIsLoading(false); // Stop loading regardless of the result
       }
     };
 
     checkAuthentication();
   }, [path]);
 
-  if (!isTokenCheckComplete) {
+  if (isLoading) {
     return <div>Loading...</div>; // Or any other loading indicator
   }
-
-  // if (isLoading) {
-  //   return <div>Loading...</div>; // Or any other loading indicator
-  // }
 
   return isAuthenticated ? element : <Navigate to="/login" />;
 };
