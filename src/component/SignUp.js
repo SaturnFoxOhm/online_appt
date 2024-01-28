@@ -7,6 +7,10 @@ import { useLocation } from 'react-router-dom';
 const SignUp = (props) => {
     const location = useLocation();
     const lineUserID = new URLSearchParams(location.search).get('lineUserID');
+    
+    useEffect(() => {
+        console.log("Line login user ID: ", lineUserID)
+    }, [lineUserID]);
 
     const sr = ScrollReveal({
       distance: '65px',
