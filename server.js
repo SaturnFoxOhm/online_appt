@@ -42,12 +42,12 @@ app.get('/user-auth', async (req, res) => {
     console.log('authToken', authToken);
     if (authToken && authToken.startsWith('Bearer ')) {
       const token = authToken.substring(7, authToken.length); // Extract the token
-      const isValid = validate(token)
-      if (isValid == true) {
-        res.status(200).send({ message:'Token is Valid'});    
-      } else {
-          res.status(500).send('Token is not Valid');
-      }    
+      // const isValid = validate(token)
+      // if (isValid == true) {
+      //   res.status(200).send({ message:'Token is Valid'});    
+      // } else {
+      //     res.status(500).send('Token is not Valid');
+      // }    
   } else {
       res.status(500).send('Token is not Found');
   }
