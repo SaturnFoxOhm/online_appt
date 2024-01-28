@@ -96,7 +96,7 @@ app.post('/store-line-login-data', async function (req, res, next) {
           const payload = {
             sub: lineUserId,
           };
-          const token = jwt.sign(payload, secret, {expiresIn: '10s'})
+          const token = jwt.sign(payload, secret, {expiresIn: '24h'})
 
           console.log(token);
 
