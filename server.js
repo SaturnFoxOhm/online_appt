@@ -64,7 +64,7 @@ app.post('/submit-form', function (req, res, next) {
         const payload = {
           sub: lineUserId,
         };
-        const token = jwt.sign(payload, secret, {expiresIn: '10s'})
+        const token = jwt.sign(payload, secret, {expiresIn: '24h'})
         res.status(200).send({ message:'Form data inserted successfully', token });
     }
   });
