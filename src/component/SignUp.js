@@ -114,7 +114,7 @@ const SignUp = (props) => {
                         <label for="txtDisease">Cognition Disease</label><br/>
                         <input type='text' id='txtDisease'/><br/>
 
-                        <button type='submit' className='SubmitBtn'>Sign Up</button>
+                        <button type='submit' className='SubmitBtn bg-green-500 text-white p-4 rounded-md w-full'>Sign Up</button>
                     </form>
                 </div>
             </body>

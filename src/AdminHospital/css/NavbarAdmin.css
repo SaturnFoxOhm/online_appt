@@ -1,0 +1,115 @@
+/* NavbarAdmin.css */
+
+.adminNav nav {
+  background: rgb(255, 200, 0);
+  height: 81px;
+  width: 100%;
+}
+
+.adminNav nav ul {
+  float: right;
+  margin-right: 20px;
+}
+
+.adminNav nav ul li {
+  display: inline-block;
+  line-height: 80px;
+  margin: 0 5px;
+}
+
+.adminNav nav ul li a.Navbar {
+  color: white;
+  font-size: 17px;
+  padding: 7px 13px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.adminNav a.Navbar.active,
+.adminNav a.Navbar:hover {
+  background: rgb(255, 161, 53);
+  transition: 0.5s;
+}
+
+.adminNav .checkbtn {
+  font-size: 30px;
+  color: white;
+  float: right;
+  line-height: 80px;
+  margin-right: 30px;
+  display: none;
+}
+
+.adminNav i {
+  padding: 10px;
+  border-radius: 50px;
+}
+
+.adminNav i:hover {
+  background: rgb(255, 161, 53);
+  transition: 0.5s;
+}
+
+.adminNav #check {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .adminNav label.logo {
+    font-size: 25px;
+    padding-left: 50px;
+  }
+
+  .adminNav nav ul li a {
+    font-size: 16px;
+  }
+
+  .adminNav section {
+    padding: 0 10%;
+    transition: 0.2s;
+  }
+}
+
+@media (max-width: 1000px) {
+  .adminNav .background {
+    height: 100%;
+  }
+
+  .adminNav .checkbtn {
+    display: block;
+  }
+
+  .adminNav ul {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: rgb(255, 161, 53);
+    top: 80px;
+    left: -100%;
+    text-align: center;
+    transition: all 0.5s;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .adminNav nav ul li {
+    display: block;
+    margin: 50px 0;
+    line-height: 30px;
+  }
+
+  .adminNav nav ul li a {
+    font-size: 20px;
+  }
+
+  .adminNav a.Navbar:hover,
+  .adminNav a.Navbar.active {
+    background: none;
+    color: rgb(255, 120, 53);
+  }
+
+  .adminNav #check:checked ~ ul {
+    left: 0;
+  }
+}

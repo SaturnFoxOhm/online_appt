@@ -1,6 +1,9 @@
 window.addEventListener('resize', function() {
-    if (window.matchMedia('(min-width: 845px)').matches) {
-        document.getElementById('check').checked = false;
+    var checkElement = document.getElementById('check');
+    if (checkElement) {
+        if (window.matchMedia('(min-width: 845px)').matches) {
+            checkElement.checked = false;
+        }
     }
 }, true);
 
