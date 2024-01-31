@@ -120,14 +120,13 @@ app.post('/store-line-login-data', async function (req, res, next) {
 });
 
 app.post('/user-profile', (req, res) => {
-  // edit to receive line user id
   const decoded = jwt.verify(token, 'mysecret');
-  lineuserId = decoded.sub
+  lineuserId = decoded.sub;
   // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
 
-  // if (!lineUserId) {
-  //   return res.status(400).send('LineUserID is required');
-  // }
+  if (!lineUserId) {
+    return res.status(400).send('LineUserID is required');
+  }
 
   connection.query(
     'SELECT InfoID, email, first_name, last_name, DATE_FORMAT(birthday, "%Y-%m-%d") AS birthday, sex, phone, weight, height, allergic, congenital_disease FROM `userinfo` WHERE `LineUserID` = ?',
@@ -152,8 +151,9 @@ app.put('/update-profile', (req, res) => {
   const { id_number, first_name, last_name, email, phone_number, birthdate, gender, weight, height, allergic, congenital_disease} = req.body;
   console.log('firstname', first_name);
 
-  // edit to receive line user id
-  lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  const decoded = jwt.verify(token, 'mysecret');
+  lineuserId = decoded.sub;
+  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
 
   connection.query(
     'UPDATE `userinfo` SET `email` = ?, `first_name` = ?, `last_name` = ?, `birthday` = ?, `sex` = ?, `phone` = ?, `weight` = ?, `height` = ?, `allergic` = ?, `congenital_disease` = ? WHERE `InfoID` = ? AND `LineUserID` = ?',
