@@ -26,9 +26,6 @@ function validate(token) {
   try {
     const decoded = jwt.verify(token, 'mysecret'); // Replace 'yourSecretKey' with your actual secret key
     console.log('Token is valid:', decoded);
-    if(decoded.role == 'admin'){
-      return false;
-    }
     return true;
   } catch (error) {
     console.error('Token validation failed:', error.message);
