@@ -6,8 +6,8 @@ const jwt = require('jsonwebtoken');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  // password: 'ohm0817742474',
-  database: 'mydb'
+  password: 'ohm0817742474',
+  database: 'healthcheckupplatform'
 });
 
 var app = express();
@@ -26,9 +26,7 @@ function validate(token) {
   try {
     const decoded = jwt.verify(token, 'mysecret'); // Replace 'yourSecretKey' with your actual secret key
     console.log('Token is valid:', decoded);
-    if(decoded.role == 'admin'){
-      return false;
-    }
+    return true;
   } catch (error) {
     console.error('Token validation failed:', error.message);
     return false;
@@ -66,7 +64,7 @@ app.post('/submit-form', function (req, res, next) {
         const payload = {
           sub: lineUserId,
         };
-        const token = jwt.sign(payload, secret, {expiresIn: '10s'})
+        const token = jwt.sign(payload, secret, {expiresIn: '24h'})
         res.status(200).send({ message:'Form data inserted successfully', token });
     }
   });
