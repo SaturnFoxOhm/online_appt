@@ -63,7 +63,7 @@ const AboutPage = () => {
           </p>
           <div className="about-info">
             <div className="about-img">
-              <img src="images/about.jpg" alt="About-pic" />
+              <img src="../images/about.jpg" alt="About-pic" />
             </div>
             <div className="about-text">
               <p>
