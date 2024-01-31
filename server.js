@@ -29,6 +29,7 @@ function validate(token) {
     if(decoded.role == 'admin'){
       return false;
     }
+    return true;
   } catch (error) {
     console.error('Token validation failed:', error.message);
     return false;
