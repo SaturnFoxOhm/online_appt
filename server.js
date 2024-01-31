@@ -118,3 +118,59 @@ app.post('/store-line-login-data', async function (req, res, next) {
     }
   );
 });
+
+app.post('/user-profile', (req, res) => {
+  // edit to receive line user id
+  const decoded = jwt.verify(token, 'mysecret');
+  lineuserId = decoded.sub
+  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+
+  // if (!lineUserId) {
+  //   return res.status(400).send('LineUserID is required');
+  // }
+
+  connection.query(
+    'SELECT InfoID, email, first_name, last_name, DATE_FORMAT(birthday, "%Y-%m-%d") AS birthday, sex, phone, weight, height, allergic, congenital_disease FROM `userinfo` WHERE `LineUserID` = ?',
+    [lineUserId],
+    (error, results) => {
+      if (error) {
+        console.error('Error fetching user profile data:', error);
+        return res.status(500).send('Internal Server Error');
+      }
+
+      if (results.length === 0) {
+        return res.status(404).send('User profile not found');
+      }
+
+      const userProfile = results[0];
+      res.status(200).json(userProfile);
+    }
+  );
+});
+
+app.put('/update-profile', (req, res) => {
+  const { id_number, first_name, last_name, email, phone_number, birthdate, gender, weight, height, allergic, congenital_disease} = req.body;
+  console.log('firstname', first_name);
+
+  // edit to receive line user id
+  lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+
+  connection.query(
+    'UPDATE `userinfo` SET `email` = ?, `first_name` = ?, `last_name` = ?, `birthday` = ?, `sex` = ?, `phone` = ?, `weight` = ?, `height` = ?, `allergic` = ?, `congenital_disease` = ? WHERE `InfoID` = ? AND `LineUserID` = ?',
+    [email, first_name, last_name, birthdate, gender, phone_number, weight, height, allergic, congenital_disease, id_number, lineUserId],
+    (error, results) => {
+      if (error) {
+        console.error('Error executing update query:', error);
+        res.status(500).send('Internal Server Error');
+      } else {
+        if (results.affectedRows > 0) {
+          console.log('User profile updated successfully');
+          res.status(200).send({ message: 'User profile updated successfully' });
+        } else {
+          console.log('No rows updated. User profile not found or no changes made.');
+          res.status(404).send('User profile not found or no changes made.');
+        }
+      }
+    }
+  );
+});

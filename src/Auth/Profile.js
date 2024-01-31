@@ -1,8 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./navbar";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    // Fetch user data from the server when the component mounts
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/user-profile', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log('data', data)
+          setIDNumber(data.InfoID);
+          setFirstName(data.first_name);
+          setLastName(data.last_name);
+          setEmail(data.email);
+          setPhoneNumber(data.phone);
+          setBirthDate(data.birthday);
+          if (data.sex == "M") {
+            setGender("Male");
+          }
+          else if (data.sex == "F") {
+            setGender("Female");
+          }
+          setWeight(data.weight);
+          setHeight(data.height);
+          setAllergic(data.allergic);
+          setCongenitalDisease(data.congenital_disease);
+        } else {
+          console.error("Failed to fetch user data");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    // Call the fetchUserData function
+    fetchUserData();
+  }, [])
+
+  // Set default value
   const [id_number, setIDNumber] = useState("1234567891544");
   const [first_name, setFirstName] = useState("John");
   const [last_name, setLastName] = useState("Cena");
@@ -62,7 +105,7 @@ const Profile = () => {
   const isGenderValid = (value) => GenderRegex.test(value);
 
   // Function to handle form submission
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     // Perform validation checks
     const isEmailValid = emailRegex.test(email);
     const isIdNumberValid = id_numberRegex.test(id_number);
@@ -86,10 +129,41 @@ const Profile = () => {
       alert("Please Insert All Section Correctly.");
       return false;
     }
-    // Continue with form submission logic if all validations pass
-    // ... your submission logic here
-    alert("Edit Successful!");
-    setIsEditing(!isEditing);
+    
+    console.log('Fname', first_name);
+    console.log('Lname', last_name);
+
+    try {
+      const response = await fetch('http://localhost:5000/update-profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          id_number,
+          first_name,
+          last_name,
+          email,
+          phone_number,
+          birthdate,
+          gender,
+          weight,
+          height,
+          allergic,
+          congenital_disease,
+        }),
+      });
+  
+      if (response.ok) {
+        alert('Edit Successful!');
+        setIsEditing(false);
+      } else {
+        console.error('Failed to update user profile');
+      }
+    } catch (error) {
+      console.error('Error updating user profile:', error);
+    }
   };
 
   return (
