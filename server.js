@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  // password: 'ohm0817742474',
+  password: 'ohm0817742474',
   database: 'healthcheckupplatform'
 });
 
@@ -124,7 +124,7 @@ app.post('/user-profile', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineuserId = decoded.sub;
+  lineUserId = decoded.sub;
   // lineUserId = "U4ebe7073335e35c79999db25f173e744";
 
   if (!lineUserId) {
@@ -157,7 +157,7 @@ app.put('/update-profile', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineuserId = decoded.sub;
+  lineUserId = decoded.sub;
   // lineUserId = "U4ebe7073335e35c79999db25f173e744";
 
   connection.query(
@@ -186,7 +186,7 @@ app.post('/add-user-profile', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineuserId = decoded.sub;
+  lineUserId = decoded.sub;
   // lineUserId = "U4ebe7073335e35c79999db25f173e744";
 
   if (!lineUserId) {
@@ -223,7 +223,7 @@ app.post('/insert-address',(req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineuserId = decoded.sub;
+  lineUserId = decoded.sub;
   // lineUserId = "U4ebe7073335e35c79999db25f173e744";
 
   if (!lineUserId) {
@@ -293,7 +293,7 @@ app.post('/hospital-list', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineuserId = decoded.sub;
+  lineUserId = decoded.sub;
   // lineUserId = "U4ebe7073335e35c79999db25f173e744";
 
   if (!lineUserId) {
@@ -322,7 +322,7 @@ app.post('/fetchTimeSlot', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineuserId = decoded.sub;
+  lineUserId = decoded.sub;
   // lineUserId = "U4ebe7073335e35c79999db25f173e744";
 
   if (!lineUserId) {
