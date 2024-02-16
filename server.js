@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'ohm0817742474',
+  // password: 'ohm0817742474',
   database: 'healthcheckupplatform'
 });
 
