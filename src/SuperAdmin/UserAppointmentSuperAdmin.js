@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import NavbarAdmin from './NavbarAdmin';
+import NavbarAdmin from './NavbarSuperAdmin';
 import { Link } from 'react-router-dom';
 
-const UserAppointmentAdmin = () => {
+const UserAppointmentSuperAdmin = () => {
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/admin-get-users-appointment', {
+        const response = await fetch('http://localhost:5000/super-admin-get-users-appointment', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('tokenAdmin')}`,
+            'Authorization': `Bearer ${localStorage.getItem('tokenSuperAdmin')}`,
           },
         });
         const data = await response.json();
@@ -46,6 +46,7 @@ const UserAppointmentAdmin = () => {
                       <th className="text-left p-3 px-5">Name</th>
                       <th className="text-left p-3 px-5">Date</th>
                       <th className="text-left p-3 px-5">Location</th>
+                      <th className="text-left p-3 px-5">Hospital Name</th>
                       <th className="text-left p-3 px-5">Status</th>
                     </tr>
                     {appointments.map((appointment) => (
@@ -63,11 +64,14 @@ const UserAppointmentAdmin = () => {
                           )}
                         </td>
                         <td className="p-3 px-5 bg-gray-50">
+                          <div>{appointment.Hospital}</div>
+                        </td>
+                        <td className="p-3 px-5 bg-gray-50">
                           <div>{appointment.Appointment_Status}</div>
                         </td>
                         <td className="p-3 px-5 bg-gray-50">
                         <Link
-                          to={`/admin/usersAppointment/${appointment.AppointmentID}`}
+                          to={`/super-admin/usersAppointment/${appointment.AppointmentID}`}
                           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                         >
                           Edit_Status
@@ -88,4 +92,4 @@ const UserAppointmentAdmin = () => {
   );
 };
 
-export default UserAppointmentAdmin;
+export default UserAppointmentSuperAdmin;

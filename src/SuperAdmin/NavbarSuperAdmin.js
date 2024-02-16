@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import './css/NavbarAdmin.css';
+import './css/NavbarSuperAdmin.css';
 
-export const NavbarAdmin = () => {
+export const NavbarSuperAdmin = () => {
 
 const logout = () => {
-    localStorage.removeItem('tokenAdmin');
+    localStorage.removeItem('tokenSuperAdmin');
     window.location.reload();
 }
 
@@ -36,19 +36,19 @@ const logout = () => {
             <label className="logo color-black">FastAppt</label>
             <ul>
               <li>
-                <Link className='Navbar' to="/admin"> Home </Link>
+                <Link className='Navbar' to="/super-admin"> Home </Link>
               </li>
               <li>
-                <Link className='Navbar' to="/admin/usersAppointment"> Users' Appointment </Link>
+                <Link className='Navbar' to="/super-admin/usersAppointment"> Users' Appointment </Link>
               </li>
               <li>
-                <Link className='Navbar' to="/admin/sendTestReport"> Send Test Report </Link>
+                <Link className='Navbar' to="/super-admin"> Send Test Report </Link>
               </li>
               <li>
-                <Link className='Navbar' to="/admin/timeslot"> Time Slot </Link>
+                <Link className='Navbar' to="/super-admin/timeslot"> Time Slot </Link>
               </li>
               <li>
-                <Link className='Navbar' to="/admin"> Specimen Transportation </Link>
+                <Link className='Navbar' to="/super-admin"> Specimen Transportation </Link>
               </li>
               {/* <li>
                 <Link className='Navbar' to="/admin"> Test List </Link>
@@ -62,4 +62,4 @@ const logout = () => {
   )
 }
 
-export default NavbarAdmin;
+export default NavbarSuperAdmin;

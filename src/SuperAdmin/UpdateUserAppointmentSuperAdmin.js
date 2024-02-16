@@ -1,35 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import NavbarAdmin from './NavbarAdmin';
+import NavbarAdmin from './NavbarSuperAdmin';
 import { useParams } from 'react-router-dom';
 
-const UpdateUserAppointmentAdmin = () => {
+const UpdateUserAppointmentSuperAdmin = () => {
   const [appointment, setAppointment] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
   const [currentStatus, setNewStatus] = useState(); // State to hold the new status
 
   const handleBackButtonClick = () => {
-    window.location.href = `/admin/usersAppointment`;
+    window.location.href = `/super-admin/usersAppointment`;
   };
 
   const ChangeEditStatus = () => {
     setIsEditing(!isEditing);
-    if(appointment.length === 9){
-        setNewStatus(appointment[8]);
+    if(appointment.length === 10){
+      setNewStatus(appointment[9]);
     }
-    if(appointment.length === 5){
-      setNewStatus(appointment[4]);
+    if(appointment.length === 6){
+      setNewStatus(appointment[5]);
     }
   };
 
   const handleStatusChange = (e) => {
     const selectedValue = e.target.value;
     console.log(selectedValue);
-    if(appointment.length === 9){
-      setNewStatus(selectedValue === '' ? appointment[8].toString() : selectedValue);
+    if(appointment.length === 10){
+      setNewStatus(selectedValue === '' ? appointment[9].toString() : selectedValue);
     }
-    if(appointment.length === 5){
-      setNewStatus(selectedValue === '' ? appointment[4].toString() : selectedValue);
+    if(appointment.length === 6){
+      setNewStatus(selectedValue === '' ? appointment[5].toString() : selectedValue);
     }
   };
 
@@ -42,18 +42,18 @@ const UpdateUserAppointmentAdmin = () => {
       };
 
       // Make a POST request to update the statuses on the server
-      const response = await fetch('http://localhost:5000/update-appointment-status', {
+      const response = await fetch('http://localhost:5000/super-admin-update-appointment-status', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('tokenAdmin')}`,
+          'Authorization': `Bearer ${localStorage.getItem('tokenSuperAdmin')}`,
         },
         body: JSON.stringify(newStatuses),
       });
 
       if (response.ok) {
         alert('Statuses updated successfully');
-        window.location.href = `/admin/usersAppointment`;
+        window.location.href = `/super-admin/usersAppointment`;
       } else {
         console.error('Failed to update statuses:', response.statusText);
       }
@@ -65,11 +65,11 @@ const UpdateUserAppointmentAdmin = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/admin-get-users-appointment/${id}`, {
+        const response = await fetch(`http://localhost:5000/super-admin-get-users-appointment/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('tokenAdmin')}`,
+            'Authorization': `Bearer ${localStorage.getItem('tokenSuperAdmin')}`,
           },
         });
         const data = await response.json();
@@ -108,6 +108,7 @@ const UpdateUserAppointmentAdmin = () => {
                       <th className="text-left p-3 px-5">Name</th>
                       <th className="text-left p-3 px-5">Date</th>
                       <th className="text-left p-3 px-5">Location</th>
+                      <th className="text-left p-3 px-5">Hospital</th>
                       <th className="text-left p-3 px-5">Status</th>
                     </tr>
                     <tr key={appointment.AppointmentID} className="border-b hover:bg-orange-100 bg-gray-100">
@@ -120,21 +121,27 @@ const UpdateUserAppointmentAdmin = () => {
                             {appointment[4] !== "" } {" "}
                             {appointment[4]} 
                           </td>
+                          <td className="p-3 px-5 bg-gray-50">
+                            {appointment[8]}
+                          </td>
                         </>
                       ) : (
                           <>
                             <td className="p-3 px-5 bg-gray-50">
                               {appointment[3]}
                             </td>
+                            <td className="p-3 px-5 bg-gray-50">
+                              {appointment[4]}
+                            </td>
                           </>
                       )}
                       {isEditing === false ? (
                         <>
-                          {appointment.length === 9 ? (
-                            <td className="p-3 px-5 bg-gray-50">{appointment[8]}</td>
+                          {appointment.length === 10 ? (
+                            <td className="p-3 px-5 bg-gray-50">{appointment[9]}</td>
                           ) : (
                             <td className="p-3 px-5 bg-gray-50">
-                              {appointment[4]}
+                              {appointment[5]}
                             </td>
                           )}
                         </>
@@ -143,7 +150,7 @@ const UpdateUserAppointmentAdmin = () => {
                           {appointment.length === 10 ? (
                             <td className="p-3 px-5 bg-gray-50">
                               <select className="bg-white border border-gray-300 p-1 rounded" value={currentStatus} onChange={handleStatusChange}>
-                                {appointment[8].toString() === 'Waiting' ? (
+                                {appointment[9].toString() === 'Waiting' ? (
                                   <>
                                     <option value="Waiting">Waiting</option>
                                     <option value="Received">Received</option>
@@ -159,7 +166,7 @@ const UpdateUserAppointmentAdmin = () => {
                           ) : (
                             <td className="p-3 px-5 bg-gray-50">
                               <select className="bg-white border border-gray-300 p-1 rounded" value={currentStatus} onChange={handleStatusChange}>
-                                {appointment[4].toString() === 'Waiting' ? (
+                                {appointment[5].toString() === 'Waiting' ? (
                                   <>
                                     <option value="Waiting">Waiting</option>
                                     <option value="Received">Received</option>
@@ -212,4 +219,4 @@ const UpdateUserAppointmentAdmin = () => {
   );
 };
 
-export default UpdateUserAppointmentAdmin;
+export default UpdateUserAppointmentSuperAdmin;

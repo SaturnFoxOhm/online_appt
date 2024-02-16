@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 
-const LoginAdmin = () => {
+const LoginSuperAdmin = () => {
     function LoginToServer(event) {
         event.preventDefault();
         const data = {
@@ -11,7 +11,7 @@ const LoginAdmin = () => {
 
         console.log(data);
 
-        fetch('http://localhost:5000/admin-login', {
+        fetch('http://localhost:5000/super-admin-login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -24,8 +24,8 @@ const LoginAdmin = () => {
                 const result = await response.json();
                 const { token } = result;
                 console.log('JWT Token:', token);
-                localStorage.setItem('tokenAdmin', token);
-                window.location.href = `/admin`;
+                localStorage.setItem('tokenSuperAdmin', token);
+                window.location.href = `/super-admin`;
             } else {
                 console.error('Error submitting form:', response.status, response.statusText);
                 alert("Username or Password is Incorrect.")
@@ -49,7 +49,7 @@ const LoginAdmin = () => {
             </div>
             <form className="pt-12 md:pt-24 pb-12 md:pb-24" onSubmit={LoginToServer}>
               <div className="flex items-center justify-center text-lg mb-6 md:mb-8">
-                <h1 className="font-bold text-3xl text-gray-800">Admin Login</h1>
+                <h1 className="font-bold text-3xl text-gray-800">Super Admin Login</h1>
               </div>
               <div className="flex items-center text-lg mb-6 md:mb-8">
                 <svg className="absolute ml-3 mt-1" width="24" viewBox="0 0 24 24">
@@ -75,4 +75,4 @@ const LoginAdmin = () => {
   );
 }
 
-export default LoginAdmin;
+export default LoginSuperAdmin;

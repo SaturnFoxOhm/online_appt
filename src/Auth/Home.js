@@ -67,12 +67,11 @@ const Home = () => {
                 We will assist you to have a faster health appointment, faster health checkup, and better your health status!!!
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-                <a
-                  href="#"
+                <Link to="/user/appoint"
                   className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-green-900 shadow-sm hover:bg-gray-400"
                 >
                   Get started
-                </a>
+                </Link>
                 <a
                   href="/user/appointmentlist"
                   className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-green-900 shadow-sm hover:bg-gray-400"

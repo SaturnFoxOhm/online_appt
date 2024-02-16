@@ -1,0 +1,19 @@
+.button {
+    display: inline-flex; /* Use flexbox */
+    align-items: center; /* Vertically center the content */
+    justify-content: center; /* Horizontally center the content */
+    background-color: #06985F;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+    width: 500px;
+    height: 100px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.button:hover {
+    background-color: #54D388;
+}
