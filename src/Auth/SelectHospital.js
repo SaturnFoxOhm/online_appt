@@ -23,7 +23,7 @@ const Hospital = () => {
 
                     const apiKey = "AIzaSyCXeuTdudUzUXs_GazOer0Ya69gsij4Sag";
                     const proxyUrl = 'https://online-appt.vercel.app/';
-                    const apiUrl = `${proxyUrl}https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${long}&destinations=${desLat},${desLong}&units=metric&key=${apiKey}`;
+                    const apiUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${long}&destinations=${desLat},${desLong}&units=metric&key=${apiKey}`;
 
                     try {
                         const response = await axios.get(apiUrl);
@@ -87,7 +87,7 @@ const Hospital = () => {
                             const apiKey = "AIzaSyCXeuTdudUzUXs_GazOer0Ya69gsij4Sag";
                             const proxyUrl = 'https://online-appt.vercel.app/';
                             const distances = await Promise.all(data.map(async hospital => {
-                                const apiUrl = `${proxyUrl}https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${long}&destinations=${hospital.latitude},${hospital.longitude}&units=metric&key=${apiKey}`;
+                                const apiUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${long}&destinations=${hospital.latitude},${hospital.longitude}&units=metric&key=${apiKey}`;
                                 const response = await axios.get(apiUrl);
                                 if (response.data.status === "OK") {
                                     const distanceText = response.data.rows[0].elements[0].distance.text;
