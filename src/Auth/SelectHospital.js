@@ -15,48 +15,50 @@ const Hospital = () => {
         const success = async (position) => {
             const lat = position.coords.latitude;
             const long = position.coords.longitude;
-
+        
             if (hospitalList.length > 0) {
-                const updatedHospitalList = await Promise.all(hospitalList.map(async (hospital) => {
-                    const desLat = hospital.latitude;
-                    const desLong = hospital.longitude;
-
-                    const apiKey = "AIzaSyCXeuTdudUzUXs_GazOer0Ya69gsij4Sag";
-                    const proxyUrl = 'https://online-appt.vercel.app/';
-                    const apiUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${long}&destinations=${desLat},${desLong}&units=metric&key=${apiKey}`;
-
-                    try {
-                        const response = await axios.get(apiUrl);
-
-                        if (response.data.status === "OK") {
-                            const distanceText = response.data.rows[0].elements[0].distance.text;
-
-                            return {
-                                ...hospital,
-                                distance: distanceText
-                            };
-                        } else {
-                            console.error('Error fetching distance:', response.data.status);
-                            return hospital;
-                        }
-
-                    } catch (error) {
-                        console.error('Error fetching distance:', error);
-                        return hospital;
-                    }
-                }));
-
-                const sortedHospitalList = updatedHospitalList.sort((a, b) => {
-                    if (a.distance < b.distance) return -1;
-                    if (a.distance > b.distance) return 1;
-                    return 0;
-                });
-
-                setHospitalList(sortedHospitalList);
+              const updatedHospitalList = await Promise.all(hospitalList.map(async (hospital) => {
+                const desLat = hospital.latitude;
+                const desLong = hospital.longitude;
+        
+                try {
+                  const response = await axios.get('http://localhost:5000/get-distance', {
+                    params: {
+                      origins: `${lat},${long}`,
+                      destinations: `${desLat},${desLong}`,
+                      units: 'metric',
+                    },
+                  });
+        
+                  if (response.data.distance) {
+                    const distanceText = response.data.distance;
+        
+                    return {
+                      ...hospital,
+                      distance: distanceText
+                    };
+                  } else {
+                    console.error('Error fetching distance');
+                    return hospital;
+                  }
+        
+                } catch (error) {
+                  console.error('Error fetching distance:', error);
+                  return hospital;
+                }
+              }));
+        
+              const sortedHospitalList = updatedHospitalList.sort((a, b) => {
+                if (a.distance < b.distance) return -1;
+                if (a.distance > b.distance) return 1;
+                return 0;
+              });
+        
+              setHospitalList(sortedHospitalList);
             } else {
-                console.error('HospitalList is null or undefined');
+              console.error('HospitalList is null or undefined');
             }
-        }
+          }
 
         const error = () => {
             status.textContent = 'Unable to retrieve your location';
@@ -66,65 +68,77 @@ const Hospital = () => {
 
     useEffect(() => {
         const findMyState = async () => {
-            const status = document.querySelector('.status');
-
-            const success = async (position) => {
-                const lat = position.coords.latitude;
-                const long = position.coords.longitude;
-
-                const fetchHospitalData = async () => {
-                    try {
-                        const response = await fetch('http://localhost:5000/hospital-list', {
-                            method: 'POST',
-                            headers: {
-                                Authorization: `Bearer ${localStorage.getItem('token')}`
-                            }
+          const status = document.querySelector('.status');
+      
+          const success = async (position) => {
+            const lat = position.coords.latitude;
+            const long = position.coords.longitude;
+      
+            const fetchHospitalData = async () => {
+              try {
+                const response = await fetch('http://localhost:5000/hospital-list', {
+                  method: 'POST',
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                  },
+                });
+      
+                if (response.ok) {
+                  const data = await response.json();
+      
+                  // Calculate distances for each hospital by calling the server
+                  const distances = await Promise.all(
+                    data.map(async (hospital) => {
+                      try {
+                        const distanceResponse = await axios.get('http://localhost:5000/get-distance', {
+                          params: {
+                            origins: `${lat},${long}`,
+                            destinations: `${hospital.latitude},${hospital.longitude}`,
+                            units: 'metric',
+                          },
                         });
-                        if (response.ok) {
-                            const data = await response.json();
-
-                            // Calculate distances for each hospital
-                            const apiKey = "AIzaSyCXeuTdudUzUXs_GazOer0Ya69gsij4Sag";
-                            const proxyUrl = 'https://online-appt.vercel.app/';
-                            const distances = await Promise.all(data.map(async hospital => {
-                                const apiUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${long}&destinations=${hospital.latitude},${hospital.longitude}&units=metric&key=${apiKey}`;
-                                const response = await axios.get(apiUrl);
-                                if (response.data.status === "OK") {
-                                    const distanceText = response.data.rows[0].elements[0].distance.text;
-                                    return { ...hospital, distance: distanceText };
-                                } else {
-                                    console.error('Error fetching distance:', response.data.status);
-                                    return { ...hospital, distance: null };
-                                }
-                            }));
-
-                            // Sort hospitals by distance
-                            const sortedHospitalList = distances.sort((a, b) => {
-                                const distanceA = parseFloat(a.distance.replace(" km", ""));
-                                const distanceB = parseFloat(b.distance.replace(" km", ""));
-                                return distanceA - distanceB;
-                            });
-
-                            setHospitalList(sortedHospitalList);
+      
+                        if (distanceResponse.data.distance) {
+                          const distanceText = distanceResponse.data.distance;
+                          return { ...hospital, distance: distanceText };
                         } else {
-                            console.error("Failed to fetch hospital data");
+                          console.error('Error fetching distance');
+                          return { ...hospital, distance: null };
                         }
-                    } catch (error) {
-                        console.error("Error fetching hospital data:", error);
-                    }
-                };
-
-                fetchHospitalData();
+                      } catch (error) {
+                        console.error('Error fetching distance:', error);
+                        return { ...hospital, distance: null };
+                      }
+                    })
+                  );
+      
+                  // Sort hospitals by distance
+                  const sortedHospitalList = distances.sort((a, b) => {
+                    const distanceA = parseFloat(a.distance.replace(' km', ''));
+                    const distanceB = parseFloat(b.distance.replace(' km', ''));
+                    return distanceA - distanceB;
+                  });
+      
+                  setHospitalList(sortedHospitalList);
+                } else {
+                  console.error('Failed to fetch hospital data');
+                }
+              } catch (error) {
+                console.error('Error fetching hospital data:', error);
+              }
             };
-
-            const error = () => {
-                status.textContent = 'Unable to retrieve your location';
-            };
-            navigator.geolocation.getCurrentPosition(success, error);
+      
+            fetchHospitalData();
+          };
+      
+          const error = () => {
+            status.textContent = 'Unable to retrieve your location';
+          };
+          navigator.geolocation.getCurrentPosition(success, error);
         };
-
+      
         findMyState();
-    }, []);
+      }, []);
 
 
 

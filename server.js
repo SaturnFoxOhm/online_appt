@@ -6,7 +6,8 @@ const nodemailer = require('nodemailer');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const multer = require('multer'); // Add this line for handling file uploads
-const buffer = require('buffer')
+const buffer = require('buffer');
+const axios = require('axios');
 
 // Configure multer for handling file uploads
 const storage = multer.memoryStorage(); // Store the file in memory
@@ -26,13 +27,8 @@ const connection = mysql.createConnection({
 
 var app = express();
 
+
 app.use(cors());
-// app.use(function (req, res, next) {
-//   res.setHeader("Access-Control-Allow-Origin", "*"); 
-// //  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-//   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
 
 app.use(express.json({limit: '100mb'}));
 
@@ -368,6 +364,28 @@ app.post('/hospital-list', (req, res) => {
 //     }
 //   );
 // });
+
+app.get('/get-distance', async (req, res) => {
+  try {
+    const apiKey = 'AIzaSyCXeuTdudUzUXs_GazOer0Ya69gsij4Sag';
+    const { origins, destinations, units } = req.query;
+
+    const apiUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origins}&destinations=${destinations}&units=${units}&key=${apiKey}`;
+    
+    const response = await axios.get(apiUrl);
+
+    if (response.data.status === "OK") {
+      const distanceText = response.data.rows[0].elements[0].distance.text;
+      res.json({ distance: distanceText });
+    } else {
+      console.error('Error fetching distance:', response.data.status);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  } catch (error) {
+    console.error('Error fetching distance:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 app.post('/fetchTimeSlot', (req, res) => {
   const {selectedHospital, selectedDate} = req.body;
