@@ -27,6 +27,13 @@ const connection = mysql.createConnection({
 var app = express();
 
 app.use(cors());
+// app.use(function (req, res, next) {
+//   res.setHeader("Access-Control-Allow-Origin", "*"); 
+// //  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+//   res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
+
 app.use(express.json({limit: '100mb'}));
 
 app.use(fileUpload());
@@ -318,7 +325,7 @@ app.post('/hospital-list', (req, res) => {
   }
 
   connection.query(
-    'SELECT HospitalID, hos_name, hos_tel, hos_region, hos_location, hos_type FROM `hospital`',
+    'SELECT HospitalID, hos_name, hos_tel, hos_region, hos_location, hos_type, latitude, longitude FROM `hospital`',
     (error, results) => {
       if (error) {
         console.error('Error fetching hospital data:', error);

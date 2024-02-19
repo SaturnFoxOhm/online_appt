@@ -65,13 +65,13 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/test" element={<Test />} />
 
-      <Route path="/user/profile" element={<Profile />} />
+      {/* <Route path="/user/profile" element={<Profile />} />
       <Route path="/user/appoint" element={<Appoint />} />
       <Route path="/user/place" element={<Place />} />
       <Route path="/user/hospital" element={<Hospital />} />
       <Route path="/user/address" element={<Address />} />
       <Route path="/user/datetime" element={<DateTime />} />
-      <Route path="/user/testSelection" element={<TestSelection />} />
+      <Route path="/user/testSelection" element={<TestSelection />} /> */}
 
       {/* Authenticated routes, wrapped with ProtectedRoute */}
       <Route
@@ -90,7 +90,7 @@ function App() {
         path="/user/contactus"
         element={<ProtectedRoute element={<ContactUslog />} />}
       />
-      {/* <Route
+      <Route
         path="/user/profile"
         element={<ProtectedRoute element={<Profile />} />}
       />
@@ -121,7 +121,7 @@ function App() {
       <Route
         path="/user/testSelection"
         element={<ProtectedRoute element={<TestSelection />} />}
-      /> */}
+      />
 
       {/* Admin Section */}
       <Route path="/adminlogin" element={<LoginAdmin />} />
