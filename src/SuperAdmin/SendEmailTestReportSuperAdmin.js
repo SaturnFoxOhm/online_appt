@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import NavbarAdmin from './NavbarAdmin';
+import NavbarSuperAdmin from './NavbarSuperAdmin';
 import { useParams } from 'react-router-dom';
 
-const SendEmailTestReportAdmin = () => {
+const SendEmailTestReportSuperAdmin = () => {
   const [appointment, setAppointment] = useState({});
   const [subject, setSubject] = useState(''); // Set your default subject here
   const [text, setText] = useState(''); // Set your default message here
@@ -11,11 +11,11 @@ const SendEmailTestReportAdmin = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/admin-get-users-appointment-only-waiting/${id}`, {
+        const response = await fetch(`http://localhost:5000/super-admin-get-users-appointment-only-waiting/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('tokenAdmin')}`,
+            'Authorization': `Bearer ${localStorage.getItem('tokenSuperAdmin')}`,
           },
         });
         const data = await response.json();
@@ -80,7 +80,7 @@ const SendEmailTestReportAdmin = () => {
 
   return (
     <div>
-      <NavbarAdmin />
+      <NavbarSuperAdmin />
       <div className="min-h-screen p-6 bg-gradient-to-r from-green-500 to-emerald-300 flex ">
         <div className="container max-w-screen-md mx-auto">
           <div className="relative">
@@ -121,4 +121,4 @@ const SendEmailTestReportAdmin = () => {
   );
 };
 
-export default SendEmailTestReportAdmin;
+export default SendEmailTestReportSuperAdmin;

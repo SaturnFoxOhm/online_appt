@@ -3,6 +3,19 @@ var cors = require('cors')
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
+const multer = require('multer'); // Add this line for handling file uploads
+const buffer = require('buffer')
+
+// Configure multer for handling file uploads
+const storage = multer.memoryStorage(); // Store the file in memory
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 100 * 1024 * 1024, // 100 MB
+  },
+});
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -14,7 +27,11 @@ const connection = mysql.createConnection({
 var app = express();
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({limit: '100mb'}));
+
+app.use(fileUpload());
+app.use(bodyParser.json({ limit: '100mb' }));
+app.use(bodyParser.urlencoded({ parameterLimit:100000, extended: true }));
 
 const secret = 'mysecret';
 
@@ -125,7 +142,7 @@ app.post('/user-profile', (req, res) => {
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
   lineUserId = decoded.sub;
-  // lineUserId = "U4ebe7073335e35c79999db25f173e744";
+  //lineUserId = "U4ebe7073335e35c79999db25f173e744";
 
   if (!lineUserId) {
     return res.status(400).send('LineUserID is required');
@@ -158,7 +175,7 @@ app.put('/update-profile', (req, res) => {
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
   lineUserId = decoded.sub;
-  // lineUserId = "U4ebe7073335e35c79999db25f173e744";
+  //lineUserId = "U4ebe7073335e35c79999db25f173e744";
 
   connection.query(
     'UPDATE `userinfo` SET `email` = ?, `first_name` = ?, `last_name` = ?, `birthday` = ?, `sex` = ?, `phone` = ?, `weight` = ?, `height` = ?, `allergic` = ?, `congenital_disease` = ? WHERE `InfoID` = ? AND `LineUserID` = ?',
@@ -315,6 +332,35 @@ app.post('/hospital-list', (req, res) => {
     }
   );
 });
+
+// app.post('/hospital-list', (req, res) => {
+//   // Maybe use token with GPS
+
+//   // const authToken = req.headers['authorization']
+//   // const token = authToken.substring(7, authToken.length);
+//   // const decoded = jwt.verify(token, 'mysecret');
+//   // lineuserId = decoded.sub;
+//   lineUserId = "U4ebe7073335e35c79999db25f173e744";
+
+//   // if (!lineUserId) {
+//   //   return res.status(400).send('LineUserID is required');
+//   // }
+
+//   connection.query(
+//     'SELECT HospitalID, hos_name, hos_tel, hos_region, hos_location, hos_type, latitude, longitude FROM `hospital`',
+//     (error, results) => {
+//       if (error) {
+//         console.error('Error fetching hospital data:', error);
+//         return res.status(500).send('Internal Server Error');
+//       }
+
+//       if (results.length === 0) {
+//         return res.status(404).send('Hospital not found');
+//       }
+//       res.json(results);
+//     }
+//   );
+// });
 
 app.post('/fetchTimeSlot', (req, res) => {
   const {selectedHospital, selectedDate} = req.body;
@@ -591,7 +637,7 @@ app.put('/update-appointment-status', async (req, res) => {
 });
 
 // Get the Users' Appointment (status is received) that admin is work on
-app.get('/admin-get-users-appointment-only-received', async (req, res) => {
+app.get('/admin-get-users-appointment-only-waiting', async (req, res) => {
   const authToken = req.headers['authorization'];
   if (authToken && authToken.startsWith('Bearer ')) {
     const token = authToken.substring(7, authToken.length);
@@ -603,7 +649,7 @@ app.get('/admin-get-users-appointment-only-received', async (req, res) => {
 
         if (admin.length > 0) {
           const HospitalID = admin[0].HospitalID;
-          const ap_status = "Received";
+          const ap_status = "Waiting";
           const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, ap_status, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate FROM `appointment` WHERE `HospitalID` = ? AND `ap_status` = ?', [HospitalID, ap_status]);
           
           if (results.length > 0) {
@@ -660,7 +706,7 @@ app.get('/admin-get-users-appointment-only-received', async (req, res) => {
 });
 
 // Get the Selected Users' Appointment (email) that admin is work on
-app.get('/admin-get-users-appointment-only-received/:id', async (req, res) => {
+app.get('/admin-get-users-appointment-only-waiting/:id', async (req, res) => {
   const authToken = req.headers['authorization'];
   if (authToken && authToken.startsWith('Bearer ')) {
     const token = authToken.substring(7, authToken.length);
@@ -703,6 +749,11 @@ app.get('/admin-get-users-appointment-only-received/:id', async (req, res) => {
                 }
               } 
               user_info.push(appointment.ap_status);
+
+              const hospital = await queryAsync('SELECT HospitalID, hos_name FROM `hospital` WHERE `HospitalID` = ?', [appointment.HospitalID]);
+              if(hospital.length > 0){
+                user_info.push(hospital[0].hos_name);
+              }
             }
             res.status(200).send({ message: "Get A Users' Appointment", user_info });
           } else {
@@ -721,30 +772,71 @@ app.get('/admin-get-users-appointment-only-received/:id', async (req, res) => {
   }
 });
 
-app.post('/send-email', async (req, res) => {
-  const { to, subject, text } = req.body;
+app.post('/admin-sendEmail', async (req, res) => {
+  const { appt_id, to, subject, text, attachment } = req.body;
+
+  // console.log('Received email data:', { to, subject, text, hasAttachment: attachment });
+
+  if (!attachment) {
+    return res.status(400).json({ message: 'Attachment not provided' });
+  }
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: "supakitt.sur@gmail.com",
-      pass: "xfpe xgvp uxit eptu",
+      user: "test.fastappt@gmail.com",
+      pass: "mdzs xjyr qzgj rgwk",
     },
   });
 
   const mailOptions = {
-    from: 'supakitt.sur@gmail.com',
+    from: 'test.fastappt@gmail.com',
     to: to,
     subject: subject,
     text: text,
   };
 
   try {
+    // Decode Base64 attachment
+    const base64Data = attachment.split("base64,")[1];
+    const decodedAttachment = buffer.Buffer.from(base64Data, 'base64');
+    // console.log(decodedAttachment);
+    mailOptions.attachments = [
+      {
+        filename: "Test_Result_FastAppt.pdf",
+        content: decodedAttachment,
+        encoding: 'base64', 
+      }
+    ]
+
+    // console.log('Sending email:', mailOptions);
+
     await transporter.sendMail(mailOptions);
-    res.status(200).json({ success: true, message: 'Email sent successfully' });
+    console.log('Email sent successfully')
+    
+    const authToken = req.headers['authorization'];
+    if (authToken && authToken.startsWith('Bearer ')) {
+      const token = authToken.substring(7, authToken.length);
+      const isValid = validateAuth(token);
+      if (isValid) {
+          const decoded = jwt.verify(token, 'mysecret');
+          const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
+
+          if (admin.length > 0) {
+            const newStatuses = "Received";
+              const currentStatus = await queryAsync('SELECT * FROM `appointment` WHERE `AppointmentID` = ?', [appt_id]);
+
+              if (currentStatus.length > 0) {
+                // Update the status in the database
+                await queryAsync('UPDATE `appointment` SET `ap_status` = ? WHERE `AppointmentID` = ?', [newStatuses, appt_id]);
+              }
+          }
+      }
+    }
+    res.status(200).json({ message: 'Email sent successfully and Update Appointment Status' });
   } catch (error) {
     console.error('Error sending email:', error);
-    res.status(500).json({ success: false, message: 'Error sending email' });
+    res.status(500).json({ message: 'Error sending email', error: error.message });
   }
 });
 
@@ -1169,6 +1261,142 @@ app.put('/super-admin-update-appointment-status', async (req, res) => {
     }
   } else {
     console.error('Error:', error);
+    res.status(500).send('Token is not found');
+  }
+});
+
+// Get the Users' Appointment (status is received) that admin is work on
+app.get('/super-admin-get-users-appointment-only-waiting', async (req, res) => {
+  const authToken = req.headers['authorization'];
+  if (authToken && authToken.startsWith('Bearer ')) {
+    const token = authToken.substring(7, authToken.length);
+    const isValid = validateSuperAuth(token);
+    if (isValid) {
+      try {
+        const decoded = jwt.verify(token, 'mysecret');
+        const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
+
+        if (admin.length > 0) {
+          const HospitalID = admin[0].HospitalID;
+          const ap_status = "Waiting";
+          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, ap_status, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate FROM `appointment` WHERE `HospitalID` = ? AND `ap_status` = ?', [HospitalID, ap_status]);
+          
+          if (results.length > 0) {
+            const user_info = [];
+
+            for (const appointment of results) {
+              const AppointmentID = []
+              const user_name = [];
+              const Date = [];
+              const Address = [];
+              const Appointment_Status = [];
+
+              AppointmentID.push(appointment.AppointmentID);
+
+              const result = await queryAsync('SELECT InfoID, email, first_name, last_name, DATE_FORMAT(birthday, "%Y-%m-%d") AS birthday, sex, phone, weight, height, allergic, congenital_disease, AddressID FROM userinfo WHERE `InfoID` = ?', [appointment.InfoID]);
+              
+              if (result.length > 0) {
+                user_name.push(result[0].first_name + ' ' + result[0].last_name);
+
+                if (appointment.HospitalDate !== null) {
+                  Date.push(appointment.HospitalDate);
+                  Address.push('None');
+                } else if (appointment.OffSiteDate !== null) {
+                  Date.push(appointment.OffSiteDate);
+
+                  const address = await queryAsync('SELECT * FROM `useraddress` WHERE `AddressID` = ?', [result[0].AddressID]);
+                  Address.push(address[0].ad_line1);
+                  Address.push(address[0].ad_line2);
+                  Address.push(address[0].province);
+                  Address.push(address[0].city);
+                  Address.push(address[0].zipcode);
+                }
+              }
+
+              Appointment_Status.push(appointment.ap_status);
+              user_info.push({ AppointmentID, user_name, Date, Address, Appointment_Status });
+            }
+
+            res.status(200).send({ message: "Get All Users' Appointment", user_info });
+          } else {
+            res.status(500).send("There are no users' appointments");
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    } else {
+      res.status(500).send('Token is not valid');
+    }
+  } else {
+    res.status(500).send('Token is not found');
+  }
+});
+
+// Get the Selected Users' Appointment (email) that admin is work on
+app.get('/super-admin-get-users-appointment-only-waiting/:id', async (req, res) => {
+  const authToken = req.headers['authorization'];
+  if (authToken && authToken.startsWith('Bearer ')) {
+    const token = authToken.substring(7, authToken.length);
+    const isValid = validateSuperAuth(token);
+    if (isValid) {
+      try {
+        const decoded = jwt.verify(token, 'mysecret');
+        const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
+
+        if (admin.length > 0) {
+          const HospitalID = admin[0].HospitalID;
+          const Appointmentid = req.params.id;
+          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, ap_status, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate FROM `appointment` WHERE `HospitalID` = ? AND `AppointmentID` = ?' , [HospitalID, Appointmentid]);
+          
+          if (results.length > 0) {
+            const user_info = [];
+
+            for (const appointment of results) {
+
+              user_info.push(appointment.AppointmentID);
+
+              const result = await queryAsync('SELECT InfoID, email, first_name, last_name, DATE_FORMAT(birthday, "%Y-%m-%d") AS birthday, sex, phone, weight, height, allergic, congenital_disease, AddressID FROM userinfo WHERE `InfoID` = ?', [appointment.InfoID]);
+              
+              if (result.length > 0) {
+                user_info.push(result[0].first_name + ' ' + result[0].last_name);
+                user_info.push(result[0].email);
+
+                if (appointment.HospitalDate !== null) {
+                  user_info.push(appointment.HospitalDate);
+                  user_info.push('None');
+                } else if (appointment.OffSiteDate !== null) {
+                  user_info.push(appointment.OffSiteDate);
+
+                  const address = await queryAsync('SELECT * FROM `useraddress` WHERE `AddressID` = ?', [result[0].AddressID]);
+                  user_info.push(address[0].ad_line1);
+                  user_info.push(address[0].ad_line2);
+                  user_info.push(address[0].province);
+                  user_info.push(address[0].city);
+                  user_info.push(address[0].zipcode);
+                }
+              } 
+              user_info.push(appointment.ap_status);
+
+              const hospital = await queryAsync('SELECT HospitalID, hos_name FROM `hospital` WHERE `HospitalID` = ?', [appointment.HospitalID]);
+              if(hospital.length > 0){
+                user_info.push(hospital[0].hos_name);
+              }
+            }
+            res.status(200).send({ message: "Get A Users' Appointment", user_info });
+          } else {
+            res.status(500).send("There are no users' appointments");
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    } else {
+      res.status(500).send('Token is not valid');
+    }
+  } else {
     res.status(500).send('Token is not found');
   }
 });

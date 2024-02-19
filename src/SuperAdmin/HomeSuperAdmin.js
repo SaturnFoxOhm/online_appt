@@ -27,7 +27,9 @@ const HomeSuperAdmin = () => {
                   </Link>
                 </div>
                 <div className="flex flex-wrap justify-center">
-                  <button className="mb-4 lg:mb-0 mr-4 px-4 lg:px-8 py-3 bg-purple-500 text-white rounded-full hover:bg-purple-600 focus:outline-none focus:shadow-outline-purple active:bg-purple-800">Send Test Report</button>
+                  <Link to="/super-admin/sendTestReport">
+                    <button className="mb-4 lg:mb-0 mr-4 px-4 lg:px-8 py-3 bg-purple-500 text-white rounded-full hover:bg-purple-600 focus:outline-none focus:shadow-outline-purple active:bg-purple-800">Send Test Report</button>
+                  </Link>
                   <Link to="/super-admin/timeslot">
                     <button className="mb-4 lg:mb-0 mr-4 px-4 lg:px-8 py-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 focus:outline-none focus:shadow-outline-yellow active:bg-yellow-800">Time Slot</button>
                   </Link>

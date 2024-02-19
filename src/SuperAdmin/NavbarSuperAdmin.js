@@ -42,7 +42,7 @@ const logout = () => {
                 <Link className='Navbar' to="/super-admin/usersAppointment"> Users' Appointment </Link>
               </li>
               <li>
-                <Link className='Navbar' to="/super-admin"> Send Test Report </Link>
+                <Link className='Navbar' to="/super-admin/sendTestReport"> Send Test Report </Link>
               </li>
               <li>
                 <Link className='Navbar' to="/super-admin/timeslot"> Time Slot </Link>

@@ -67,7 +67,7 @@ const TimeslotSuperAdmin = () => {
 
                     <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 overflow-x-auto w-1/4">
                         <p className="font-medium text-lg text-black">Choose Date</p>
-                        <input type="date" onChange={handleDateChange} />
+                        <input type="date" onChange={handleDateChange} min={new Date().toISOString().split('T')[0]} />
                         <div className="md:col-span-4 text-right">
                             <div className="inline-flex items-end">
                                 <button onClick={handleSubmitDate} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>

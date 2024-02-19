@@ -36,8 +36,8 @@ import LoginAdmin from './AdminHospital/LoginAdmin';
 import HomeAdmin from './AdminHospital/HomeAdmin';
 import UserAppointmentAdmin from './AdminHospital/UserAppointmentAdmin';
 import UpdateUserAppointmentAdmin from './AdminHospital/UpdateUserAppointmentAdmin';
-import SendTestReport from './AdminHospital/SendTestReportAdmin';
-import SendEmailTestReport from './AdminHospital/SendEmailTestReportAdmin';
+import SendTestReportAdmin from './AdminHospital/SendTestReportAdmin';
+import SendEmailTestReportAdmin from './AdminHospital/SendEmailTestReportAdmin';
 import TimeslotAdmin from './AdminHospital/TimeslotAdmin';
 import UpdateTimeslotAdmin from './AdminHospital/UpdateTimeslotAdmin';
 
@@ -48,6 +48,8 @@ import DeleteAdmin from './SuperAdmin/DeleteAdmin';
 import HomeSuperAdmin from './SuperAdmin/HomeSuperAdmin';
 import UserAppointmentSuperAdmin from './SuperAdmin/UserAppointmentSuperAdmin';
 import UpdateUserAppointmentSuperAdmin from './SuperAdmin/UpdateUserAppointmentSuperAdmin';
+import SendTestReportSuperAdmin from './SuperAdmin/SendTestReportSuperAdmin';
+import SendEmailTestReportSuperAdmin from './SuperAdmin/SendEmailTestReportSuperAdmin';
 import TimeslotSuperAdmin from './SuperAdmin/TimeslotSuperAdmin';
 import UpdateTimeslotSuperAdmin from './SuperAdmin/UpdateTimeslotSuperAdmin';
 
@@ -63,13 +65,13 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/test" element={<Test />} />
 
-      {/* <Route path="/user/profile" element={<Profile />} />
+      <Route path="/user/profile" element={<Profile />} />
       <Route path="/user/appoint" element={<Appoint />} />
       <Route path="/user/place" element={<Place />} />
       <Route path="/user/hospital" element={<Hospital />} />
       <Route path="/user/address" element={<Address />} />
       <Route path="/user/datetime" element={<DateTime />} />
-      <Route path="/user/testSelection" element={<TestSelection />} /> */}
+      <Route path="/user/testSelection" element={<TestSelection />} />
 
       {/* Authenticated routes, wrapped with ProtectedRoute */}
       <Route
@@ -88,7 +90,7 @@ function App() {
         path="/user/contactus"
         element={<ProtectedRoute element={<ContactUslog />} />}
       />
-      <Route
+      {/* <Route
         path="/user/profile"
         element={<ProtectedRoute element={<Profile />} />}
       />
@@ -119,7 +121,7 @@ function App() {
       <Route
         path="/user/testSelection"
         element={<ProtectedRoute element={<TestSelection />} />}
-      />
+      /> */}
 
       {/* Admin Section */}
       <Route path="/adminlogin" element={<LoginAdmin />} />
@@ -137,11 +139,11 @@ function App() {
       />
       <Route
         path="/admin/sendTestReport"
-        element={<ProtectedRouteAdmin element={<SendTestReport />} />}
+        element={<ProtectedRouteAdmin element={<SendTestReportAdmin />} />}
       />
       <Route
         path="/admin/sendTestReport/:id"
-        element={<ProtectedRouteAdmin element={<SendEmailTestReport />} />}
+        element={<ProtectedRouteAdmin element={<SendEmailTestReportAdmin />} />}
       />
       <Route
         path="/admin/timeslot"
@@ -173,6 +175,14 @@ function App() {
       <Route
         path="/super-admin/usersAppointment/:id"
         element={<ProtectedRouteSuperAdmin element={<UpdateUserAppointmentSuperAdmin />} />}
+      />
+      <Route
+        path="/super-admin/sendTestReport"
+        element={<ProtectedRouteSuperAdmin element={<SendTestReportSuperAdmin />} />}
+      />
+      <Route
+        path="/super-admin/sendTestReport/:id"
+        element={<ProtectedRouteSuperAdmin element={<SendEmailTestReportSuperAdmin />} />}
       />
       <Route
         path="/super-admin/timeslot"

@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import NavbarAdmin from './NavbarAdmin';
+import NavbarSuperAdmin from './NavbarSuperAdmin';
 import { Link } from 'react-router-dom';
 
-const SendTestReportAdmin = () => {
+const SendTestReportSuperAdmin = () => {
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/admin-get-users-appointment-only-waiting', {
+        const response = await fetch('http://localhost:5000/super-admin-get-users-appointment-only-waiting', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('tokenAdmin')}`,
+            'Authorization': `Bearer ${localStorage.getItem('tokenSuperAdmin')}`,
           },
         });
         const data = await response.json();
@@ -26,7 +26,7 @@ const SendTestReportAdmin = () => {
 
   return (
     <div>
-      <NavbarAdmin />
+      <NavbarSuperAdmin />
       <div className="min-h-screen p-6 bg-gradient-to-r from-green-500 to-emerald-300 flex ">
         <div className="container max-w-screen-lg mx-auto">
           <div className="relative">
@@ -67,7 +67,7 @@ const SendTestReportAdmin = () => {
                         </td>
                         <td className="p-3 px-5 bg-gray-50">
                         <Link
-                          to={`/admin/sendTestReport/${appointment.AppointmentID}`}
+                          to={`/super-admin/sendTestReport/${appointment.AppointmentID}`}
                           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                         >
                           Send_Test_Report
@@ -88,4 +88,4 @@ const SendTestReportAdmin = () => {
   );
 }
 
-export default SendTestReportAdmin
+export default SendTestReportSuperAdmin
