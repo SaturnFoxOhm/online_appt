@@ -2,24 +2,23 @@ import React, { useState, useEffect} from 'react';
 import NavbarAdmin from './NavbarAdmin';
 import { useParams } from 'react-router-dom';
 
-const UpdateTimeslotAdmin = () => {
+const UpdateTimeslotOffsiteAdmin = () => {
     const [timeslot, setTimeslot] = useState([]);
     const { selectedDate } = useParams();
     const [newAmounts, setNewAmounts] = useState([]); // State to store selected amounts for each timeslot
 
-    const handleCancel = () => {
-        window.location.href = `/admin/timeslot`;
-    };
+    // const handleCancel = () => {
+    //     window.location.href = `/admin/timeslothospital`;
+    // };
 
     const handleConfirm = () => {
-        window.location.href = `/admin/timeslot/`
-        // handleSubmitDate(selectedDate);
+        window.location.href = `/admin/timeslotoffsite/`
     }
 
     const handleSubmitDate = async () => {
         // Fetch timeslots based on the selected date
         try {
-            const response = await fetch('http://localhost:5000/admin-get-timeslot', {
+            const response = await fetch('http://localhost:5000/admin-get-timeslotoffsite', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,7 +52,7 @@ const UpdateTimeslotAdmin = () => {
                 selectedDate: selectedDate
             };
             // Make a POST request to update the timeslot amount
-            const response = await fetch('http://localhost:5000/admin-update-timeslot', {
+            const response = await fetch('http://localhost:5000/admin-update-timeslotoffsite', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -65,14 +64,14 @@ const UpdateTimeslotAdmin = () => {
             if (response.ok) {
                 // If the update is successful, refresh the timeslots
                 alert('Slot updated successfully');
-                window.location.href = `/admin/timeslot/${selectedDate}`;
+                window.location.href = `/admin/timeslotoffsite/${selectedDate}`;
             } else {
-                console.error('Failed to update timeslot:', response.statusText);
-                alert('Failed to update timeslot');
+                console.error('Failed to update timeslot off-site:', response.statusText);
+                alert('Failed to update timeslot off-site');
             }
         } catch (error) {
-            console.error('Error updating timeslot:', error);
-            alert('Error updating timeslot');
+            console.error('Error updating timeslot off-site:', error);
+            alert('Error updating timeslot off-site');
         }
     };
 
@@ -163,4 +162,4 @@ const UpdateTimeslotAdmin = () => {
     );
 };
 
-export default UpdateTimeslotAdmin;
+export default UpdateTimeslotOffsiteAdmin;

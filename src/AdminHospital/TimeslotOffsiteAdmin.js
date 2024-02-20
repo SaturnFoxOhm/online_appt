@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NavbarAdmin from './NavbarAdmin';
 import { useNavigate, Link } from 'react-router-dom';
 
-const TimeslotAdmin = () => {
+const TimeslotOffsiteAdmin = () => {
     const [timeslot, setTimeslot] = useState([]);
     const [selectedDate, setSelectedDate] = useState([]);
     const navigate = useNavigate(); // Hook to navigate programmatically
@@ -18,7 +18,7 @@ const TimeslotAdmin = () => {
         };
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/admin-get-timeslot', {
+                const response = await fetch('http://localhost:5000/admin-get-timeslotoffsite', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const TimeslotAdmin = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/admin-get-timeslot', {
+                const response = await fetch('http://localhost:5000/admin-get-timeslotoffsite', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const TimeslotAdmin = () => {
                 <div className="container max-w-screen-lg mx-auto">
                     <div className="relative">
                         <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-                            Time Slots
+                            Time Slots Off-site
                         </h2>
                     </div>
 
@@ -102,7 +102,7 @@ const TimeslotAdmin = () => {
                                 </table>
                                 <td className="md:col-span-4 text-right inline-flex items-end">
                                     <Link
-                                        to={`/admin/timeslot/${selectedDate}`}
+                                        to={`/admin/timeslothospital/${selectedDate}`}
                                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                     >
                                         Edit Time Slot
@@ -117,4 +117,4 @@ const TimeslotAdmin = () => {
     );
 };
 
-export default TimeslotAdmin;
+export default TimeslotOffsiteAdmin;

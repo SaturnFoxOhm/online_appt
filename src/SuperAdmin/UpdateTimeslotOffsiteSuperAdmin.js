@@ -1,24 +1,24 @@
-import React, { useState, useEffect, Link } from 'react';
+import React, { useState, useEffect} from 'react';
 import NavbarSuperAdmin from './NavbarSuperAdmin';
 import { useParams } from 'react-router-dom';
 
-const UpdateTimeslotSuperAdmin = () => {
+const UpdateTimeslotOffsiteAdmin = () => {
     const [timeslot, setTimeslot] = useState([]);
     const { selectedDate } = useParams();
     const [newAmounts, setNewAmounts] = useState([]); // State to store selected amounts for each timeslot
 
-    const handleCancel = () => {
-        window.location.href = `/super-admin/timeslot`;
-    };
+    // const handleCancel = () => {
+    //     window.location.href = `/admin/timeslothospital`;
+    // };
 
     const handleConfirm = () => {
-        window.location.href = `/super-admin/timeslot/`
+        window.location.href = `/super-admin/timeslotoffsite/`
     }
 
     const handleSubmitDate = async () => {
         // Fetch timeslots based on the selected date
         try {
-            const response = await fetch('http://localhost:5000/super-admin-get-timeslot', {
+            const response = await fetch('http://localhost:5000/super-admin-get-timeslotoffsite', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const UpdateTimeslotSuperAdmin = () => {
                 selectedDate: selectedDate
             };
             // Make a POST request to update the timeslot amount
-            const response = await fetch('http://localhost:5000/super-admin-update-timeslot', {
+            const response = await fetch('http://localhost:5000/super-admin-update-timeslotoffsite', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,24 +60,18 @@ const UpdateTimeslotSuperAdmin = () => {
                 },
                 body: JSON.stringify(newStatus),
             });
-    
+
             if (response.ok) {
                 // If the update is successful, refresh the timeslots
                 alert('Slot updated successfully');
-                console.log(hosSlotID);
-                console.log(newAmount);
-                console.log(selectedDate);
-                window.location.href = `/super-admin/timeslot/${selectedDate}`;
+                window.location.href = `/super-admin/timeslotoffsite/${selectedDate}`;
             } else {
-                console.error('Failed to update timeslot:', response.statusText);
-                alert('Failed to update timeslot');
-                console.log(hosSlotID);
-                console.log(newAmount);
-                console.log(selectedDate);
+                console.error('Failed to update timeslot off-site:', response.statusText);
+                alert('Failed to update timeslot off-site');
             }
         } catch (error) {
-            console.error('Error updating timeslot:', error);
-            alert('Error updating timeslot');
+            console.error('Error updating timeslot off-site:', error);
+            alert('Error updating timeslot off-site');
         }
     };
 
@@ -113,7 +107,6 @@ const UpdateTimeslotSuperAdmin = () => {
                                             <th className="text-left p-3 px-5">Edit Slot</th>
                                         </tr>
                                         {timeslot.map((timeslotItem, index) => (
-                                            // console.log(timeslotItem.hosSlotID),
                                             <tr key={timeslotItem.id} className="border-b hover:bg-orange-100 bg-gray-100">
                                                 <td className="p-3 px-5 bg-gray-50">{timeslotItem.Start_time}</td>
                                                 <td className="p-3 px-5 bg-gray-50">{timeslotItem.End_time}</td>
@@ -122,12 +115,10 @@ const UpdateTimeslotSuperAdmin = () => {
                                                 </td>
 
                                                 <td className="p-3 px-5 bg-gray-50">
-                                                    <select value={newAmounts[index]} onChange={(e) => handleSlot(index, e.target.value)}>
-                                                        {/* {[...Array(6).keys()].map((value) => (
-                                                            <option key={value} value={value}>
-                                                                {value}
-                                                            </option>
-                                                        ))} */}
+                                                    <select
+                                                        value={newAmounts[index]}
+                                                        onChange={(e) => handleSlot(index, e.target.value)}
+                                                    >
                                                         <option value="" disabled>Select an option</option>
                                                         <option value={5}>5</option>
                                                         <option value={4}>4</option>
@@ -156,13 +147,12 @@ const UpdateTimeslotSuperAdmin = () => {
                                         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-4">Confirm
                                     </button>
                                 </div>
-                                {/*<div className="inline-flex items-end">
+                                {/* <div className="inline-flex items-end">
                                     <button
                                         onClick={handleCancel}
                                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Cancel
                                     </button>
-                                </div>
-                                */}
+                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -172,4 +162,4 @@ const UpdateTimeslotSuperAdmin = () => {
     );
 };
 
-export default UpdateTimeslotSuperAdmin;
+export default UpdateTimeslotOffsiteAdmin;

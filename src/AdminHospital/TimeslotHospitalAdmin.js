@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import NavbarSuperAdmin from './NavbarSuperAdmin';
+import NavbarAdmin from './NavbarAdmin';
 import { useNavigate, Link } from 'react-router-dom';
 
-const TimeslotSuperAdmin = () => {
+const TimeslotHospitalAdmin = () => {
     const [timeslot, setTimeslot] = useState([]);
     const [selectedDate, setSelectedDate] = useState([]);
     const navigate = useNavigate(); // Hook to navigate programmatically
@@ -18,11 +18,11 @@ const TimeslotSuperAdmin = () => {
         };
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/super-admin-get-timeslot', {
+                const response = await fetch('http://localhost:5000/admin-get-timeslothospital', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('tokenSuperAdmin')}`,
+                        'Authorization': `Bearer ${localStorage.getItem('tokenAdmin')}`,
                     },
                     body: JSON.stringify(currentselectedDate),
                 });
@@ -38,11 +38,11 @@ const TimeslotSuperAdmin = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/super-admin-get-timeslot', {
+                const response = await fetch('http://localhost:5000/admin-get-timeslot', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('tokenSuperAdmin')}`,
+                        'Authorization': `Bearer ${localStorage.getItem('tokenAdmin')}`,
                     },
                 });
                 const data = await response.json();
@@ -56,12 +56,12 @@ const TimeslotSuperAdmin = () => {
 
     return (
         <div>
-            <NavbarSuperAdmin />
+            <NavbarAdmin />
             <div className="min-h-screen p-6 bg-gradient-to-r from-green-500 to-emerald-300 flex">
                 <div className="container max-w-screen-lg mx-auto">
                     <div className="relative">
                         <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-                            Time Slots
+                            Time Slots Hospital
                         </h2>
                     </div>
 
@@ -102,7 +102,7 @@ const TimeslotSuperAdmin = () => {
                                 </table>
                                 <td className="md:col-span-4 text-right inline-flex items-end">
                                     <Link
-                                        to={`/super-admin/timeslot/${selectedDate}`}
+                                        to={`/admin/timeslothospital/${selectedDate}`}
                                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                     >
                                         Edit Time Slot
@@ -117,4 +117,4 @@ const TimeslotSuperAdmin = () => {
     );
 };
 
-export default TimeslotSuperAdmin;
+export default TimeslotHospitalAdmin;

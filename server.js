@@ -482,6 +482,36 @@ app.post('/admin-login', function (req, res, next) {
   });
 });
 
+// Get Admin's hospital name
+app.get('/admin-get-hospital-name', async (req, res) => {
+  const authToken = req.headers['authorization'];
+  if (authToken && authToken.startsWith('Bearer ')) {
+    const token = authToken.substring(7, authToken.length);
+    const isValid = validateAuth(token);
+    if (isValid) {
+      try {
+        const decoded = jwt.verify(token, 'mysecret');
+        const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
+        if (admin.length > 0) {
+          const HospitalID = admin[0].HospitalID;
+          const results = await queryAsync('SELECT hos_name FROM `hospital` WHERE `HospitalID` = ?', [HospitalID])
+          res.status(200).send({ message: "Get Admin Hospital Name", results });
+        }
+        else {
+          res.status(500).send("There are no hospital data");
+        }
+      }catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    } else {
+      res.status(500).send('Token is not valid');
+    }
+  } else {
+    res.status(500).send('Token is not found');
+  }
+});
+
 // Get the Users' Appointment that admin is work on
 // Function that help when working with asynchronous operations
 function queryAsync(sql, values) {
@@ -866,7 +896,7 @@ app.post('/admin-sendEmail', async (req, res) => {
 });
 
 // Get all selected date's Time slot of the hospital that admin works to
-app.post('/admin-get-timeslot', async (req, res) => {
+app.post('/admin-get-timeslothospital', async (req, res) => {
   const authToken = req.headers['authorization'];
   if (authToken && authToken.startsWith('Bearer ')) {
     const token = authToken.substring(7, authToken.length);
@@ -916,7 +946,7 @@ app.post('/admin-get-timeslot', async (req, res) => {
 });
 
 // Update the selected date's Time slot of the hospital that admin works to
-app.post('/admin-update-timeslot', async (req, res) => {
+app.post('/admin-update-timeslothospital', async (req, res) => {
   const authToken = req.headers['authorization'];
   if (authToken && authToken.startsWith('Bearer ')) {
     const token = authToken.substring(7, authToken.length);
@@ -935,6 +965,93 @@ app.post('/admin-update-timeslot', async (req, res) => {
 
           // Update the existing time slot in the database
           await queryAsync('UPDATE `timeslothospital` SET amount = ? WHERE HospitalID = ? AND HospitalDate = ? AND hosSlotID = ?', [Amount, HospitalID, HospitalDate, hosSlotID]);
+
+          res.status(200).send({ message: "Time Slot updated successfully" });
+        } else {
+          res.status(500).send("Admin not found");
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    } else {
+      res.status(500).send('Token is not valid');
+    }
+  } else {
+    res.status(500).send('Token is not found');
+  }
+});
+
+// Get all selected date's Time slot of the hospital offsite that admin works to
+app.post('/admin-get-timeslotoffsite', async (req, res) => {
+  const authToken = req.headers['authorization'];
+  if (authToken && authToken.startsWith('Bearer ')) {
+    const token = authToken.substring(7, authToken.length);
+    const isValid = validateAuth(token);
+    if (isValid) {
+      try {
+        const decoded = jwt.verify(token, 'mysecret');
+        const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
+
+        if (admin.length > 0) {
+          const HospitalID = admin[0].HospitalID;
+          const HospitalDate = req.body.selectedDate;
+          const results = await queryAsync('SELECT offSlotID, amount, start_time, end_time FROM `timeslotoffsite` WHERE `OffSiteDate` = ? AND `HospitalID` = ?', [HospitalDate, HospitalID]);
+
+          if (results.length > 0) {
+            const time_slot = [];
+
+            for (const date of results) {
+              const amount = [];
+              const Start_time = [];
+              const End_time = [];
+              const hosSlotID = [];
+
+              amount.push(date.amount);
+              Start_time.push(date.start_time);
+              End_time.push(date.end_time);
+              hosSlotID.push(date.hosSlotID);
+
+              time_slot.push({ hosSlotID, amount, Start_time, End_time });
+            }
+            console.log(time_slot);
+            res.status(200).send({ message: "Get All Time Slot", time_slot });
+          } else {
+            res.status(500).send("There are no Time Slot");
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    } else {
+      res.status(500).send('Token is not valid');
+    }
+  } else {
+    res.status(500).send('Token is not found');
+  }
+});
+
+// Update the selected date's Time slot of the hospital offsite that admin works to
+app.post('/admin-update-timeslotoffsite', async (req, res) => {
+  const authToken = req.headers['authorization'];
+  if (authToken && authToken.startsWith('Bearer ')) {
+    const token = authToken.substring(7, authToken.length);
+    const isValid = validateAuth(token);
+    if (isValid) {
+      try {
+        const decoded = jwt.verify(token, 'mysecret');
+        const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
+        const HospitalDate = req.body.selectedDate;
+        const HospitalID = admin[0].HospitalID;
+      
+        if (admin.length > 0) {
+
+          const hosSlotID = req.body.hosSlotID;
+          const Amount = req.body.newAmount;
+
+          // Update the existing time slot in the database
+          await queryAsync('UPDATE `timeslotoffsite` SET amount = ? WHERE HospitalID = ? AND OffSiteDate = ? AND offSlotID = ?', [Amount, HospitalID, HospitalDate, hosSlotID]);
 
           res.status(200).send({ message: "Time Slot updated successfully" });
         } else {
@@ -1426,8 +1543,8 @@ app.get('/super-admin-get-users-appointment-only-waiting/:id', async (req, res) 
   }
 });
 
-// Get all selected date's Time slot of the hospital that super admin works to
-app.post('/super-admin-get-timeslot', async (req, res) => {
+// Get all selected date's Time slot of the hospital that admin works to
+app.post('/super-admin-get-timeslothospital', async (req, res) => {
   const authToken = req.headers['authorization'];
   if (authToken && authToken.startsWith('Bearer ')) {
     const token = authToken.substring(7, authToken.length);
@@ -1476,8 +1593,8 @@ app.post('/super-admin-get-timeslot', async (req, res) => {
   }
 });
 
-// Update the selected date's Time slot of the hospital that super admin works to
-app.post('/super-admin-update-timeslot', async (req, res) => {
+// Update the selected date's Time slot of the hospital that admin works to
+app.post('/super-admin-update-timeslothospital', async (req, res) => {
   const authToken = req.headers['authorization'];
   if (authToken && authToken.startsWith('Bearer ')) {
     const token = authToken.substring(7, authToken.length);
@@ -1496,6 +1613,93 @@ app.post('/super-admin-update-timeslot', async (req, res) => {
 
           // Update the existing time slot in the database
           await queryAsync('UPDATE `timeslothospital` SET amount = ? WHERE HospitalID = ? AND HospitalDate = ? AND hosSlotID = ?', [Amount, HospitalID, HospitalDate, hosSlotID]);
+
+          res.status(200).send({ message: "Time Slot updated successfully" });
+        } else {
+          res.status(500).send("Admin not found");
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    } else {
+      res.status(500).send('Token is not valid');
+    }
+  } else {
+    res.status(500).send('Token is not found');
+  }
+});
+
+// Get all selected date's Time slot of the hospital offsite that admin works to
+app.post('/super-admin-get-timeslotoffsite', async (req, res) => {
+  const authToken = req.headers['authorization'];
+  if (authToken && authToken.startsWith('Bearer ')) {
+    const token = authToken.substring(7, authToken.length);
+    const isValid = validateSuperAuth(token);
+    if (isValid) {
+      try {
+        const decoded = jwt.verify(token, 'mysecret');
+        const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
+
+        if (admin.length > 0) {
+          const HospitalID = admin[0].HospitalID;
+          const HospitalDate = req.body.selectedDate;
+          const results = await queryAsync('SELECT offSlotID, amount, start_time, end_time FROM `timeslotoffsite` WHERE `OffSiteDate` = ? AND `HospitalID` = ?', [HospitalDate, HospitalID]);
+
+          if (results.length > 0) {
+            const time_slot = [];
+
+            for (const date of results) {
+              const amount = [];
+              const Start_time = [];
+              const End_time = [];
+              const hosSlotID = [];
+
+              amount.push(date.amount);
+              Start_time.push(date.start_time);
+              End_time.push(date.end_time);
+              hosSlotID.push(date.hosSlotID);
+
+              time_slot.push({ hosSlotID, amount, Start_time, End_time });
+            }
+            console.log(time_slot);
+            res.status(200).send({ message: "Get All Time Slot", time_slot });
+          } else {
+            res.status(500).send("There are no Time Slot");
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    } else {
+      res.status(500).send('Token is not valid');
+    }
+  } else {
+    res.status(500).send('Token is not found');
+  }
+});
+
+// Update the selected date's Time slot of the hospital offsite that admin works to
+app.post('/super-admin-update-timeslotoffsite', async (req, res) => {
+  const authToken = req.headers['authorization'];
+  if (authToken && authToken.startsWith('Bearer ')) {
+    const token = authToken.substring(7, authToken.length);
+    const isValid = validateSuperAuth(token);
+    if (isValid) {
+      try {
+        const decoded = jwt.verify(token, 'mysecret');
+        const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
+        const HospitalDate = req.body.selectedDate;
+        const HospitalID = admin[0].HospitalID;
+      
+        if (admin.length > 0) {
+
+          const hosSlotID = req.body.hosSlotID;
+          const Amount = req.body.newAmount;
+
+          // Update the existing time slot in the database
+          await queryAsync('UPDATE `timeslotoffsite` SET amount = ? WHERE HospitalID = ? AND OffSiteDate = ? AND offSlotID = ?', [Amount, HospitalID, HospitalDate, hosSlotID]);
 
           res.status(200).send({ message: "Time Slot updated successfully" });
         } else {
