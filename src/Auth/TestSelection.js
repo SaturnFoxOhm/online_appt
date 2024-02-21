@@ -25,8 +25,8 @@ const TestSelection = () => {
                     <div>
                         <a href="#" className="button">Package</a><br/>
                         <a href="#" className="button">Specific Disease</a><br/>
-                        <a href="#" className="button">Lab Test</a><br/>
-                        <a href="#" className="button">Reimbursement with NHSO</a><br/>
+                        <a href="/user/LabTest" className="button">Lab Test</a><br/>
+                        <a href="/user/NHSO" className="button">Reimbursement with NHSO</a><br/>
                     </div>
                 </div>
             </div>
