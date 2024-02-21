@@ -82,8 +82,8 @@ function App() {
       <Route path="/user/testSelection" element={<TestSelection />} 
       /> */}
 
-      <Route path="/user/LabTest" element={<LabTest />} />
-      <Route path="/user/NHSO" element={<NHSO />} />
+      {/* <Route path="/user/LabTest" element={<LabTest />} />
+      <Route path="/user/NHSO" element={<NHSO />} /> */}
 
       {/* Authenticated routes, wrapped with ProtectedRoute */}
       <Route
@@ -133,6 +133,14 @@ function App() {
       <Route
         path="/user/testSelection"
         element={<ProtectedRoute element={<TestSelection />} />}
+      />
+      <Route
+        path="/user/LabTest"
+        element={<ProtectedRoute element={<LabTest />} />}
+      />
+      <Route
+        path="/user/NHSO"
+        element={<ProtectedRoute element={<NHSO />} />}
       />
 
       {/* Admin Section */}
@@ -227,14 +235,6 @@ function App() {
       <Route
         path="/super-admin/timeslotoffsite/:selectedDate"
         element={<ProtectedRouteSuperAdmin element={<UpdateTimeslotOffsiteSuperAdmin />} />}
-      />
-      <Route
-        path="/user/LabTest"
-        element={<ProtectedRoute element={<LabTest />} />}
-      />
-      <Route
-        path="/user/NHSO"
-        element={<ProtectedRoute element={<NHSO />} />}
       />
 
     </Routes>
