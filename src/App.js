@@ -30,6 +30,8 @@ import Hospital from './Auth/SelectHospital';
 import Address from './Auth/InsertAddress';
 import DateTime from './Auth/SelectDateTime';
 import TestSelection from './Auth/TestSelection';
+import LabTest from './Auth/LabTest';
+import NHSO from './Auth/NHSO';
 
 // Admin Hospital //
 import LoginAdmin from './AdminHospital/LoginAdmin';
@@ -77,7 +79,11 @@ function App() {
       <Route path="/user/hospital" element={<Hospital />} />
       <Route path="/user/address" element={<Address />} />
       <Route path="/user/datetime" element={<DateTime />} />
-      <Route path="/user/testSelection" element={<TestSelection />} /> */}
+      <Route path="/user/testSelection" element={<TestSelection />} 
+      /> */}
+
+      <Route path="/user/LabTest" element={<LabTest />} />
+      <Route path="/user/NHSO" element={<NHSO />} />
 
       {/* Authenticated routes, wrapped with ProtectedRoute */}
       <Route
@@ -222,7 +228,14 @@ function App() {
         path="/super-admin/timeslotoffsite/:selectedDate"
         element={<ProtectedRouteSuperAdmin element={<UpdateTimeslotOffsiteSuperAdmin />} />}
       />
-      
+      <Route
+        path="/user/LabTest"
+        element={<ProtectedRoute element={<LabTest />} />}
+      />
+      <Route
+        path="/user/NHSO"
+        element={<ProtectedRoute element={<NHSO />} />}
+      />
 
     </Routes>
   );

@@ -418,6 +418,64 @@ app.post('/fetchTimeSlot', (req, res) => {
   );
 });
 
+app.post('/LabTest-list', (req, res) => {
+  // Maybe use token with GPS
+
+  const authToken = req.headers['authorization']
+  const token = authToken.substring(7, authToken.length);
+  const decoded = jwt.verify(token, 'mysecret');
+  lineuserId = decoded.sub;
+  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+
+  // if (!lineUserId) {
+  //   return res.status(400).send('LineUserID is required');
+  // }
+
+  connection.query(
+    'SELECT TestID, th_name, en_name, price, specimen FROM LabTest WHERE NHSO = 0',
+    (error, results) => {
+      if (error) {
+        console.error('Error fetching Lab Test data:', error);
+        return res.status(500).send('Internal Server Error');
+      }
+
+      if (results.length === 0) {
+        return res.status(404).send('Lab Test not found');
+      }
+      res.json(results);
+    }
+  );
+});
+
+app.post('/LabTest-NHSOlist', (req, res) => {
+  // Maybe use token with GPS
+
+  // const authToken = req.headers['authorization']
+  // const token = authToken.substring(7, authToken.length);
+  // const decoded = jwt.verify(token, 'mysecret');
+  // lineuserId = decoded.sub;
+  lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+
+  // if (!lineUserId) {
+  //   return res.status(400).send('LineUserID is required');
+  // }
+
+  connection.query(
+    'SELECT TestID, th_name, en_name, price, specimen FROM LabTest WHERE NHSO = 1',
+    (error, results) => {
+      if (error) {
+        console.error('Error fetching Lab Test data:', error);
+        return res.status(500).send('Internal Server Error');
+      }
+
+      if (results.length === 0) {
+        return res.status(404).send('Lab Test not found');
+      }
+      res.json(results);
+    }
+  );
+});
+
 
 
 // Admin Service //
