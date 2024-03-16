@@ -6,11 +6,11 @@ import { useLocation } from 'react-router-dom';
 
 const SignUp = (props) => {
     const location = useLocation();
-    const lineUserID = new URLSearchParams(location.search).get('lineUserID');
+    const LineUserID = new URLSearchParams(location.search).get('LineUserID');
     
     useEffect(() => {
-        console.log("Line login user ID: ", lineUserID)
-    }, [lineUserID]);
+        console.log("Line login user ID: ", LineUserID)
+    }, [LineUserID]);
 
     const sr = ScrollReveal({
       distance: '65px',
@@ -23,7 +23,7 @@ const SignUp = (props) => {
         // var ReceivedLineUserID = localStorage.getItem("SendLineUserID");
         event.preventDefault();
 
-        console.log("Line user ID in fc: ", lineUserID);
+        console.log("Line user ID in fc: ", LineUserID);
 
         const data = {
             id: document.getElementById("txtIDcard").value,
@@ -37,7 +37,7 @@ const SignUp = (props) => {
             height: document.getElementById("txtHeight").value,
             allergy: document.getElementById("txtAllergy").value,
             disease: document.getElementById("txtDisease").value,
-            lineUserId: lineUserID
+            LineUserID: LineUserID
         };
 
         fetch('http://localhost:5000/submit-form', {
