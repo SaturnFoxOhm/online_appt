@@ -49,7 +49,7 @@ const Login = () => {
       setStatusMessage(profile.statusMessage);
       setUserId(profile.userId);
   
-      const data = { lineUserId: profile.userId, displayName: profile.displayName };
+      const data = { LineUserID: profile.userId, displayName: profile.displayName };
       var SendLineUserID =  profile.userId;
       localStorage.setItem("SendLineUserID", SendLineUserID);
   

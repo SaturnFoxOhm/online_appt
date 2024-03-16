@@ -71,7 +71,7 @@ app.get('/user-auth', async (req, res) => {
       const isValid = validate(token)
       const decoded = jwt.verify(token, 'mysecret');
       connection.query(
-        'SELECT * FROM `userinfo` WHERE `lineUserId` = ?',
+        'SELECT * FROM `userinfo` WHERE `LineUserID` = ?',
         [decoded.sub],
         (error, results) => {
           if (error) {
@@ -94,10 +94,10 @@ app.get('/user-auth', async (req, res) => {
 });
 
 app.post('/submit-form', function (req, res, next) {
-  const { id, email, fname, lname, phone, BD, sex, weight, height, allergy, disease, lineUserId } = req.body;
+  const { id, email, fname, lname, phone, BD, sex, weight, height, allergy, disease, LineUserID } = req.body;
 
-  connection.query('INSERT INTO `userinfo` (`InfoID`, `email`, `first_name`, `last_name`, `birthday`, `sex`, `phone`, `weight`, `height`, `allergic`, `congenital_disease`, `lineUserId`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-  [id, email, fname, lname, BD, sex, phone, weight, height, allergy, disease, lineUserId], (error, results) => {
+  connection.query('INSERT INTO `userinfo` (`InfoID`, `email`, `first_name`, `last_name`, `birthday`, `sex`, `phone`, `weight`, `height`, `allergic`, `congenital_disease`, `LineUserID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+  [id, email, fname, lname, BD, sex, phone, weight, height, allergy, disease, LineUserID], (error, results) => {
     if (error) {
       console.error('Error executing query:', error);
       res.status(500).send('Internal Server Error');
@@ -105,7 +105,7 @@ app.post('/submit-form', function (req, res, next) {
     else {
         console.log('Form data inserted successfully');
         const payload = {
-          sub: lineUserId,
+          sub: LineUserID,
         };
         const token = jwt.sign(payload, secret, {expiresIn: '24h'})
         res.status(200).send({ message:'Form data inserted successfully', token });
@@ -114,13 +114,13 @@ app.post('/submit-form', function (req, res, next) {
 });
 
 app.post('/store-line-login-data', async function (req, res, next) {
-  const { lineUserId, displayName } = req.body;
+  const { LineUserID, displayName } = req.body;
   console.log(req.body);
-  console.log('Received Line Login data:', { lineUserId, displayName });
+  console.log('Received Line Login data:', { LineUserID, displayName });
 
   connection.query(
-    'SELECT * FROM `lineaccount` WHERE `lineUserId` = ?',
-    [lineUserId],
+    'SELECT * FROM `lineaccount` WHERE `LineUserID` = ?',
+    [LineUserID],
     (error, results) => {
       if (error) {
         console.error('Error checking existing data:', error);
@@ -132,7 +132,7 @@ app.post('/store-line-login-data', async function (req, res, next) {
           console.log('User already exists in the database');
           // User token //
           const payload = {
-            sub: lineUserId,
+            sub: LineUserID,
           };
           const token = jwt.sign(payload, secret, {expiresIn: '24h'})
 
@@ -143,8 +143,8 @@ app.post('/store-line-login-data', async function (req, res, next) {
         } else {
           // User doesn't exist, insert into the database
           connection.query(
-            'INSERT INTO `lineaccount` (`lineUserId`, `displayName`) VALUES (?, ?)',
-            [lineUserId, displayName],
+            'INSERT INTO `lineaccount` (`LineUserID`, `displayName`) VALUES (?, ?)',
+            [LineUserID, displayName],
             (insertError, insertResults) => {
               if (insertError) {
                 console.error('Error updating Line Login data:', insertError);
@@ -166,16 +166,16 @@ app.post('/user-profile', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   connection.query(
-    'SELECT InfoID, email, first_name, last_name, DATE_FORMAT(birthday, "%Y-%m-%d") AS birthday, sex, phone, weight, height, allergic, congenital_disease FROM `userinfo` WHERE `lineUserId` = ? and `relateTo` is null',
-    [lineUserId],
+    'SELECT InfoID, email, first_name, last_name, DATE_FORMAT(birthday, "%Y-%m-%d") AS birthday, sex, phone, weight, height, allergic, congenital_disease FROM `userinfo` WHERE `LineUserID` = ? and `relateTo` is null',
+    [LineUserID],
     (error, results) => {
       if (error) {
         console.error('Error fetching user profile data:', error);
@@ -199,12 +199,12 @@ app.put('/update-profile', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
   connection.query(
-    'UPDATE `userinfo` SET `email` = ?, `first_name` = ?, `last_name` = ?, `birthday` = ?, `sex` = ?, `phone` = ?, `weight` = ?, `height` = ?, `allergic` = ?, `congenital_disease` = ? WHERE `InfoID` = ? AND `lineUserId` = ?',
-    [email, first_name, last_name, birthdate, gender, phone_number, weight, height, allergic, congenital_disease, id_number, lineUserId],
+    'UPDATE `userinfo` SET `email` = ?, `first_name` = ?, `last_name` = ?, `birthday` = ?, `sex` = ?, `phone` = ?, `weight` = ?, `height` = ?, `allergic` = ?, `congenital_disease` = ? WHERE `InfoID` = ? AND `LineUserID` = ?',
+    [email, first_name, last_name, birthdate, gender, phone_number, weight, height, allergic, congenital_disease, id_number, LineUserID],
     (error, results) => {
       if (error) {
         console.error('Error executing update query:', error);
@@ -226,19 +226,19 @@ app.post('/user-appointment', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
   const fetchAllAppointment = `
     SELECT AppointmentID, first_name, last_name, hos_name, DATE_FORMAT(HospitalDate, "%d/%m/%Y") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%d/%m/%Y") AS OffSiteDate, LabStatus
     FROM Appointment a INNER JOIN userinfo u ON a.InfoID = u.InfoID INNER JOIN hospital h ON a.HospitalID = h.HospitalID
-    WHERE a.lineUserId = ?;
+    WHERE a.LineUserID = ?;
   `;
   connection.query(
     fetchAllAppointment,
-    [lineUserId],
+    [LineUserID],
     (error, results) => {
       if (error) {
         console.error('Error fetching user appointment data:', error);
@@ -256,16 +256,16 @@ app.post('/user-appointment-details', async (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
   const fetchAppointmentbyID = `
     SELECT a.InfoID, CONCAT(first_name, " ", last_name) AS Name, a.HospitalID, hos_name, DATE_FORMAT(a.HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(a.OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID, OrderID, LabStatus
     FROM Appointment a INNER JOIN userinfo u ON a.InfoID = u.InfoID
     INNER JOIN Hospital h ON a.HospitalID = h.HospitalID
-    WHERE a.lineUserId = ? AND AppointmentID = ?;
+    WHERE a.LineUserID = ? AND AppointmentID = ?;
   `;
   const fetchTimeSlotHospital = `
     SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
@@ -280,26 +280,26 @@ app.post('/user-appointment-details', async (req, res) => {
   const fetchAddress = `
     SELECT ad_line1, ad_line2, province, city, zipcode
     FROM UserAddress UA INNER JOIN UserInfo UI ON UA.AddressID = UI.AddressID
-    WHERE InfoID = ? AND lineUserId = ?;
+    WHERE InfoID = ? AND LineUserID = ?;
   `;
   const fetchOrdersPackage = `
     SELECT th_package_name, en_package_name
     FROM OrdersDetails od INNER JOIN Package P ON od.PackageID = P.PackageID
-    WHERE lineUserId = ? and OrderID = ?;
+    WHERE LineUserID = ? and OrderID = ?;
   `;
   const fetchOrdersDisease = `
     SELECT th_name, en_name
     FROM OrdersDetails od INNER JOIN Disease d ON od.DiseaseID = d.DiseaseID
-    WHERE lineUserId = ? and OrderID = ?;
+    WHERE LineUserID = ? and OrderID = ?;
   `;
   const fetchOrdersLabTest = `
     SELECT th_name, en_name
     FROM OrdersDetails od INNER JOIN LabTest T ON od.TestID = T.TestID
-    WHERE lineUserId = ? and OrderID = ?;
+    WHERE LineUserID = ? and OrderID = ?;
   `;
   try {
     const AppointInfo = await new Promise((resolve, reject) => {
-      connection.query(fetchAppointmentbyID, [lineUserId, AppointmentID], (error, results) => {
+      connection.query(fetchAppointmentbyID, [LineUserID, AppointmentID], (error, results) => {
         if (error) {
           console.error('Error getting Appoint Info:', error);
           reject(error);
@@ -320,12 +320,12 @@ app.post('/user-appointment-details', async (req, res) => {
     }
     else if (AppointInfo[0].OffSiteDate && AppointInfo[0].offSlotID) {
       timeSlot = await query(fetchTimeSlotOffSite, [AppointInfo[0].HospitalID, AppointInfo[0].OffSiteDate, AppointInfo[0].offSlotID]);
-      Address = await query(fetchAddress, [AppointInfo[0].InfoID, lineUserId]);
+      Address = await query(fetchAddress, [AppointInfo[0].InfoID, LineUserID]);
     }
     const [PackageOrders, DiseaseOrders, LabTestOrders] = await Promise.all([
-      query(fetchOrdersPackage, [lineUserId, AppointInfo[0].OrderID]),
-      query(fetchOrdersDisease, [lineUserId, AppointInfo[0].OrderID]),
-      query(fetchOrdersLabTest, [lineUserId, AppointInfo[0].OrderID])
+      query(fetchOrdersPackage, [LineUserID, AppointInfo[0].OrderID]),
+      query(fetchOrdersDisease, [LineUserID, AppointInfo[0].OrderID]),
+      query(fetchOrdersLabTest, [LineUserID, AppointInfo[0].OrderID])
     ]);
     if (Address) {
       res.status(200).json({ AppointInfo, timeSlot, Address, PackageOrders, DiseaseOrders, LabTestOrders });
@@ -345,10 +345,10 @@ app.post('/time-options', async (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
   const fetchAvailableDateHospital = `
     SELECT hosSlotID, CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
@@ -375,15 +375,15 @@ app.post('/update-appointment-changes', async (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
   const fetchAppointmentbyID = `
     SELECT DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID
     FROM Appointment
-    WHERE lineUserId = ? AND AppointmentID = ?;
+    WHERE LineUserID = ? AND AppointmentID = ?;
   `;
   const increaseHospitalSlot = `
     UPDATE timeslothospital
@@ -408,16 +408,16 @@ app.post('/update-appointment-changes', async (req, res) => {
   const editAppointmentDetailsHospital = `
     UPDATE Appointment
     SET HospitalDate = ?, hosSlotID = ?
-    WHERE Appointment.lineUserId = ? AND Appointment.AppointmentID = ?;
+    WHERE Appointment.LineUserID = ? AND Appointment.AppointmentID = ?;
   `;
   const editAppointmentDetailsOffSite = `
     UPDATE Appointment
     SET OffSiteDate = ?, offSlotID = ?
-    WHERE Appointment.lineUserId = ? AND Appointment.AppointmentID = ?;
+    WHERE Appointment.LineUserID = ? AND Appointment.AppointmentID = ?;
   `;
   const AppointInfo = await new Promise((resolve, reject) => {
     connection.query(fetchAppointmentbyID,
-    [lineUserId, AppointmentID], (error, results) => {
+    [LineUserID, AppointmentID], (error, results) => {
       if (error) {
         console.error('Error getting Appoint Info:', error);
         reject(error);
@@ -428,14 +428,14 @@ app.post('/update-appointment-changes', async (req, res) => {
   });
   if (place === "Hospital") {
     await Promise.all([
-      query(editAppointmentDetailsHospital, [editedDate, editedSlot, lineUserId, AppointmentID]),
+      query(editAppointmentDetailsHospital, [editedDate, editedSlot, LineUserID, AppointmentID]),
       query(decreaseHospitalSlot, [Hos_id, editedDate, editedSlot]),
       query(increaseHospitalSlot, [Hos_id, AppointInfo[0].HospitalDate, AppointInfo[0].hosSlotID])
     ]);
   }
   else if (place === "OffSite") {
     await Promise.all([
-      query(editAppointmentDetailsOffSite, [editedDate, editedSlot, lineUserId, AppointmentID, Hos_id]),
+      query(editAppointmentDetailsOffSite, [editedDate, editedSlot, LineUserID, AppointmentID, Hos_id]),
       query(decreaseOffSiteSlot, [Hos_id, editedDate, editedSlot]),
       query(increaseOffSiteSlot, [Hos_id, AppointInfo[0].OffSiteDate, AppointInfo[0].offSlotID])
     ]);
@@ -449,15 +449,15 @@ app.post('/add-user-profile', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
   connection.query(
-    'SELECT `InfoID` FROM `userinfo` WHERE `lineUserId` = ? and `relateTo` is null',
-    [lineUserId],
+    'SELECT `InfoID` FROM `userinfo` WHERE `LineUserID` = ? and `relateTo` is null',
+    [LineUserID],
     (error, results) => {
       if (error) {
         console.error('Error fetching user profile data:', error);
@@ -477,8 +477,8 @@ app.post('/add-user-profile', (req, res) => {
             }
             else{
               connection.query(
-                'INSERT INTO `userinfo` (`InfoID`, `email`, `first_name`, `last_name`, `birthday`, `sex`, `phone`, `weight`, `height`, `allergic`, `congenital_disease`,`relateTo`, `lineUserId`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                [id, email, fname, lname, BD, sex, phone, weight, height, allergy, disease, results[0].InfoID, lineUserId],
+                'INSERT INTO `userinfo` (`InfoID`, `email`, `first_name`, `last_name`, `birthday`, `sex`, `phone`, `weight`, `height`, `allergic`, `congenital_disease`,`relateTo`, `LineUserID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                [id, email, fname, lname, BD, sex, phone, weight, height, allergy, disease, results[0].InfoID, LineUserID],
                 (error, results) => {
                   if (error) {
                     console.error('Error fetching user profile data:', error);
@@ -503,11 +503,11 @@ app.post('/insert-address',(req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   const updateAddress = `
@@ -553,8 +553,8 @@ app.post('/insert-address',(req, res) => {
                 );
         
                 connection.query(
-                  'SELECT `InfoID` FROM `userinfo` WHERE `lineUserId` = ? and `relateTo` is null',
-                  [lineUserId],
+                  'SELECT `InfoID` FROM `userinfo` WHERE `LineUserID` = ? and `relateTo` is null',
+                  [LineUserID],
                   (error, results) => {
                     console.log( results[0])
                     if (error) {
@@ -623,11 +623,11 @@ app.post('/hospital-list', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   connection.query(
@@ -674,11 +674,11 @@ app.post('/fetchTimeSlot', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   connection.query(
@@ -705,11 +705,11 @@ app.post('/LabTest-list', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   connection.query(
@@ -734,11 +734,11 @@ app.post('/LabTest-NHSOlist', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   connection.query(
@@ -763,26 +763,26 @@ app.post('/add-labTest', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   const checkDuplicateQuery = `
-    SELECT 1 FROM Cart WHERE TestID = ? AND lineUserId = ?
+    SELECT 1 FROM Cart WHERE TestID = ? AND LineUserID = ?
   `;
 
   const sqlQuery = `
-    INSERT INTO Cart (lineUserId, Numbers, TestID)
+    INSERT INTO Cart (LineUserID, Numbers, TestID)
     SELECT ?, ?, ?
     WHERE NOT EXISTS (
-      SELECT 1 FROM Cart WHERE TestID = ? AND lineUserId = ?
+      SELECT 1 FROM Cart WHERE TestID = ? AND LineUserID = ?
     );
   `;
 
-  connection.query(checkDuplicateQuery, [TestID, lineUserId], 
+  connection.query(checkDuplicateQuery, [TestID, LineUserID], 
     (error, results) => {
       if (error) {
         console.error('Error checking duplicate test:', error);
@@ -795,8 +795,8 @@ app.post('/add-labTest', (req, res) => {
       }
 
       connection.query(
-        'SELECT MAX(`Numbers`) FROM `cart` WHERE `lineUserId` = ?',
-        [lineUserId],
+        'SELECT MAX(`Numbers`) FROM `cart` WHERE `LineUserID` = ?',
+        [LineUserID],
         (error, results) => {
           if (error) {
             console.error('Error check max:', error);
@@ -811,7 +811,7 @@ app.post('/add-labTest', (req, res) => {
             }
             var currentNumbers = maxNumbers + 1;
             connection.query(
-              sqlQuery,[lineUserId, currentNumbers, TestID, TestID, lineUserId],
+              sqlQuery,[LineUserID, currentNumbers, TestID, TestID, LineUserID],
               (error, results) => {
                 if (error) {
                   console.error('Error insert selected Lab test:', error);
@@ -832,11 +832,11 @@ app.post('/Disease-list', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   connection.query(
@@ -861,11 +861,11 @@ app.post('/Disease-details', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   const sqlQuery = `
@@ -897,26 +897,26 @@ app.post('/add-disease', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   const checkDuplicateQuery = `
-    SELECT 1 FROM Cart WHERE DiseaseID = ? AND lineUserId = ?
+    SELECT 1 FROM Cart WHERE DiseaseID = ? AND LineUserID = ?
   `;
 
   const sqlQuery = `
-    INSERT INTO Cart (lineUserId, Numbers, DiseaseID)
+    INSERT INTO Cart (LineUserID, Numbers, DiseaseID)
     SELECT ?, ?, ?
     WHERE NOT EXISTS (
-      SELECT 1 FROM Cart WHERE DiseaseID = ? AND lineUserId = ?
+      SELECT 1 FROM Cart WHERE DiseaseID = ? AND LineUserID = ?
     );
   `;
 
-  connection.query(checkDuplicateQuery, [DiseaseID, lineUserId], 
+  connection.query(checkDuplicateQuery, [DiseaseID, LineUserID], 
     (error, results) => {
       if (error) {
         console.error('Error checking duplicate test:', error);
@@ -929,8 +929,8 @@ app.post('/add-disease', (req, res) => {
       }
 
       connection.query(
-        'SELECT MAX(`Numbers`) FROM `cart` WHERE `lineUserId` = ?',
-        [lineUserId],
+        'SELECT MAX(`Numbers`) FROM `cart` WHERE `LineUserID` = ?',
+        [LineUserID],
         (error, results) => {
           if (error) {
             console.error('Error check max:', error);
@@ -945,7 +945,7 @@ app.post('/add-disease', (req, res) => {
             }
             var currentNumbers = maxNumbers + 1;
             connection.query(
-              sqlQuery,[lineUserId, currentNumbers, DiseaseID, DiseaseID, lineUserId],
+              sqlQuery,[LineUserID, currentNumbers, DiseaseID, DiseaseID, LineUserID],
               (error, results) => {
                 if (error) {
                   console.error('Error insert selected disease:', error);
@@ -966,11 +966,11 @@ app.post('/Package-list', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   connection.query(
@@ -995,11 +995,11 @@ app.post('/Package-details', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   const sqlQuery = `
@@ -1031,26 +1031,26 @@ app.post('/add-package', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   const checkDuplicateQuery = `
-    SELECT 1 FROM Cart WHERE PackageID = ? AND lineUserId = ?
+    SELECT 1 FROM Cart WHERE PackageID = ? AND LineUserID = ?
   `;
 
   const sqlQuery = `
-    INSERT INTO Cart (lineUserId, Numbers, PackageID)
+    INSERT INTO Cart (LineUserID, Numbers, PackageID)
     SELECT ?, ?, ?
     WHERE NOT EXISTS (
-      SELECT 1 FROM Cart WHERE PackageID = ? AND lineUserId = ?
+      SELECT 1 FROM Cart WHERE PackageID = ? AND LineUserID = ?
     );
   `;
 
-  connection.query(checkDuplicateQuery, [PackageID, lineUserId], 
+  connection.query(checkDuplicateQuery, [PackageID, LineUserID], 
     (error, results) => {
       if (error) {
         console.error('Error checking duplicate test:', error);
@@ -1063,8 +1063,8 @@ app.post('/add-package', (req, res) => {
       }
 
       connection.query(
-        'SELECT MAX(`Numbers`) FROM `cart` WHERE `lineUserId` = ?',
-        [lineUserId],
+        'SELECT MAX(`Numbers`) FROM `cart` WHERE `LineUserID` = ?',
+        [LineUserID],
         (error, results) => {
           if (error) {
             console.error('Error check max:', error);
@@ -1079,7 +1079,7 @@ app.post('/add-package', (req, res) => {
             }
             var currentNumbers = maxNumbers + 1;
             connection.query(
-              sqlQuery,[lineUserId, currentNumbers, PackageID, PackageID, lineUserId],
+              sqlQuery,[LineUserID, currentNumbers, PackageID, PackageID, LineUserID],
               (error, results) => {
                 if (error) {
                   console.error('Error insert selected package:', error);
@@ -1102,35 +1102,35 @@ app.post('/CartList', async (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   const packageQuery = `
     SELECT c.PackageID, th_package_name, en_package_name, price
     FROM Cart c INNER JOIN Package p on c.PackageID = p.PackageID
-    WHERE lineUserId = ?
+    WHERE LineUserID = ?
   `;
   const diseaseQuery = `
     SELECT c.DiseaseID, th_name, en_name, price
     FROM Cart c INNER JOIN Disease d on c.DiseaseID = d.DiseaseID
-    WHERE lineUserId = ?
+    WHERE LineUserID = ?
   `;
   const labTestQuery = `
     SELECT c.TestID, th_name, en_name, price, specimen, NHSO, main5Test
     FROM Cart c INNER JOIN LabTest l on c.TestID = l.TestID
-    WHERE lineUserId = ?
+    WHERE LineUserID = ?
   `;
 
   try {
     // Execute multiple queries concurrently
     const [packageCart, diseaseCart, labTestCart] = await Promise.all([
-      query(packageQuery, [lineUserId]),
-      query(diseaseQuery, [lineUserId]),
-      query(labTestQuery, [lineUserId])
+      query(packageQuery, [LineUserID]),
+      query(diseaseQuery, [LineUserID]),
+      query(labTestQuery, [LineUserID])
     ]);
 
     res.json({ packageCart, diseaseCart, labTestCart });
@@ -1144,11 +1144,11 @@ app.post('/del-CartList', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
   
   const { itemType, itemID } = req.body;
@@ -1176,12 +1176,12 @@ app.post('/del-CartList', (req, res) => {
       
       const delCartQuery = `
         DELETE FROM Cart
-        WHERE lineUserId = ? AND ${columnName} = ?;
+        WHERE LineUserID = ? AND ${columnName} = ?;
       `;
 
       connection.query(
         delCartQuery,
-        [lineUserId, itemID],
+        [LineUserID, itemID],
         (error, results) => {
             if (error) {
                 console.error('Error deleting item from Cart:', error);
@@ -1204,26 +1204,26 @@ app.post('/Orders', (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   const insertOrder = `
-    INSERT INTO Orders (lineUserId, OrderID, order_status)
+    INSERT INTO Orders (LineUserID, OrderID, order_status)
     VALUES (?, ?, "Waiting");
   `;
 
   const insertOrderDetails = `
-    INSERT INTO OrdersDetails (lineUserId, OrderID, o_number, PackageID, DiseaseID, TestID, specimen)
+    INSERT INTO OrdersDetails (LineUserID, OrderID, o_number, PackageID, DiseaseID, TestID, specimen)
     VALUES (?, ?, ?, ?, ?, ?, ?);
   `;
 
   connection.query(
-    'SELECT MAX(`OrderID`) FROM `Orders` WHERE `lineUserId` = ?',
-    [lineUserId],
+    'SELECT MAX(`OrderID`) FROM `Orders` WHERE `LineUserID` = ?',
+    [LineUserID],
     (error, results) => {
       if (error) {
         console.error('Error check max:', error);
@@ -1238,7 +1238,7 @@ app.post('/Orders', (req, res) => {
         }
         var currentOrderID = maxOrderID + 1;
         connection.query(
-          insertOrder,[lineUserId, currentOrderID],
+          insertOrder,[LineUserID, currentOrderID],
           (error, results) => {
             if (error) {
               console.error('Error insert into orders:', error);
@@ -1264,7 +1264,7 @@ app.post('/Orders', (req, res) => {
               }
   
               connection.query(
-                insertOrderDetails, [lineUserId, currentOrderID, currentOrderNum, PackageID, DiseaseID, TestID, specimen],
+                insertOrderDetails, [LineUserID, currentOrderID, currentOrderNum, PackageID, DiseaseID, TestID, specimen],
                 (error, results) => {
                   if (error) {
                     console.error('Error inserting into OrdersDetails:', error);
@@ -1288,17 +1288,17 @@ app.post('/appointment-info', async (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   const fetchUserInfo = `
     SELECT InfoID, email, first_name, last_name, birthday, sex, phone, weight, height, allergic, congenital_disease
     FROM UserInfo
-    WHERE InfoID = ? AND lineUserId = ?;
+    WHERE InfoID = ? AND LineUserID = ?;
   `;
 
   const fetchHospital = `
@@ -1310,7 +1310,7 @@ app.post('/appointment-info', async (req, res) => {
   const fetchAddress = `
     SELECT ad_line1, ad_line2, province, city, zipcode
     FROM UserAddress Ad INNER JOIN UserInfo U ON Ad.AddressID = U.AddressID
-    WHERE InfoID = ? AND lineUserId = ?;
+    WHERE InfoID = ? AND LineUserID = ?;
   `;
 
   const fetchDateTimeHospital = `
@@ -1329,25 +1329,25 @@ app.post('/appointment-info', async (req, res) => {
   const fetchOrdersPackage = `
     SELECT th_package_name, en_package_name, specimen
     FROM OrdersDetails od INNER JOIN Package P ON od.PackageID = P.PackageID
-    WHERE lineUserId = ? and OrderID = ?;
+    WHERE LineUserID = ? and OrderID = ?;
   `;
 
   const fetchOrdersDisease = `
     SELECT th_name, en_name, specimen
     FROM OrdersDetails od INNER JOIN Disease d ON od.DiseaseID = d.DiseaseID
-    WHERE lineUserId = ? and OrderID = ?;
+    WHERE LineUserID = ? and OrderID = ?;
   `;
 
   const fetchOrdersLabTest = `
     SELECT th_name, en_name, od.specimen
     FROM OrdersDetails od INNER JOIN LabTest T ON od.TestID = T.TestID
-    WHERE lineUserId = ? and OrderID = ?;
+    WHERE LineUserID = ? and OrderID = ?;
   `;
 
   try {
     // Execute multiple queries concurrently
     const [userInfo, hospital] = await Promise.all([
-      query(fetchUserInfo, [InfoID, lineUserId]),
+      query(fetchUserInfo, [InfoID, LineUserID]),
       query(fetchHospital, [selectedHospital])
     ]);
 
@@ -1357,11 +1357,11 @@ app.post('/appointment-info', async (req, res) => {
     }
     else if (selectedPlace === "offsite") {
       DateTime = await query(fetchDateTimeOffSite, [selectedHospital, selectedDate, selectedSlot]);
-      Address = await query(fetchAddress, [InfoID, lineUserId]);
+      Address = await query(fetchAddress, [InfoID, LineUserID]);
     }
 
     const CurrentOrderID = await new Promise((resolve, reject) => {
-      connection.query("SELECT MAX(OrderID) FROM `Orders` WHERE `lineUserId` = ?", [lineUserId], (error, results) => {
+      connection.query("SELECT MAX(OrderID) FROM `Orders` WHERE `LineUserID` = ?", [LineUserID], (error, results) => {
         if (error) {
           console.error('Error getting max OrderID:', error);
           reject(error);
@@ -1372,9 +1372,9 @@ app.post('/appointment-info', async (req, res) => {
     });
 
     const [PackageOrders, DiseaseOrders, LabTestOrders] = await Promise.all([
-      query(fetchOrdersPackage, [lineUserId, CurrentOrderID]),
-      query(fetchOrdersDisease, [lineUserId, CurrentOrderID]),
-      query(fetchOrdersLabTest, [lineUserId, CurrentOrderID])
+      query(fetchOrdersPackage, [LineUserID, CurrentOrderID]),
+      query(fetchOrdersDisease, [LineUserID, CurrentOrderID]),
+      query(fetchOrdersLabTest, [LineUserID, CurrentOrderID])
     ]);
 
     res.json({ userInfo, hospital, Address, DateTime, PackageOrders, DiseaseOrders, LabTestOrders });
@@ -1390,39 +1390,39 @@ app.post('/confirm-appointment', async (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   const InsertAppointmentHospital = `
-    INSERT INTO Appointment (lineUserId, AppointmentID, InfoID, HospitalID, HospitalDate, hosSlotID, OrderID, LabStatus, book_datetime)
+    INSERT INTO Appointment (LineUserID, AppointmentID, InfoID, HospitalID, HospitalDate, hosSlotID, OrderID, LabStatus, book_datetime)
     VALUE (?, ?, ?, ?, ?, ?, ?, "Waiting", NOW());
   `;
 
   const InsertAppointmentOffSite = `
-    INSERT INTO Appointment (lineUserId, AppointmentID, InfoID, HospitalID, AddressID, OffSiteDate, offSlotID, OrderID, LabStatus, book_datetime)
+    INSERT INTO Appointment (LineUserID, AppointmentID, InfoID, HospitalID, AddressID, OffSiteDate, offSlotID, OrderID, LabStatus, book_datetime)
     VALUE (?, ?, ?, ?, ?, ?, ?, ?, "Waiting", NOW());
   `;
 
   const fetchAddress = `
     SELECT AddressID
     FROM UserInfo
-    WHERE InfoID = ? AND lineUserId = ?;
+    WHERE InfoID = ? AND LineUserID = ?;
   `;
 
   const UpdateOrder = `
     Update Orders
     SET order_status = "Confirm"
-    WHERE lineUserId = ? AND OrderID = ?;
+    WHERE LineUserID = ? AND OrderID = ?;
   `;
 
   try {
     const CurrentAppointmentID = await new Promise((resolve, reject) => {
-      connection.query("SELECT MAX(AppointmentID) FROM `Appointment` WHERE `lineUserId` = ?", 
-      [lineUserId], 
+      connection.query("SELECT MAX(AppointmentID) FROM `Appointment` WHERE `LineUserID` = ?", 
+      [LineUserID], 
       (error, results) => {
         if (error) {
           console.error('Error getting max AppointmentID', error);
@@ -1439,7 +1439,7 @@ app.post('/confirm-appointment', async (req, res) => {
     });
 
     const CurrentOrderID = await new Promise((resolve, reject) => {
-      connection.query("SELECT MAX(OrderID) FROM `Orders` WHERE `lineUserId` = ?", [lineUserId], (error, results) => {
+      connection.query("SELECT MAX(OrderID) FROM `Orders` WHERE `LineUserID` = ?", [LineUserID], (error, results) => {
         if (error) {
           console.error('Error getting max OrderID:', error);
           reject(error);
@@ -1451,15 +1451,15 @@ app.post('/confirm-appointment', async (req, res) => {
 
     let AddressID;
     if (selectedPlace === "hospital") {
-      await query(InsertAppointmentHospital, [lineUserId, CurrentAppointmentID, InfoID, selectedHospital, selectedDate, selectedSlot, CurrentOrderID]);
+      await query(InsertAppointmentHospital, [LineUserID, CurrentAppointmentID, InfoID, selectedHospital, selectedDate, selectedSlot, CurrentOrderID]);
     }
     else if (selectedPlace === "offsite") {
-      AddressID = await query(fetchAddress, [InfoID, lineUserId]);
-      await query(InsertAppointmentOffSite, [lineUserId, CurrentAppointmentID, InfoID, selectedHospital, AddressID[0].AddressID, selectedDate, selectedSlot, CurrentOrderID]);
+      AddressID = await query(fetchAddress, [InfoID, LineUserID]);
+      await query(InsertAppointmentOffSite, [LineUserID, CurrentAppointmentID, InfoID, selectedHospital, AddressID[0].AddressID, selectedDate, selectedSlot, CurrentOrderID]);
     }
 
     await Promise.all([
-      query(UpdateOrder, [lineUserId, CurrentOrderID]),
+      query(UpdateOrder, [LineUserID, CurrentOrderID]),
     ]);
 
     res.status(200).send('Insert Appointment successfully');
@@ -1478,33 +1478,33 @@ app.post('/Insert-Payment', async (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   const InsertPayment = `
-    INSERT INTO Payment (lineUserId, PaymentID, payment_method, bank_name, payment_amount, payment_status, payment_datetime)
+    INSERT INTO Payment (LineUserID, PaymentID, payment_method, bank_name, payment_amount, payment_status, payment_datetime)
     VALUE (?, ?, "E-Payment", "NU_BANK", ?, "Waiting", ?);
   `;
 
   const UpdatePaymentID = `
     Update Orders
     SET PaymentID = ?
-    WHERE lineUserId = ? AND OrderID = ?;
+    WHERE LineUserID = ? AND OrderID = ?;
   `;
 
   const PaymentDetails = `
     SELECT payment_amount, payment_datetime
     FROM Payment
-    WHERE lineUserId = ? AND PaymentID = ?
+    WHERE LineUserID = ? AND PaymentID = ?
   `;
 
   const CurrentPaymentID = await new Promise((resolve, reject) => {
-    connection.query("SELECT MAX(PaymentID) FROM `Payment` WHERE `lineUserId` = ?", 
-    [lineUserId], 
+    connection.query("SELECT MAX(PaymentID) FROM `Payment` WHERE `LineUserID` = ?", 
+    [LineUserID], 
     (error, results) => {
       if (error) {
         console.error('Error getting max PaymentID:', error);
@@ -1521,7 +1521,7 @@ app.post('/Insert-Payment', async (req, res) => {
   });
 
   const CurrentOrderID = await new Promise((resolve, reject) => {
-    connection.query("SELECT MAX(OrderID) FROM `Orders` WHERE `lineUserId` = ?", [lineUserId], (error, results) => {
+    connection.query("SELECT MAX(OrderID) FROM `Orders` WHERE `LineUserID` = ?", [LineUserID], (error, results) => {
       if (error) {
         console.error('Error getting max OrderID:', error);
         reject(error);
@@ -1532,11 +1532,11 @@ app.post('/Insert-Payment', async (req, res) => {
   });
 
   await Promise.all([
-    query(InsertPayment, [lineUserId, CurrentPaymentID, totalPrice, datetime]),
-    query(UpdatePaymentID, [CurrentPaymentID, lineUserId, CurrentOrderID]),
+    query(InsertPayment, [LineUserID, CurrentPaymentID, totalPrice, datetime]),
+    query(UpdatePaymentID, [CurrentPaymentID, LineUserID, CurrentOrderID]),
   ]);
 
-  const paymentDetails = await query(PaymentDetails, [lineUserId, CurrentPaymentID])
+  const paymentDetails = await query(PaymentDetails, [LineUserID, CurrentPaymentID])
 
   res.json({ paymentDetails });
 });
@@ -1545,17 +1545,17 @@ app.post('/check-payment', async (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   const UpdatePaymentStatus = `
     UPDATE Payment
     SET payment_status = "Success"
-    WHERE lineUserId = ? AND PaymentID = ?;
+    WHERE LineUserID = ? AND PaymentID = ?;
   `;
 
   const DecreaseTimeSlotHospital = `
@@ -1572,24 +1572,24 @@ app.post('/check-payment', async (req, res) => {
 
   const StuckOrderDetails = `
     DELETE FROM OrdersDetails 
-    WHERE lineUserId = ? AND OrderID IN (SELECT OrderID FROM Orders WHERE lineUserId = ? AND OrderID < ? AND order_status = "Waiting");
+    WHERE LineUserID = ? AND OrderID IN (SELECT OrderID FROM Orders WHERE LineUserID = ? AND OrderID < ? AND order_status = "Waiting");
   `;
   
   const StuckOrder = `
-    DELETE FROM Orders WHERE lineUserId = ? AND OrderID < ? AND order_status = "Waiting";
+    DELETE FROM Orders WHERE LineUserID = ? AND OrderID < ? AND order_status = "Waiting";
   `;
 
   const ClearTestinCart = `
     DELETE FROM Cart 
-    WHERE lineUserId = ? AND (
-      PackageID IN (SELECT PackageID FROM OrdersDetails WHERE lineUserId = ? AND OrderID = ?) OR
-      DiseaseID IN (SELECT DiseaseID FROM OrdersDetails WHERE lineUserId = ? AND OrderID = ?) OR
-      TestID IN (SELECT TestID FROM OrdersDetails WHERE lineUserId = ? AND OrderID = ?)
+    WHERE LineUserID = ? AND (
+      PackageID IN (SELECT PackageID FROM OrdersDetails WHERE LineUserID = ? AND OrderID = ?) OR
+      DiseaseID IN (SELECT DiseaseID FROM OrdersDetails WHERE LineUserID = ? AND OrderID = ?) OR
+      TestID IN (SELECT TestID FROM OrdersDetails WHERE LineUserID = ? AND OrderID = ?)
     );
   `;
 
   const StuckAppointment = `
-    DELETE FROM Appointment WHERE lineUserId = ? AND AppointmentID IN (
+    DELETE FROM Appointment WHERE LineUserID = ? AND AppointmentID IN (
       SELECT AppointmentID
       FROM Appointment a INNER JOIN Orders o ON a.OrderID = o.OrderID
       INNER JOIN Payment p ON o.PaymentID = p.PaymentID
@@ -1598,13 +1598,13 @@ app.post('/check-payment', async (req, res) => {
   `;
 
   const CreateReceipt = `
-    INSERT INTO Receipt (lineUserId, ReceiptID, receipt_datetime, InfoID, PaymentID)
+    INSERT INTO Receipt (LineUserID, ReceiptID, receipt_datetime, InfoID, PaymentID)
     VALUE (?, ?, NOW(), ?, ?);
   `;
 
   const CurrentPaymentID = await new Promise((resolve, reject) => {
-    connection.query("SELECT MAX(PaymentID) FROM `Payment` WHERE `lineUserId` = ?", 
-    [lineUserId], 
+    connection.query("SELECT MAX(PaymentID) FROM `Payment` WHERE `LineUserID` = ?", 
+    [LineUserID], 
     (error, results) => {
       if (error) {
         console.error('Error getting max PaymentID:', error);
@@ -1615,7 +1615,7 @@ app.post('/check-payment', async (req, res) => {
     });
   });
 
-  await query(UpdatePaymentStatus, [lineUserId, CurrentPaymentID]);
+  await query(UpdatePaymentStatus, [LineUserID, CurrentPaymentID]);
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -1627,8 +1627,8 @@ app.post('/check-payment', async (req, res) => {
 
   try {
     const CurrentAppointmentID = await new Promise((resolve, reject) => {
-      connection.query("SELECT MAX(AppointmentID) FROM `Appointment` WHERE `lineUserId` = ?", 
-      [lineUserId], 
+      connection.query("SELECT MAX(AppointmentID) FROM `Appointment` WHERE `LineUserID` = ?", 
+      [LineUserID], 
       (error, results) => {
         if (error) {
           console.error('Error getting max AppointmentID', error);
@@ -1641,8 +1641,8 @@ app.post('/check-payment', async (req, res) => {
     });
 
     const AppointInfo = await new Promise((resolve, reject) => {
-      connection.query("SELECT HospitalID, HospitalDate, hosSlotID, OffSiteDate, offSlotID, OrderID FROM `Appointment` WHERE `lineUserId` = ? AND `AppointmentID` = ?", 
-      [lineUserId, CurrentAppointmentID], (error, results) => {
+      connection.query("SELECT HospitalID, HospitalDate, hosSlotID, OffSiteDate, offSlotID, OrderID FROM `Appointment` WHERE `LineUserID` = ? AND `AppointmentID` = ?", 
+      [LineUserID, CurrentAppointmentID], (error, results) => {
         if (error) {
           console.error('Error getting Appoint Info:', error);
           reject(error);
@@ -1664,11 +1664,11 @@ app.post('/check-payment', async (req, res) => {
       await query(DecreaseTimeSlotOffSite, [AppointInfo[0].HospitalID, offSiteDate, AppointInfo[0].offSlotID]);
     }
 
-    await query(StuckAppointment, [lineUserId, CurrentAppointmentID]);
+    await query(StuckAppointment, [LineUserID, CurrentAppointmentID]);
 
     const CurrentOrderID = await new Promise((resolve, reject) => {
-      connection.query("SELECT OrderID FROM `Appointment` WHERE `lineUserId` = ? AND `AppointmentID` = ?", 
-      [lineUserId, CurrentAppointmentID], (error, results) => {
+      connection.query("SELECT OrderID FROM `Appointment` WHERE `LineUserID` = ? AND `AppointmentID` = ?", 
+      [LineUserID, CurrentAppointmentID], (error, results) => {
         if (error) {
           console.error('Error getting Current Order ID:', error);
           reject(error);
@@ -1679,15 +1679,15 @@ app.post('/check-payment', async (req, res) => {
     });
 
     await Promise.all([
-      query(StuckOrderDetails, [lineUserId, lineUserId, CurrentOrderID]),
-      query(StuckOrder, [lineUserId, CurrentOrderID])
+      query(StuckOrderDetails, [LineUserID, LineUserID, CurrentOrderID]),
+      query(StuckOrder, [LineUserID, CurrentOrderID])
     ]);
 
-    await query(ClearTestinCart, [lineUserId, lineUserId, CurrentOrderID, lineUserId, CurrentOrderID, lineUserId, CurrentOrderID]);
+    await query(ClearTestinCart, [LineUserID, LineUserID, CurrentOrderID, LineUserID, CurrentOrderID, LineUserID, CurrentOrderID]);
 
     const CurrentReceiptID = await new Promise((resolve, reject) => {
-      connection.query("SELECT MAX(ReceiptID) FROM `Receipt` WHERE `lineUserId` = ?", 
-      [lineUserId], 
+      connection.query("SELECT MAX(ReceiptID) FROM `Receipt` WHERE `LineUserID` = ?", 
+      [LineUserID], 
       (error, results) => {
         if (error) {
           console.error('Error getting max PaymentID:', error);
@@ -1704,8 +1704,8 @@ app.post('/check-payment', async (req, res) => {
     });
 
     const CurrentInfoID = await new Promise((resolve, reject) => {
-      connection.query("SELECT InfoID FROM `Appointment` WHERE `lineUserId` = ? AND `AppointmentID` = ?", 
-      [lineUserId, CurrentAppointmentID], (error, results) => {
+      connection.query("SELECT InfoID FROM `Appointment` WHERE `LineUserID` = ? AND `AppointmentID` = ?", 
+      [LineUserID, CurrentAppointmentID], (error, results) => {
         if (error) {
           console.error('Error getting Current Order ID:', error);
           reject(error);
@@ -1715,7 +1715,7 @@ app.post('/check-payment', async (req, res) => {
       });
     });
 
-    await query(CreateReceipt, [lineUserId, CurrentReceiptID, CurrentInfoID, CurrentPaymentID]);
+    await query(CreateReceipt, [LineUserID, CurrentReceiptID, CurrentInfoID, CurrentPaymentID]);
 
     res.status(200).send('Appointment Successfully');
 
@@ -1835,17 +1835,17 @@ app.post('/success-appoint', async (req, res) => {
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
-  lineUserId = decoded.sub;
-  // lineUserId = "Uda15171e876e434f23c22eaa70925bc7";
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
 
-  if (!lineUserId) {
-    return res.status(400).send('lineUserId is required');
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
   }
 
   const FetchCurrentAppointment = `
     SELECT HospitalID, HospitalDate, hosSlotID, OffSiteDate, offSlotID
     FROM Appointment
-    WHERE lineUserId = ? AND AppointmentID = ?;
+    WHERE LineUserID = ? AND AppointmentID = ?;
   `;
 
   const fetchHospital = `
@@ -1868,8 +1868,8 @@ app.post('/success-appoint', async (req, res) => {
 
   try {
     const CurrentAppointmentID = await new Promise((resolve, reject) => {
-      connection.query("SELECT MAX(AppointmentID) FROM `Appointment` WHERE `lineUserId` = ?", 
-      [lineUserId], 
+      connection.query("SELECT MAX(AppointmentID) FROM `Appointment` WHERE `LineUserID` = ?", 
+      [LineUserID], 
       (error, results) => {
         if (error) {
           console.error('Error getting max AppointmentID', error);
@@ -1883,7 +1883,7 @@ app.post('/success-appoint', async (req, res) => {
 
     const AppointInfo = await new Promise((resolve, reject) => {
       connection.query(FetchCurrentAppointment, 
-      [lineUserId, CurrentAppointmentID], (error, results) => {
+      [LineUserID, CurrentAppointmentID], (error, results) => {
         if (error) {
           console.error('Error getting Appoint Info:', error);
           reject(error);
