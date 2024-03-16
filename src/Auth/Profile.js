@@ -186,7 +186,7 @@ const Profile = () => {
                     <div class="md:col-span-4">
                       <label for="id_number">ID Number</label>
                         <div
-                          class={`h-10 border mt-1 rounded px-2 w-full flex items-center justify-left`}
+                          class={`h-10 border mt-1 rounded px-2 w-full bg-gray-50 flex items-center justify-left`}
                         >
                           {id_number[0] +
                             "-" +
@@ -491,12 +491,21 @@ const Profile = () => {
                             Edit Profile
                           </button>
                         ) : (
-                          <button
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                            onClick={handleFormSubmit}
-                          >
-                            Save Profile
-                          </button>
+                          <React.Fragment>
+                            <button
+                              class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                              onClick={ChangeEditStatus}
+                            >
+                              Cancel
+                            </button>
+
+                            <button
+                              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                              onClick={handleFormSubmit}
+                            >
+                              Save Profile
+                            </button>
+                          </React.Fragment>
                         )}
                       </div>
                     </div>
