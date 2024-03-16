@@ -69,11 +69,25 @@ app.get('/user-auth', async (req, res) => {
     if (authToken && authToken.startsWith('Bearer ')) {
       const token = authToken.substring(7, authToken.length); // Extract the token
       const isValid = validate(token)
-      if (isValid == true) {
-        res.status(200).send({ message:'Token is Valid'});    
-      } else {
-          res.status(500).send('Token is not Valid');
-      }    
+      const decoded = jwt.verify(token, 'mysecret');
+      connection.query(
+        'SELECT * FROM `userinfo` WHERE `LineUserID` = ?',
+        [decoded.sub],
+        (error, results) => {
+          if (error) {
+            console.error('Error executing query:', error);
+            res.status(500).send('Internal Server Error');
+          } 
+          else{
+            if (isValid == true && results.length > 0) {
+              res.status(200).send({ message:'Token is Valid'});    
+            } else if(isValid == true && results.length == 0){
+                res.status(400).send('No infomation in userinfo database');
+            } else if(isValid != true){
+                res.status(500).send('Token is not Valid');
+            } 
+          }
+      });   
   } else {
       res.status(500).send('Token is not Found');
   }
