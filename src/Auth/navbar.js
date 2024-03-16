@@ -65,7 +65,7 @@ export const navbar = () => {
                 <Link className='Navbar' to="/user/cart"> Cart </Link>
               </li>
               <li>
-                <Link className='Navbar' to="/" onClick={() => logout()}> Sign Out </Link>
+                <Link className='Navbar' onClick={() => logout()}> Sign Out </Link>
               </li>
             </ul>
           </nav>
