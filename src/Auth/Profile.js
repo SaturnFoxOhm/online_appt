@@ -23,10 +23,10 @@ const Profile = () => {
           setEmail(data.email);
           setPhoneNumber(data.phone);
           setBirthDate(data.birthday);
-          if (data.sex == "M") {
+          if (data.sex === "M") {
             setGender("M");
           }
-          else if (data.sex == "F") {
+          else if (data.sex === "F") {
             setGender("F");
           }
           setWeight(data.weight);
@@ -69,9 +69,6 @@ const Profile = () => {
   // Regex pattern for a simple email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // Regex pattern for a simple ID Number validation
-  const id_numberRegex = /^\d{13}$/;
-
   // Regex pattern for a simple Name validation
   const NameRegex = /^\S[A-z]+$/;
 
@@ -87,9 +84,6 @@ const Profile = () => {
 
   // Function to check if the email is valid
   const isEmailValid = (value) => emailRegex.test(value);
-
-  // Function to check if the ID Number is valid
-  const isIdNumberValid = (value) => id_numberRegex.test(value);
 
   // Function to check if the First Name is valid
   const isFirstNameValid = (value) => NameRegex.test(value);
@@ -108,7 +102,6 @@ const Profile = () => {
   const handleFormSubmit = async (e) => {
     // Perform validation checks
     const isEmailValid = emailRegex.test(email);
-    const isIdNumberValid = id_numberRegex.test(id_number);
     const isFirstNameValid = NameRegex.test(first_name);
     const isLastNameValid = NameRegex.test(last_name);
     const isPhoneValid = PhoneRegex.test(phone_number);
@@ -118,7 +111,6 @@ const Profile = () => {
     // If any validation fails, return without submitting the form
     if (
       !isEmailValid ||
-      !isIdNumberValid ||
       !isFirstNameValid ||
       !isLastNameValid ||
       !isPhoneValid ||
@@ -193,35 +185,8 @@ const Profile = () => {
                   <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-4">
                     <div class="md:col-span-4">
                       <label for="id_number">ID Number</label>
-                      {isEditing ? (
-                        <div>
-                          <input
-                            type="text"
-                            name="id_number"
-                            id="id_number"
-                            class={`h-10 border mt-1 rounded px-2 w-full ${
-                              isIdNumberValid(id_number)
-                                ? "bg-gray-50"
-                                : "bg-red-200"
-                            }`}
-                            value={id_number}
-                            onChange={(e) => {
-                              setIDNumber(e.target.value);
-                            }}
-                          />
-                          {!isIdNumberValid(id_number) && (
-                            <p class="text-red-500 text-xs mt-1">
-                              Please enter a valid ID number (13 digit numbers).
-                            </p>
-                          )}
-                        </div>
-                      ) : (
                         <div
-                          class={`h-10 border mt-1 rounded px-2 w-full ${
-                            isIdNumberValid(id_number)
-                              ? "bg-gray-50"
-                              : "bg-red-200"
-                          } flex items-center justify-left`}
+                          class={`h-10 border mt-1 rounded px-2 w-full flex items-center justify-left`}
                         >
                           {id_number[0] +
                             "-" +
@@ -233,7 +198,6 @@ const Profile = () => {
                             "-" +
                             id_number[12]}
                         </div>
-                      )}
                     </div>
 
                     <div class="md:col-span-2">
