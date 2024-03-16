@@ -58,11 +58,11 @@ const SendEmailTestReportSuperAdmin = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/admin-sendEmail', {
+      const response = await fetch('http://localhost:5000/super-admin-sendEmail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('tokenAdmin')}`,
+          'Authorization': `Bearer ${localStorage.getItem('tokenSuperAdmin')}`,
         },
         body: JSON.stringify(Object.fromEntries(emailData.entries())),
       });
@@ -70,7 +70,7 @@ const SendEmailTestReportSuperAdmin = () => {
       const result = await response.json();
       alert("Send Email to User Successful!")
       if(response.status === 200){  
-        window.location.href = `/admin/sendTestReport`;
+        window.location.href = `/super-admin/sendTestReport`;
       }
       // Handle success or error based on the result
     } catch (error) {

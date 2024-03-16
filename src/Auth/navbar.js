@@ -42,7 +42,9 @@ export const navbar = () => {
             <label htmlFor="check" className="checkbtn">
               <i className="fas fa-bars"></i>
             </label>
-            <label className="logo">FastAppt</label>
+            <Link to="/user">
+              <label className="logo">FastAppt</label>
+            </Link>
             <ul>
               <li>
                 <Link className='Navbar' to="/user"> Home </Link>
@@ -58,6 +60,9 @@ export const navbar = () => {
               </li>
               <li>
                 <Link className='Navbar' to="/user/profile"> Profile </Link>
+              </li>
+              <li>
+                <Link className='Navbar' to="/user/cart"> Cart </Link>
               </li>
               <li>
                 <Link className='Navbar' to="/" onClick={() => logout()}> Sign Out </Link>

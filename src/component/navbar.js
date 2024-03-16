@@ -33,7 +33,9 @@ export const navbar = () => {
             <label htmlFor="check" className="checkbtn">
               <i className="fas fa-bars"></i>
             </label>
-            <label className="logo">FastAppt</label>
+            <Link to="/">
+              <label className="logo">FastAppt</label>
+            </Link>
             <ul>
               <li>
                 <Link className='Navbar' to="/"> Home </Link>

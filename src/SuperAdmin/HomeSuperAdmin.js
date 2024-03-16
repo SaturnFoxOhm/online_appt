@@ -23,7 +23,7 @@ const HomeSuperAdmin = () => {
                   <Link to="/super-admin/delete-admin">
                     <button className="mb-4 mr-4 lg:mb-0 px-4 lg:px-8 py-3 bg-rose-700 text-white rounded-full hover:bg-rose-800 focus:outline-none focus:shadow-outline-rose active:bg-rose-900">Delete Admin Account</button>
                   </Link>
-                  <Link to="/super-admin/usersAppointment">
+                  <Link to="/super-admin/SpecimenUsersAppointment">
                     <button className="mb-4 mr-4 lg:mb-4 px-4 lg:px-8 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 focus:outline-none focus:shadow-outline-green active:bg-green-800">Users' Appointment</button>
                   </Link>
                 </div>
@@ -34,7 +34,9 @@ const HomeSuperAdmin = () => {
                   <Link to="/super-admin/selectTimeslot">
                     <button className="mb-4 lg:mb-0 mr-4 px-4 lg:px-8 py-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 focus:outline-none focus:shadow-outline-yellow active:bg-yellow-800">Time Slot</button>
                   </Link>
-                  <button className="mb-4 lg:mb-0 mr-4 px-4 lg:px-8 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800">Specimen Transportation</button>
+                  <Link to="/super-admin/TransportedUsersAppointment">
+                    <button className="mb-4 lg:mb-0 mr-4 px-4 lg:px-8 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800">Specimen Transportation</button>
+                  </Link>
                 </div>
               </div>
             </div>

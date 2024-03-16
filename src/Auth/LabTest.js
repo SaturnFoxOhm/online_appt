@@ -4,6 +4,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 
 const LabTest = () => {
     const [labTestList, setLabTestList] = useState([]);
+    const [showMessage, setShowMessage] = useState(null);
     
     useEffect(() => {
         const fetchLabTestData = async () => {
@@ -28,8 +29,38 @@ const LabTest = () => {
         fetchLabTestData();
     }, []);
 
-    const handleButtonClick = (labTest) => {
-        // Handle button click action here
+    const handleButtonClickAdd = async (labTest) => {
+        try {
+            const response = await fetch('http://localhost:5000/add-labTest', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    TestID: labTest.TestID,
+                })
+            });
+            if (response.ok) {
+                // console.error("Add labTest data successful");
+                setShowMessage('Added to Cart');
+                setTimeout(() => {
+                    setShowMessage(null);
+                }, 1000);
+            } else {
+                // console.error("Failed to add labTest data");
+                setShowMessage('This test has already been added');
+                setTimeout(() => {
+                    setShowMessage(null);
+                }, 1000);
+            }
+        } catch (error) {
+            // console.error("Error add labTest data:", error);
+            setShowMessage('Error adding to cart');
+            setTimeout(() => {
+                setShowMessage(null);
+            }, 1000);
+        }
     };
     
     return(
@@ -65,7 +96,7 @@ const LabTest = () => {
                                             <div className='price'>
                                                 Price: {labTest.price}฿
                                             </div>
-                                            <button className="icon-button" style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)' }} onClick={() => handleButtonClick(labTest)}>
+                                            <button className="icon-button" style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)' }} onClick={() => handleButtonClickAdd(labTest)}>
                                                 <IoIosAddCircleOutline size={24}/>
                                             </button>
                                         </td>
@@ -73,6 +104,13 @@ const LabTest = () => {
                                 ))}
                             </tbody>
                         </table>
+                        {showMessage && (
+                            <>
+                                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-black bg-opacity-75 text-white p-4 shadow-lg rounded-lg flex justify-center items-center flex-col z-50">
+                                    <p className="text-sm text-center">{showMessage}</p>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

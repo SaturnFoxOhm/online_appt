@@ -33,22 +33,21 @@ const logout = () => {
             <label htmlFor="check" className="checkbtn">
               <i className="fas fa-bars"></i>
             </label>
-            <label className="logo color-black">FastAppt</label>
+            <Link to="/admin">
+              <label className="logo color-black">FastAppt</label>
+            </Link>
             <ul>
               <li>
                 <Link className='Navbar' to="/admin"> Home </Link>
               </li>
               <li>
-                <Link className='Navbar' to="/admin/usersAppointment"> Users' Appointment </Link>
+                <Link className='Navbar' to="/admin/SpecimenUsersAppointment"> Users' Appointment / Specimen Transportation </Link>
               </li>
               <li>
                 <Link className='Navbar' to="/admin/sendTestReport"> Send Test Report </Link>
               </li>
               <li>
                 <Link className='Navbar' to="/admin/selectTimeslot"> Time Slot </Link>
-              </li>
-              <li>
-                <Link className='Navbar' to="/admin"> Specimen Transportation </Link>
               </li>
               {/* <li>
                 <Link className='Navbar' to="/admin"> Test List </Link>

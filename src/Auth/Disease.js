@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from './navbar';
-import { IoIosAddCircleOutline } from "react-icons/io";
+import { IoIosAddCircleOutline, IoIosList } from "react-icons/io";
 
-const NHSO = () => {
-    const [labTestList, setLabTestList] = useState([]);
+const Disease = () => {
+    const [diseaseList, setDiseaseList] = useState([]);
     const [showMessage, setShowMessage] = useState(null);
+    const navigate = useNavigate();
     
     useEffect(() => {
-        const fetchLabTestData = async () => {
+        const fetchDiseaseData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/LabTest-NHSOlist', {
+                const response = await fetch('http://localhost:5000/Disease-list', {
                     method: 'POST',
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -17,45 +19,49 @@ const NHSO = () => {
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    setLabTestList(data);
+                    setDiseaseList(data);
                 } else {
-                    console.error("Failed to fetch LabTest data");
+                    console.error("Failed to fetch Disease data");
                 }
             } catch (error) {
-                console.error("Error fetching LabTest data:", error);
+                console.error("Error fetching Disease data:", error);
             }
         };
 
-        fetchLabTestData();
+        fetchDiseaseData();
     }, []);
 
-    const handleButtonClickAdd = async (labTest) => {
+    const handleButtonClickList = (disease) => {
+        navigate(`/user/Disease/${disease.DiseaseID}`, { state: { disease } });
+    };
+
+    const handleButtonClickAdd = async (disease) => {        
         try {
-            const response = await fetch('http://localhost:5000/add-labTest', {
+            const response = await fetch('http://localhost:5000/add-disease', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    TestID: labTest.TestID,
+                    DiseaseID: disease.DiseaseID,
                 })
             });
             if (response.ok) {
-                // console.error("Add labTest data successful");
+                // console.error("Add disease data successful");
                 setShowMessage('Added to Cart');
                 setTimeout(() => {
                     setShowMessage(null);
                 }, 1000);
             } else {
-                // console.error("Failed to add labTest data");
+                // console.error("Failed to add disease data");
                 setShowMessage('Cannot Add to Cart');
                 setTimeout(() => {
                     setShowMessage(null);
                 }, 1000);
             }
         } catch (error) {
-            // console.error("Error add labTest data:", error);
+            // console.error("Error add disease data:", error);
             setShowMessage('Error adding to cart');
             setTimeout(() => {
                 setShowMessage(null);
@@ -79,24 +85,24 @@ const NHSO = () => {
                 </div>
 
                 <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 text-center">
-                    <p className="font-large text-xl text-black whitespace-nowrap">Reimbursement with NHSO</p>
+                    <p className="font-large text-xl text-black whitespace-nowrap">Specific Disease</p>
                     <br/>
                     <div>
                         <table className="table-auto mx-auto" style={{ borderCollapse: 'collapse', width: '100%' }}>
                             <tbody>
-                                {labTestList.map((labTest, index) => (
+                                {diseaseList.map((disease, index) => (
                                     <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#FFF0DF' : '#FFFFFF' }}>
                                         <td className="border px-4 py-2 text-left relative" style={{ width: '80%', boxSizing: 'border-box' }}>
                                             <div className='name'>
-                                                {index + 1}. {labTest.th_name} ({labTest.en_name})
-                                            </div>
-                                            <div className='specimen'>
-                                                Specimen: {labTest.specimen}
+                                                {index + 1}. {disease.th_name} ({disease.en_name})
                                             </div>
                                             <div className='price'>
-                                                Price: {labTest.price}฿
+                                                Price: {disease.price}฿
                                             </div>
-                                            <button className="icon-button" style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)' }} onClick={() => handleButtonClickAdd(labTest)}>
+                                            <button className="icon-button" style={{ position: 'absolute', right: '60px', top: '50%', transform: 'translateY(-50%)' }} onClick={() => handleButtonClickList(disease)}>
+                                                <IoIosList size={24}/>
+                                            </button>
+                                            <button className="icon-button" style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)' }} onClick={() => handleButtonClickAdd(disease)}>
                                                 <IoIosAddCircleOutline size={24}/>
                                             </button>
                                         </td>
@@ -119,4 +125,4 @@ const NHSO = () => {
     );
 };
 
-export default NHSO;
+export default Disease;

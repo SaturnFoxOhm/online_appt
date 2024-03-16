@@ -1,14 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from './navbar';
 import Editappointmentlist from './Editappointmentlist';
+import { HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
 
 const Appointmentlist = () => {
-  const [id_number, setIDNumber] = useState("1234567891544");
-  const [isDetailsVisible, setIsDetailsVisible] = useState(true);
+  const [appointmentList, setAppointmentList] = useState();
 
-  const handleButtonClick = () => {
-    setIsDetailsVisible(!isDetailsVisible);
-  };
+  useEffect(() => {
+    // Fetch user data from the server when the component mounts
+    const fetchUserAppointmentData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/user-appointment', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log('data', data)
+          setAppointmentList(data);
+          console.log('appointmentList', appointmentList[0]);
+        } else {
+          console.error("Failed to fetch user appointment data");
+        }
+      } catch (error) {
+        console.error("Error fetching user appointment data:", error);
+      }
+    };
+
+    // Call the fetchUserData function
+    fetchUserAppointmentData();
+  }, [])
 
   return (
     <div>
@@ -30,36 +54,33 @@ const Appointmentlist = () => {
                 <p className="font-medium text-lg text-black">User's Appointment</p>
               </div>
               <div className="lg:col-span-2">
-                {isDetailsVisible ? (
                   <table class="w-full text-md bg-white shadow-md rounded mb-4">
                     <tbody>
                         <tr class="border-b">
                             <th class="text-left p-3 px-5">Name</th>
+                            <th class="text-left p-3 px-5">Hospital</th>
                             <th class="text-left p-3 px-5">Date</th>
-                            <th class="text-left p-3 px-5">Time</th>
+                            <th class="text-left p-3 px-5">Result Status</th>
                         </tr>
-                        <tr class="border-b hover:bg-orange-100 bg-gray-100">
-                            <td class="p-3 px-5 bg-gray-50">Supakitt Surojanakul</td>
-                            <td class="p-3 px-5 bg-gray-50">14/08/2024</td>
-                            <td class="p-3 px-5 bg-gray-50">
-                              10:00 AM
-                            </td>
-                            <td class="p-3 px-5 bg-gray-50">
-                              <button
-                                className="flex items-center justify-end"
-                                onClick={handleButtonClick}
-                              >
-                                <svg className="w-6 h-6 text-gray-800 dark:text-white flex flex item-center justify-end hover:text-opacity-50" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
-                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 13 5.7-5.326a.909.909 0 0 0 0-1.348L1 1"/>
-                                </svg>
-                              </button>
-                            </td>
-                        </tr>
+                        {appointmentList && appointmentList.map(appointment => (
+                          <tr key={appointment.AppointmentID} class="border-b hover:bg-orange-100 bg-gray-100">
+                              <td class="p-3 px-5 bg-gray-50">{appointment.first_name} {appointment.last_name}</td>
+                              <td class="p-3 px-5 bg-gray-50">{appointment.hos_name}</td>
+                              <td class="p-3 px-5 bg-gray-50">{appointment.HospitalDate ? appointment.HospitalDate : appointment.OffSiteDate}</td>
+                              <td class="p-3 px-5 bg-gray-50">{appointment.LabStatus}</td>
+                              <td class="p-3 px-5 bg-gray-50">
+                                <Link to={`/user/appointment-details/${appointment.AppointmentID}`}>
+                                  <button
+                                    className="flex items-center justify-end"
+                                  >
+                                    <HiOutlineDocumentMagnifyingGlass size={30}/>
+                                  </button>
+                                </Link>
+                              </td>
+                          </tr>
+                        ))}
                   </tbody>
                 </table>
-                ) : (
-                  <Editappointmentlist />
-                )}
               </div>
             </div>
           </div>

@@ -124,7 +124,7 @@ const Login = () => {
                 </button>
               </span>
 
-              <hr class="solid"/>
+              {/* <hr class="solid"/>
 
               <span class="SignUp">
                 Don't have an account?
@@ -135,7 +135,7 @@ const Login = () => {
               <p style={{ textAlign: "left", marginLeft: "20%"}}><b>status message: </b> { statusMessage }</p>
               <p style={{ textAlign: "left", marginLeft: "20%"}}><b>user id: </b> { userId }</p>
 
-              <button type='submit' onClick={() => logout()} className='Logout'>Log out</button>
+              <button type='submit' onClick={() => logout()} className='Logout'>Log out</button> */}
             </div>
           </body>
             

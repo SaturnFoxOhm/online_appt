@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './navbar';
-import { eachDayOfInterval, format, isBefore, isToday } from 'date-fns';
+import { format, isBefore, isToday, addDays } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { useNavigate } from 'react-router-dom';
 
 const DateTime = () => {
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(undefined);
     const [timeslot, setTimeslot] = useState(null);
     const [selectedSlot, setSelectedSlot] = useState('');
     const [error, setError] = useState('');
@@ -14,7 +14,10 @@ const DateTime = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        setError(''); // Reset error message when the selected date changes
+        if (selectedDate) {
+            setError('');
+            fetchTimeSlot();
+        }
     }, [selectedDate]);
 
     const fetchTimeSlot = async () => {
@@ -54,14 +57,17 @@ const DateTime = () => {
     const showSelectedDate = selectedDate ? (
         <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mt-5 flex items-center justify-between">
             <p className="font-large text-xl text-black">{format(selectedDate, 'PP')}.</p>
-            <button onClick={fetchTimeSlot} className="fetchTime">Enter</button>
         </div>
     ) : (
         <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mt-5 flex items-center justify-between">
             <p className="font-large text-xl text-black">Please pick a day.</p>
-            <button className="fetchTime" disabled>Enter</button>
         </div>
     );
+
+    const handleDayClick = (day) => {
+        setSelectedDate(day);
+        fetchTimeSlot(day);
+    };
 
     const handleSlotChange = (event) => {
         setSelectedSlot(event.target.value);
@@ -73,7 +79,7 @@ const DateTime = () => {
         } else if (selectedSlot) {
             localStorage.setItem('selectedSlot', selectedSlot);
             console.log('Selected slot stored in local storage:', selectedSlot);
-            navigate('/user/testSelection');
+            navigate('/user/confirmation');
         } else {
             console.error('No Slot selected');
         }
@@ -81,7 +87,7 @@ const DateTime = () => {
 
     // Use to disable date before today
     const today = new Date();
-    const isDateSelectable = (date) => isBefore(date, today) && !isToday(date);
+    const isDateSelectable = (date) => isBefore(date, today);
 
     return (
         <div className="calendar">
@@ -91,7 +97,7 @@ const DateTime = () => {
                 <div className="container max-w-screen-md mx-auto">
                     <div className="relative">
                         <div className="progress-bar-container h-8 bg-gray-300 mt-2 mb-8 rounded-full border-2 border-gray-800 overflow-hidden">
-                            <div className="progress-bar font-bold bg-yellow-500 h-full border-r-2 border-gray-800 flex items-center justify-center" style={{ width: `40%` }}> 40 %</div>
+                            <div className="progress-bar font-bold bg-yellow-500 h-full border-r-2 border-gray-800 flex items-center justify-center" style={{ width: `50%` }}> 50 %</div>
                         </div>
                         <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
                             Appoint Health Checkup
@@ -111,6 +117,7 @@ const DateTime = () => {
                                     mode="single"
                                     selected={selectedDate}
                                     onSelect={setSelectedDate}
+                                    onDayClick={handleDayClick}
                                     disabled={isDateSelectable}
                                     classNames={{
                                         selected: 'bg-green-500 text-white',

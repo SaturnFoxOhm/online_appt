@@ -1,5 +1,5 @@
 // const apiKey = "AIzaSyCXeuTdudUzUXs_GazOer0Ya69gsij4Sag";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from './navbar';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -7,14 +7,42 @@ import axios from 'axios';
 const Hospital = () => {
     const [hospitalList, setHospitalList] = useState([]);
     const [selectedHospital, setSelectedHospital] = useState(null);
+    const [method, setMethod] = useState("current");
+    const [addressLine1, setAddressLine1] = useState(null);
+    const [addressLine2, setAddressLine2] = useState(null);
+    const [province, setProvince] = useState(null);
+    const [city, setCity] = useState(null);
+    const [postalCode, setPostalCode] = useState(null);
+    let lat, long; 
+
     const navigate = useNavigate();
 
-    const findMyState = async () => {
+    const findMyState =async () => {
         const status = document.querySelector('.status');
 
         const success = async (position) => {
-            const lat = position.coords.latitude;
-            const long = position.coords.longitude;
+            if (method === "current") {
+              lat = position.coords.latitude;
+              long = position.coords.longitude;
+            }
+            else if (method === "address") {
+              if (addressLine1 || city || province || postalCode) {
+                const address = `${addressLine1}, ${addressLine2}, ${city}, ${province}, ${postalCode}`;
+                const geocodeResponse = await axios.get('http://localhost:5000/geocode', {
+                    params: {
+                        address: address,
+                    },
+                });
+
+                if (geocodeResponse.data.lat && geocodeResponse.data.lng) {
+                  lat = geocodeResponse.data.lat;
+                  long = geocodeResponse.data.lng;
+                }
+              }
+              else {
+                return;
+              }
+            }
         
             if (hospitalList.length > 0) {
               const updatedHospitalList = await Promise.all(hospitalList.map(async (hospital) => {
@@ -64,15 +92,35 @@ const Hospital = () => {
             status.textContent = 'Unable to retrieve your location';
         }
         navigator.geolocation.getCurrentPosition(success, error);
-    }
+    };
 
     useEffect(() => {
         const findMyState = async () => {
           const status = document.querySelector('.status');
       
           const success = async (position) => {
-            const lat = position.coords.latitude;
-            const long = position.coords.longitude;
+            if (method === "current") {
+              lat = position.coords.latitude;
+              long = position.coords.longitude;
+            }
+            else if (method === "address") {
+              if (addressLine1 || city || province || postalCode) {
+                const address = `${addressLine1}, ${addressLine2}, ${city}, ${province}, ${postalCode}`;
+                const geocodeResponse = await axios.get('http://localhost:5000/geocode', {
+                    params: {
+                        address: address,
+                    },
+                });
+
+                if (geocodeResponse.data.lat && geocodeResponse.data.lng) {
+                  lat = geocodeResponse.data.lat;
+                  long = geocodeResponse.data.lng;
+                }
+              }
+              else {
+                return;
+              }
+            }
       
             const fetchHospitalData = async () => {
               try {
@@ -138,9 +186,7 @@ const Hospital = () => {
         };
       
         findMyState();
-      }, []);
-
-
+      }, [method, addressLine1, addressLine2, city, province, postalCode]);
 
     useEffect(() => {
         if (selectedHospital) {
@@ -150,6 +196,12 @@ const Hospital = () => {
 
     const handleHospitalChange = (hospitalId) => {
         setSelectedHospital(hospitalId);
+    };
+
+    const handleSelectMethod = (place) => {
+      setMethod(place);
+      console.log("place in func: ", place);
+      console.log("method: ", method);
     };
 
     const storeHospital = () => {
@@ -180,6 +232,54 @@ const Hospital = () => {
                             <div className="text-gray-600">
                                 <p className="font-large text-xl text-black whitespace-nowrap">Select Hospital</p>
                                 <br />
+                                <input
+                                    type="radio"
+                                    name="choice"
+                                    value={"current"}
+                                    onChange={() => handleSelectMethod("current")}
+                                    checked={method === "current"}
+                                /> ตำแหน่งปัจจุบัน
+                                <input
+                                    type="radio"
+                                    name="choice"
+                                    value={"address"}
+                                    onChange={() => handleSelectMethod("address")}
+                                    checked={method === "address"}
+                                    style={{ marginLeft: '20px' }}
+                                /> ที่อยู่ที่ต้องการเทียบระยะทางกับโรงพยาบาล
+                                <br/>
+                                <br/>
+                                {method === 'address' && (
+                                  <div>
+                                    <label>
+                                    Address line 1 *
+                                    <input type="text" required value={addressLine1} onChange={(e) => setAddressLine1(e.target.value)} />
+                                    </label>
+                                    <br />
+                                    <label>
+                                    Address line 2 (optional)
+                                    <input type="text" value={addressLine2} onChange={(e) => setAddressLine2(e.target.value)} />
+                                    </label>
+                                    <br />
+                                    <label>
+                                    Province *
+                                    <input type="text" required value={province} onChange={(e) => setProvince(e.target.value)} />
+                                    </label>
+                                    <br />
+                                    <label>
+                                    City *
+                                    <input type="text" required value={city} onChange={(e) => setCity(e.target.value)} />
+                                    </label>
+                                    <br />
+                                    <label>
+                                    Postal code *
+                                    <input type="text" required value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
+                                    </label>
+                                    <br />
+                                    <br />
+                                  </div>
+                                )}
+
                                 {/* Render the list of hospitals */}
                                 {hospitalList.map(hospital => (
                                     <li key={hospital.HospitalID} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>

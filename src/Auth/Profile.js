@@ -332,27 +332,20 @@ const Profile = () => {
                     <div class="md:col-span-1">
                       <label for="phone_number">Phone Number</label>
                       {isEditing ? (
-                        <div>
-                          <input
-                            type="text"
-                            name="phone_number"
-                            id="phone_number"
-                            class={`h-10 border mt-1 rounded px-2 w-full ${
-                              isPhoneValid(phone_number)
-                                ? "bg-gray-50"
-                                : "bg-red-200"
-                            }`}
-                            value={phone_number}
-                            onChange={(e) => {
-                              setPhoneNumber(e.target.value);
-                            }}
-                          />
-                          {!isPhoneValid(phone_number) && (
-                            <p class="text-red-500 text-xs mt-1">
-                              Please enter a valid Phone Number (10 digit numbers).
-                            </p>
-                          )}
-                        </div>
+                        <input
+                          type="text"
+                          name="phone_number"
+                          id="phone_number"
+                          class={`h-10 border mt-1 rounded px-2 w-full ${
+                            isPhoneValid(phone_number)
+                              ? "bg-gray-50"
+                              : "bg-red-200"
+                          }`}
+                          value={phone_number}
+                          onChange={(e) => {
+                            setPhoneNumber(e.target.value);
+                          }}
+                        />
                       ) : (
                         <div
                           class={`h-10 border mt-1 rounded px-2 w-full ${

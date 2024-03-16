@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './navbar'; // Assuming Navbar is the correct filename and default export
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Place = () => {
     const [selectedOption, setSelectedOption] = useState('');

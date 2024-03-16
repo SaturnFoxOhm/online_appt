@@ -13,7 +13,6 @@ import Home from './component/Home';
 import About from './component/About';
 import Service from './component/Service';
 import ContactUs from './component/ContactUs';
-import Test from './component/Test1';
 import SignUp from './component/SignUp';
 import Login from './component/Login';
 
@@ -24,6 +23,7 @@ import Servicelog from './Auth/Service';
 import ContactUslog from './Auth/ContactUs';
 import Profile from './Auth/Profile';
 import Appointmentlist from './Auth/Appointmentlist';
+import AppointmentDetails from './Auth/AppointmentDetails';
 import Appoint from './Auth/Appoint';
 import Place from './Auth/SelectPlace';
 import Hospital from './Auth/SelectHospital';
@@ -32,12 +32,20 @@ import DateTime from './Auth/SelectDateTime';
 import TestSelection from './Auth/TestSelection';
 import LabTest from './Auth/LabTest';
 import NHSO from './Auth/NHSO';
+import Disease from './Auth/Disease';
+import Package from './Auth/Package';
+import DiseaseDetails from './Auth/DiseaseDetails';
+import PackageDetails from './Auth/PackageDetails';
+import Cart from './Auth/Cart';
+import Confirmation from './Auth/Confirmation';
+import Payment from './Auth/Payment';
+import SuccessAppointment from './Auth/SuccessAppointment';
 
 // Admin Hospital //
 import LoginAdmin from './AdminHospital/LoginAdmin';
 import HomeAdmin from './AdminHospital/HomeAdmin';
-import UserAppointmentAdmin from './AdminHospital/UserAppointmentAdmin';
-import UpdateUserAppointmentAdmin from './AdminHospital/UpdateUserAppointmentAdmin';
+import SpecimenUserAppointmentAdmin from './AdminHospital/SpecimenUserAppointmentAdmin';
+import SpecimenUpdateUserAppointmentAdmin from './AdminHospital/SpecimenUpdateUserAppointmentAdmin';
 import SendTestReportAdmin from './AdminHospital/SendTestReportAdmin';
 import SendEmailTestReportAdmin from './AdminHospital/SendEmailTestReportAdmin';
 import SelectTimeSlotTypeAdmin from './AdminHospital/SelectTimeslotAdmin';
@@ -51,8 +59,8 @@ import LoginSuperAdmin from './SuperAdmin/LoginSuperAdmin';
 import SignupAdmin from './SuperAdmin/SignupAdmin';
 import DeleteAdmin from './SuperAdmin/DeleteAdmin';
 import HomeSuperAdmin from './SuperAdmin/HomeSuperAdmin';
-import UserAppointmentSuperAdmin from './SuperAdmin/UserAppointmentSuperAdmin';
-import UpdateUserAppointmentSuperAdmin from './SuperAdmin/UpdateUserAppointmentSuperAdmin';
+import SpecimenUserAppointmentSuperAdmin from './SuperAdmin/SpecimenUserAppointmentSuperAdmin';
+import SpecimenUpdateUserAppointmentSuperAdmin from './SuperAdmin/SpecimenUpdateUserAppointmentSuperAdmin';
 import SendTestReportSuperAdmin from './SuperAdmin/SendTestReportSuperAdmin';
 import SendEmailTestReportSuperAdmin from './SuperAdmin/SendEmailTestReportSuperAdmin';
 import SelectTimeSlotTypeSuperAdmin from './SuperAdmin/SelectTimeslotSuperAdmin';
@@ -60,6 +68,9 @@ import TimeslotHospitalSuperAdmin from './SuperAdmin/TimeslotHospitalSuperAdmin'
 import UpdateTimeslotHospitalSuperAdmin from './SuperAdmin/UpdateTimeslotHospitalSuperAdmin';
 import TimeslotOffsiteSuperAdmin from './SuperAdmin/TimeslotOffsiteSuperAdmin';
 import UpdateTimeslotOffsiteSuperAdmin from './SuperAdmin/UpdateTimeslotOffsiteSuperAdmin';
+import TransportedAppointmentSuperAdmin from './SuperAdmin/TransportedAppointmentSuperAdmin';
+import TransportedAppointmentDetailSuperAdmin from './SuperAdmin/TransportedAppointmentDetailSuperAdmin';
+import PackageDetail from './Auth/PackageDetails';
 
 function App() {
   return (
@@ -71,7 +82,27 @@ function App() {
       <Route path="/contactus" element={<ContactUs />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/test" element={<Test />} />
+
+      {/* <Route path="/user" element={<Homelog />} />
+      <Route path="/user/profile"element={<Profile />} />
+      <Route path="/user/appointmentlist" element={<Appointmentlist />} />
+      <Route path="/user/appointment-details/:id" element={<AppointmentDetails />} />
+      <Route path="/user/appoint" element={<Appoint />} />
+      <Route path="/user/place" element={<Place />} />
+      <Route path="/user/hospital" element={<Hospital />} />
+      <Route path="/user/address" element={<Address />} />
+      <Route path="/user/datetime" element={<DateTime />} />
+      <Route path="/user/testSelection" element={<TestSelection />} />
+      <Route path="/user/LabTest" element={<LabTest />} />
+      <Route path="/user/NHSO" element={<NHSO />} />
+      <Route path="/user/Disease" element={<Disease />} />
+      <Route path="/user/Disease/:id" element={<DiseaseDetails />} />
+      <Route path="/user/Package" element={<Package />} />
+      <Route path="/user/Package/:id" element={<PackageDetails />} />
+      <Route path="/user/Cart" element={<Cart />} />
+      <Route path="/user/confirmation" element={<Confirmation />} />
+      <Route path="/user/payment" element={<Payment />} />
+      <Route path="/user/appointment-success" element={<SuccessAppointment />} /> */}
 
       {/* <Route path="/user/profile" element={<Profile />} />
       <Route path="/user/appoint" element={<Appoint />} />
@@ -81,7 +112,6 @@ function App() {
       <Route path="/user/datetime" element={<DateTime />} />
       <Route path="/user/testSelection" element={<TestSelection />} 
       /> */}
-
       {/* <Route path="/user/LabTest" element={<LabTest />} />
       <Route path="/user/NHSO" element={<NHSO />} /> */}
 
@@ -109,6 +139,10 @@ function App() {
       <Route
         path="/user/appointmentlist"
         element={<ProtectedRoute element={<Appointmentlist />} />}
+      />
+      <Route
+        path="/user/appointment-details/:id"
+        element={<ProtectedRoute element={<AppointmentDetails />} />}
       />
       <Route
         path="/user/appoint"
@@ -142,6 +176,39 @@ function App() {
         path="/user/NHSO"
         element={<ProtectedRoute element={<NHSO />} />}
       />
+      <Route
+        path="/user/Disease"
+        element={<ProtectedRoute element={<Disease />} />}
+      />
+      <Route
+        path="/user/Disease/:id"
+        element={<ProtectedRoute element={<DiseaseDetails />} />}
+      />
+      <Route
+        path="/user/Package"
+        element={<ProtectedRoute element={<Package />} />}
+      />
+      <Route
+        path="/user/Package/:id"
+        element={<ProtectedRoute element={<PackageDetails />} />}
+      />
+      <Route
+        path="/user/Cart"
+        element={<ProtectedRoute element={<Cart />} />}
+      />
+      <Route
+        path="/user/confirmation"
+        element={<ProtectedRoute element={<Confirmation />} />}
+      />
+      <Route
+        path="/user/payment"
+        element={<ProtectedRoute element={<Payment />} />}
+      />
+      <Route
+        path="/user/appointment-success"
+        element={<ProtectedRoute element={<SuccessAppointment />} />}
+      />
+
 
       {/* Admin Section */}
       <Route path="/adminlogin" element={<LoginAdmin />} />
@@ -150,12 +217,12 @@ function App() {
         element={<ProtectedRouteAdmin element={<HomeAdmin />} />}
       />
       <Route
-        path="/admin/usersAppointment"
-        element={<ProtectedRouteAdmin element={<UserAppointmentAdmin />} />}
+        path="/admin/SpecimenUsersAppointment"
+        element={<ProtectedRouteAdmin element={<SpecimenUserAppointmentAdmin />} />}
       />
       <Route
-        path="/admin/usersAppointment/:id"
-        element={<ProtectedRouteAdmin element={<UpdateUserAppointmentAdmin />} />}
+        path="/admin/SpecimenUsersAppointment/:id"
+        element={<ProtectedRouteAdmin element={<SpecimenUpdateUserAppointmentAdmin />} />}
       />
       <Route
         path="/admin/sendTestReport"
@@ -186,6 +253,7 @@ function App() {
         element={<ProtectedRouteAdmin element={<UpdateTimeslotOffsiteAdmin />} />}
       />
 
+
       {/* Super Admin Section */}
       <Route path="/super-adminlogin" element={<LoginSuperAdmin />} />
       <Route
@@ -201,12 +269,12 @@ function App() {
         element={<ProtectedRouteSuperAdmin element={<DeleteAdmin />} />}
       />
       <Route
-        path="/super-admin/usersAppointment"
-        element={<ProtectedRouteSuperAdmin element={<UserAppointmentSuperAdmin />} />}
+        path="/super-admin/SpecimenUsersAppointment"
+        element={<ProtectedRouteSuperAdmin element={<SpecimenUserAppointmentSuperAdmin />} />}
       />
       <Route
-        path="/super-admin/usersAppointment/:id"
-        element={<ProtectedRouteSuperAdmin element={<UpdateUserAppointmentSuperAdmin />} />}
+        path="/super-admin/SpecimenUsersAppointment/:id"
+        element={<ProtectedRouteSuperAdmin element={<SpecimenUpdateUserAppointmentSuperAdmin />} />}
       />
       <Route
         path="/super-admin/sendTestReport"
@@ -235,6 +303,14 @@ function App() {
       <Route
         path="/super-admin/timeslotoffsite/:selectedDate"
         element={<ProtectedRouteSuperAdmin element={<UpdateTimeslotOffsiteSuperAdmin />} />}
+      />
+      <Route
+        path="/super-admin/TransportedUsersAppointment"
+        element={<ProtectedRouteSuperAdmin element={<TransportedAppointmentSuperAdmin />} />}
+      />
+      <Route
+        path="/super-admin/TransportedUsersAppointment/:id"
+        element={<ProtectedRouteSuperAdmin element={<TransportedAppointmentDetailSuperAdmin />} />}
       />
 
     </Routes>

@@ -162,8 +162,8 @@ const Appoint = () => {
                   <p>Sex: {currentUserInfo.sex}</p>
                   <p>Weight: {currentUserInfo.weight}</p>
                   <p>Height: {currentUserInfo.height}</p>
-                  <p>Allergic: {currentUserInfo.allergic}</p>
-                  <p>Congenital Disease: {currentUserInfo.disease}</p>
+                  <p>Allergic: {currentUserInfo.allergic || '-'}</p>
+                  <p>Congenital Disease: {currentUserInfo.disease || '-'}</p>
 
                   <label className="block mt-4">
                      <input
@@ -218,7 +218,6 @@ const BookingForSomeoneElseForm = () => {
     e.preventDefault(); // Prevents the form from submitting and triggering a page reload
 
     try {
-      console.log('Sex: ' + newSex);
       const response = await fetch('http://localhost:5000/add-user-profile', {
         method: 'POST',
         headers: {
@@ -239,8 +238,7 @@ const BookingForSomeoneElseForm = () => {
           disease: newDisease,
         }),
       });
-      // console.log(newFirstName);
-      // console.log(newSex);
+      console.log(response);
 
       if (newIDNumber) {
         localStorage.setItem('InfoID', newIDNumber);
@@ -249,8 +247,7 @@ const BookingForSomeoneElseForm = () => {
         // Test Storing in localStorage
         const testInfoID = localStorage.getItem('InfoID');
         console.log('Info ID from local storage:', testInfoID);
-      }
-      else {
+      }else{
         console.error('Info ID is empty or undefined');
       }
 
@@ -259,8 +256,7 @@ const BookingForSomeoneElseForm = () => {
         console.log('User data added successfully');
         // Redirect to the next page after successful submission
         window.location.href = "/user/Place";
-      } 
-      else {
+      } else {
         // Handle error
         console.error('Failed to add user data');
       }

@@ -38,16 +38,15 @@ const HomeAdmin = () => {
             <div className="flex flex-col items-center space-y-8 mb-8">
               <div className="flex flex-col sm:flex-row items-center justify-center">
                 <div className="flex flex-wrap justify-center">
-                  <Link to="/admin/usersAppointment">
-                    <button className="mb-4 sm:mb-2 sm:mr-4 px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">Users' Appointment</button>
+                  <Link to="/admin/SpecimenUsersAppointment">
+                    <button className="mb-4 sm:mb-2 sm:mr-4 px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">Users' Appointment / Specimen Transportation</button>
                   </Link>
                   <Link to="/admin/sendTestReport">
                     <button className="mb-4 sm:mb-2 sm:mr-4 px-6 py-3 bg-purple-500 text-white rounded-full hover:bg-purple-600 focus:outline-none focus:shadow-outline-purple active:bg-purple-800">Send Test Report</button>
                   </Link>
                   <Link to="/admin/selectTimeslot">
                     <button className="mb-4 sm:mb-2 sm:mr-4 px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 focus:outline-none focus:shadow-outline-green active:bg-green-800">Time Slot</button>
-                  </Link>
-                  <button className="mb-4 sm:mb-2 px-6 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800">Specimen Transportation</button>
+                  </Link>              
                 </div>
               </div>
             </div>
