@@ -427,7 +427,7 @@ const Profile = () => {
                         </div>
                       ) : (
                         <div className="h-10 border mt-1 rounded px-2 w-full bg-gray-50 flex items-center justify-left">
-                          {gender}
+                          {gender === 'M' ? 'Male' : (gender === 'F' ? 'Female' : '')}
                         </div>
                       )}
                       {isEditing && !isGenderValid(gender) && (
