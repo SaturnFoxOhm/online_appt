@@ -1227,8 +1227,7 @@ app.post('/Orders', (req, res) => {
   `;
 
   connection.query(
-    'SELECT MAX(`OrderID`) FROM `Orders` WHERE `LineUserID` = ?',
-    [LineUserID],
+    'SELECT MAX(`OrderID`) FROM `Orders`',
     (error, results) => {
       if (error) {
         console.error('Error check max:', error);
@@ -1426,8 +1425,7 @@ app.post('/confirm-appointment', async (req, res) => {
 
   try {
     const CurrentAppointmentID = await new Promise((resolve, reject) => {
-      connection.query("SELECT MAX(AppointmentID) FROM `Appointment` WHERE `LineUserID` = ?", 
-      [LineUserID], 
+      connection.query("SELECT MAX(AppointmentID) FROM `Appointment`", 
       (error, results) => {
         if (error) {
           console.error('Error getting max AppointmentID', error);
@@ -1874,7 +1872,6 @@ app.post('/success-appoint', async (req, res) => {
   try {
     const CurrentAppointmentID = await new Promise((resolve, reject) => {
       connection.query("SELECT MAX(AppointmentID) FROM `Appointment` WHERE `LineUserID` = ?", 
-      [LineUserID], 
       (error, results) => {
         if (error) {
           console.error('Error getting max AppointmentID', error);

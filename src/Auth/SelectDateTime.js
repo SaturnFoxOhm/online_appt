@@ -74,8 +74,12 @@ const DateTime = () => {
     };
 
     const storeDateTime = () => {
-        if (isBefore(selectedDate, new Date()) || isToday(selectedDate)) {
-            setError('Please select a date after today.');
+        if (!selectedDate) {
+            alert('Please select a date.');
+        } else if (!selectedSlot) {
+            alert('Please select a time slot.');
+        } else if (isBefore(selectedDate, new Date()) || isToday(selectedDate)) {
+            alert('Please select a date after today.');
         } else if (selectedSlot) {
             localStorage.setItem('selectedSlot', selectedSlot);
             console.log('Selected slot stored in local storage:', selectedSlot);
