@@ -24,10 +24,10 @@ const Profile = () => {
           setPhoneNumber(data.phone);
           setBirthDate(data.birthday);
           if (data.sex == "M") {
-            setGender("Male");
+            setGender("M");
           }
           else if (data.sex == "F") {
-            setGender("Female");
+            setGender("F");
           }
           setWeight(data.weight);
           setHeight(data.height);
@@ -52,7 +52,7 @@ const Profile = () => {
   const [email, setEmail] = useState("John@gmail.com");
   const [phone_number, setPhoneNumber] = useState("0861140541");
   const [birthdate, setBirthDate] = useState("2002-01-04");
-  const [gender, setGender] = useState("Male");
+  const [gender, setGender] = useState("M");
   const [weight, setWeight] = useState("70.0");
   const [height, setHeight] = useState("180.0");
   const [allergic, setAllergic] = useState("Alcohol");
@@ -83,7 +83,7 @@ const Profile = () => {
     /^(?:19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
 
   // Regex pattern for a simple Gender validation
-  const GenderRegex = /^(Male|Female)$/;
+  const GenderRegex = /^(M|F)$/;
 
   // Function to check if the email is valid
   const isEmailValid = (value) => emailRegex.test(value);
