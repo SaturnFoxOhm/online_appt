@@ -417,10 +417,10 @@ const Profile = () => {
                             <option className="bg-gray-50" value="">
                               Select Gender
                             </option>
-                            <option className="bg-gray-50" value="Male">
+                            <option className="bg-gray-50" value="M">
                               Male
                             </option>
-                            <option className="bg-gray-50" value="Female">
+                            <option className="bg-gray-50" value="F">
                               Female
                             </option>
                           </select>
