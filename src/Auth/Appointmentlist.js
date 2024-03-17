@@ -67,7 +67,7 @@ const Appointmentlist = () => {
                             <td className="p-3 px-5 bg-gray-50">{appointment.appointment.first_name} {appointment.appointment.last_name}</td>
                             <td className="p-3 px-5 bg-gray-50">{appointment.appointment.hos_name}</td>
                             <td className="p-3 px-5 bg-gray-50">{appointment.appointment.HospitalDate ? appointment.appointment.HospitalDate : appointment.appointment.OffSiteDate}</td>
-                            <td className="p-3 px-5 bg-gray-50">{appointment.timeSlot.TimeSlot}</td>
+                            <td className="p-3 px-5 bg-gray-50">{appointment.timeSlot[0].TimeSlot}</td>
                             <td className="p-3 px-5 bg-gray-50">{appointment.appointment.LabStatus}</td>
                             <td className="p-3 px-5 bg-gray-50">
                               <Link to={`/user/appointment-details/${appointment.appointment.AppointmentID}`}>
