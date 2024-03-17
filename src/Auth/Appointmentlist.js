@@ -60,23 +60,23 @@ const Appointmentlist = () => {
                             <th class="text-left p-3 px-5">Name</th>
                             <th class="text-left p-3 px-5">Hospital</th>
                             <th class="text-left p-3 px-5">Date</th>
+                            <th class="text-left p-3 px-5">Time</th>
                             <th class="text-left p-3 px-5">Result Status</th>
                         </tr>
                         {appointmentList && appointmentList.map(appointment => (
-                          <tr key={appointment.AppointmentID} class="border-b hover:bg-orange-100 bg-gray-100">
-                              <td class="p-3 px-5 bg-gray-50">{appointment.first_name} {appointment.last_name}</td>
-                              <td class="p-3 px-5 bg-gray-50">{appointment.hos_name}</td>
-                              <td class="p-3 px-5 bg-gray-50">{appointment.HospitalDate ? appointment.HospitalDate : appointment.OffSiteDate}</td>
-                              <td class="p-3 px-5 bg-gray-50">{appointment.LabStatus}</td>
-                              <td class="p-3 px-5 bg-gray-50">
-                                <Link to={`/user/appointment-details/${appointment.AppointmentID}`}>
-                                  <button
-                                    className="flex items-center justify-end"
-                                  >
-                                    <HiOutlineDocumentMagnifyingGlass size={30}/>
-                                  </button>
-                                </Link>
-                              </td>
+                          <tr key={appointment.appointment.AppointmentID} className="border-b hover:bg-orange-100 bg-gray-100">
+                            <td className="p-3 px-5 bg-gray-50">{appointment.appointment.first_name} {appointment.appointment.last_name}</td>
+                            <td className="p-3 px-5 bg-gray-50">{appointment.appointment.hos_name}</td>
+                            <td className="p-3 px-5 bg-gray-50">{appointment.appointment.HospitalDate ? appointment.appointment.HospitalDate : appointment.appointment.OffSiteDate}</td>
+                            <td className="p-3 px-5 bg-gray-50">{appointment.timeSlot}</td>
+                            <td className="p-3 px-5 bg-gray-50">{appointment.appointment.LabStatus}</td>
+                            <td className="p-3 px-5 bg-gray-50">
+                              <Link to={`/user/appointment-details/${appointment.appointment.AppointmentID}`}>
+                                <button className="flex items-center justify-end">
+                                  <HiOutlineDocumentMagnifyingGlass size={30}/>
+                                </button>
+                              </Link>
+                            </td>
                           </tr>
                         ))}
                   </tbody>

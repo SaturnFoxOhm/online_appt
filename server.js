@@ -237,25 +237,49 @@ app.post('/user-appointment', (req, res) => {
     return res.status(400).send('LineUserID is required');
   }
   const fetchAllAppointment = `
-    SELECT AppointmentID, first_name, last_name, hos_name, DATE_FORMAT(HospitalDate, "%d/%m/%Y") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%d/%m/%Y") AS OffSiteDate, LabStatus
+    SELECT AppointmentID, first_name, last_name, hos_name, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%d/%m/%Y") AS OffSiteDate, offSlotID, LabStatus, a.HospitalID
     FROM Appointment a INNER JOIN userinfo u ON a.InfoID = u.InfoID INNER JOIN hospital h ON a.HospitalID = h.HospitalID
     WHERE a.LineUserID = ?;
+  `;
+  const fetchTimeSlotHospital = `
+    SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+    FROM timeslothospital
+    WHERE HospitalID = ? AND HospitalDate = ? AND hosSlotID = ?;
+  `;
+  const fetchTimeSlotOffSite = `
+    SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+    FROM timeslotoffsite
+    WHERE HospitalID = ? AND OffSiteDate = ? AND offSlotID = ?;
   `;
   connection.query(
     fetchAllAppointment,
     [LineUserID],
-    (error, results) => {
+    async (error, results) => {
       if (error) {
         console.error('Error fetching user appointment data:', error);
         return res.status(500).send('Internal Server Error');
       }
       if (results.length === 0) {
         return res.status(404).send('User appointment not found');
+      } else {
+        let appointmentsWithTimeSlots = [];
+        for (let i = 0; i < results.length; i++) {
+          let timeSlot;
+          console.log(results[i].HospitalDate)
+          console.log(results[i].hosSlotID)
+          if (results[i].HospitalDate && results[i].hosSlotID) {
+            timeSlot = await query(fetchTimeSlotHospital, [results[i].HospitalID, results[i].HospitalDate, results[i].hosSlotID]);
+          } else if (results[i].OffSiteDate && results[i].offSlotID) {
+            timeSlot = await query(fetchTimeSlotOffSite, [results[i].HospitalID, results[i].OffSiteDate, results[i].offSlotID]);
+          }
+          appointmentsWithTimeSlots.push({ appointment: results[i], timeSlot: timeSlot });
+        }
+        res.status(200).json({ appointmentsWithTimeSlots });
       }
-      res.status(200).json(results);
     }
   );
 });
+
 app.post('/user-appointment-details', async (req, res) => {
   const { AppointmentID } = req.body;
   const authToken = req.headers['authorization']
