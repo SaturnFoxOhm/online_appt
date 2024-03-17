@@ -19,7 +19,7 @@ const Appointmentlist = () => {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log('data', data)
+          console.log('data', data.appointmentsWithTimeSlots)
           setAppointmentList(data.appointmentsWithTimeSlots);
         } else {
           console.error("Failed to fetch user appointment data");
@@ -67,7 +67,7 @@ const Appointmentlist = () => {
                             <td className="p-3 px-5 bg-gray-50">{appointment.appointment.first_name} {appointment.appointment.last_name}</td>
                             <td className="p-3 px-5 bg-gray-50">{appointment.appointment.hos_name}</td>
                             <td className="p-3 px-5 bg-gray-50">{appointment.appointment.HospitalDate ? appointment.appointment.HospitalDate : appointment.appointment.OffSiteDate}</td>
-                            <td className="p-3 px-5 bg-gray-50">{appointment.timeSlot}</td>
+                            <td className="p-3 px-5 bg-gray-50">{typeof appointment.timeSlot === 'object' ? JSON.stringify(appointment.timeSlot) : appointment.timeSlot}</td>
                             <td className="p-3 px-5 bg-gray-50">{appointment.appointment.LabStatus}</td>
                             <td className="p-3 px-5 bg-gray-50">
                               <Link to={`/user/appointment-details/${appointment.appointment.AppointmentID}`}>
