@@ -2074,8 +2074,19 @@ app.get('/admin-get-users-appointment', async (req, res) => {
 
         if (admin.length > 0) {
           const HospitalID = admin[0].HospitalID;
-          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate FROM `appointment` WHERE `HospitalID` = ?', [HospitalID]);
+          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID FROM `appointment` WHERE `HospitalID` = ?', [HospitalID]);
           
+          const fetchTimeSlotHospital = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslothospital
+            WHERE HospitalID = ? AND HospitalDate = ? AND hosSlotID = ?;
+          `;
+          const fetchTimeSlotOffSite = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslotoffsite
+            WHERE HospitalID = ? AND OffSiteDate = ? AND offSlotID = ?;
+          `;
+
           if (results.length > 0) {
             const user_info = [];
 
@@ -2084,6 +2095,7 @@ app.get('/admin-get-users-appointment', async (req, res) => {
               const user_name = [];
               const phone = [];
               const Date = [];
+              const Time = [];
               const Address = [];
               const Appointment_Status = [];
 
@@ -2097,9 +2109,13 @@ app.get('/admin-get-users-appointment', async (req, res) => {
 
                 if (appointment.HospitalDate !== null) {
                   Date.push(appointment.HospitalDate);
+                  timeSlot = await query(fetchTimeSlotHospital, [appointment.HospitalID, appointment.HospitalDate, appointment.hosSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
                   Address.push('None');
                 } else if (appointment.OffSiteDate !== null) {
                   Date.push(appointment.OffSiteDate);
+                  timeSlot = await query(fetchTimeSlotOffSite, [appointment.HospitalID, appointment.OffSiteDate, appointment.offSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
 
                   const address = await queryAsync('SELECT * FROM `useraddress` WHERE `AddressID` = ?', [result[0].AddressID]);
                   Address.push(address[0].ad_line1);
@@ -2111,7 +2127,7 @@ app.get('/admin-get-users-appointment', async (req, res) => {
               }
 
               Appointment_Status.push(appointment.LabStatus);
-              user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
+              user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
             }
 
             res.status(200).send({ message: "Get All Users' Appointment", user_info });
@@ -2144,8 +2160,19 @@ app.get('/admin-get-users-appointment-date/:date', async (req, res) => {
 
         if (admin.length > 0) {
           const HospitalID = admin[0].HospitalID;
-          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate FROM `appointment` WHERE `HospitalID` = ?', [HospitalID]);
+          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID FROM `appointment` WHERE `HospitalID` = ?', [HospitalID]);
           
+          const fetchTimeSlotHospital = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslothospital
+            WHERE HospitalID = ? AND HospitalDate = ? AND hosSlotID = ?;
+          `;
+          const fetchTimeSlotOffSite = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslotoffsite
+            WHERE HospitalID = ? AND OffSiteDate = ? AND offSlotID = ?;
+          `;
+
           if (results.length > 0) {
             const user_info = [];
 
@@ -2154,6 +2181,7 @@ app.get('/admin-get-users-appointment-date/:date', async (req, res) => {
               const user_name = [];
               const phone = [];
               const Date = [];
+              const Time = [];
               const Address = [];
               const Appointment_Status = [];
 
@@ -2166,13 +2194,17 @@ app.get('/admin-get-users-appointment-date/:date', async (req, res) => {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.HospitalDate);
+                  timeSlot = await query(fetchTimeSlotHospital, [appointment.HospitalID, appointment.HospitalDate, appointment.hosSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
                   Address.push('None');
                   Appointment_Status.push(appointment.LabStatus);
-                  user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
+                  user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
                 } else if (appointment.OffSiteDate !== null && appointment.OffSiteDate === req.params.date) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.OffSiteDate);
+                  timeSlot = await query(fetchTimeSlotOffSite, [appointment.HospitalID, appointment.OffSiteDate, appointment.offSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
                   const address = await queryAsync('SELECT * FROM `useraddress` WHERE `AddressID` = ?', [result[0].AddressID]);
                   Address.push(address[0].ad_line1);
                   Address.push(address[0].ad_line2);
@@ -2180,7 +2212,7 @@ app.get('/admin-get-users-appointment-date/:date', async (req, res) => {
                   Address.push(address[0].city);
                   Address.push(address[0].zipcode);
                   Appointment_Status.push(appointment.LabStatus);
-                  user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
+                  user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
                 }
               }
             }
@@ -2215,8 +2247,19 @@ app.get('/admin-get-users-appointment/:id', async (req, res) => {
         if (admin.length > 0) {
           const HospitalID = admin[0].HospitalID;
           const Appointmentid = req.params.id;
-          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate FROM `appointment` WHERE `HospitalID` = ? AND `AppointmentID` = ?' , [HospitalID, Appointmentid]);
+          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID FROM `appointment` WHERE `HospitalID` = ? AND `AppointmentID` = ?' , [HospitalID, Appointmentid]);
           
+          const fetchTimeSlotHospital = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslothospital
+            WHERE HospitalID = ? AND HospitalDate = ? AND hosSlotID = ?;
+          `;
+          const fetchTimeSlotOffSite = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslotoffsite
+            WHERE HospitalID = ? AND OffSiteDate = ? AND offSlotID = ?;
+          `;
+
           if (results.length > 0) {
             const user_info = [];
 
@@ -2232,9 +2275,13 @@ app.get('/admin-get-users-appointment/:id', async (req, res) => {
 
                 if (appointment.HospitalDate !== null) {
                   user_info.push(appointment.HospitalDate);
+                  timeSlot = await query(fetchTimeSlotHospital, [appointment.HospitalID, appointment.HospitalDate, appointment.hosSlotID]);
+                  user_info.push(timeSlot[0].TimeSlot);
                   user_info.push('None');
                 } else if (appointment.OffSiteDate !== null) {
                   user_info.push(appointment.OffSiteDate);
+                  timeSlot = await query(fetchTimeSlotOffSite, [appointment.HospitalID, appointment.OffSiteDate, appointment.offSlotID]);
+                  user_info.push(timeSlot[0].TimeSlot);
 
                   const address = await queryAsync('SELECT * FROM `useraddress` WHERE `AddressID` = ?', [result[0].AddressID]);
                   user_info.push(address[0].ad_line1);
@@ -2314,8 +2361,19 @@ app.get('/admin-get-users-appointment-only-waiting', async (req, res) => {
         if (admin.length > 0) {
           const HospitalID = admin[0].HospitalID;
           const LabStatus = "Waiting";
-          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate FROM `appointment` WHERE `HospitalID` = ? AND `LabStatus` = ?', [HospitalID, LabStatus]);
+          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID FROM `appointment` WHERE `HospitalID` = ? AND `LabStatus` = ?', [HospitalID, LabStatus]);
           
+          const fetchTimeSlotHospital = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslothospital
+            WHERE HospitalID = ? AND HospitalDate = ? AND hosSlotID = ?;
+          `;
+          const fetchTimeSlotOffSite = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslotoffsite
+            WHERE HospitalID = ? AND OffSiteDate = ? AND offSlotID = ?;
+          `;
+
           if (results.length > 0) {
             const user_info = [];
 
@@ -2324,6 +2382,7 @@ app.get('/admin-get-users-appointment-only-waiting', async (req, res) => {
               const user_name = [];
               const phone = [];
               const Date = [];
+              const Time = [];
               const Address = [];
               const Appointment_Status = [];
 
@@ -2337,9 +2396,13 @@ app.get('/admin-get-users-appointment-only-waiting', async (req, res) => {
 
                 if (appointment.HospitalDate !== null) {
                   Date.push(appointment.HospitalDate);
+                  timeSlot = await query(fetchTimeSlotHospital, [appointment.HospitalID, appointment.HospitalDate, appointment.hosSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
                   Address.push('None');
                 } else if (appointment.OffSiteDate !== null) {
                   Date.push(appointment.OffSiteDate);
+                  timeSlot = await query(fetchTimeSlotOffSite, [appointment.HospitalID, appointment.OffSiteDate, appointment.offSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
 
                   const address = await queryAsync('SELECT * FROM `useraddress` WHERE `AddressID` = ?', [result[0].AddressID]);
                   Address.push(address[0].ad_line1);
@@ -2351,7 +2414,7 @@ app.get('/admin-get-users-appointment-only-waiting', async (req, res) => {
               }
 
               Appointment_Status.push(appointment.LabStatus);
-              user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
+              user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
             }
 
             res.status(200).send({ message: "Get All Users' Appointment", user_info });
@@ -2385,7 +2448,18 @@ app.get('/admin-get-users-appointment-only-waiting-date/:date', async (req, res)
         if (admin.length > 0) {
           const HospitalID = admin[0].HospitalID;
           const LabStatus = "Waiting";
-          const results = await queryAsync(`SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate FROM \`appointment\` WHERE \`HospitalID\` = ? AND \`LabStatus\` = ?`, [HospitalID, LabStatus]);
+          const results = await queryAsync(`SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID FROM \`appointment\` WHERE \`HospitalID\` = ? AND \`LabStatus\` = ?`, [HospitalID, LabStatus]);
+
+          const fetchTimeSlotHospital = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslothospital
+            WHERE HospitalID = ? AND HospitalDate = ? AND hosSlotID = ?;
+          `;
+          const fetchTimeSlotOffSite = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslotoffsite
+            WHERE HospitalID = ? AND OffSiteDate = ? AND offSlotID = ?;
+          `;
 
           if (results.length > 0) {
             const user_info = [];
@@ -2395,6 +2469,7 @@ app.get('/admin-get-users-appointment-only-waiting-date/:date', async (req, res)
               const user_name = [];
               const phone = [];
               const Date = [];
+              const Time = [];
               const Address = [];
               const Appointment_Status = [];
 
@@ -2408,13 +2483,17 @@ app.get('/admin-get-users-appointment-only-waiting-date/:date', async (req, res)
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.HospitalDate);
+                  timeSlot = await query(fetchTimeSlotHospital, [appointment.HospitalID, appointment.HospitalDate, appointment.hosSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
                   Address.push('None');
                   Appointment_Status.push(appointment.LabStatus);
-                  user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
+                  user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
                 } else if (appointment.OffSiteDate !== null && appointment.OffSiteDate === req.params.date) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.OffSiteDate);
+                  timeSlot = await query(fetchTimeSlotOffSite, [appointment.HospitalID, appointment.OffSiteDate, appointment.offSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
 
                   const address = await queryAsync('SELECT * FROM `useraddress` WHERE `AddressID` = ?', [result[0].AddressID]);
                   Address.push(address[0].ad_line1);
@@ -2423,7 +2502,7 @@ app.get('/admin-get-users-appointment-only-waiting-date/:date', async (req, res)
                   Address.push(address[0].city);
                   Address.push(address[0].zipcode);
                   Appointment_Status.push(appointment.LabStatus);
-                  user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
+                  user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
                 }
               }
             }
@@ -3061,8 +3140,19 @@ app.get('/super-admin-get-users-appointment', async (req, res) => {
 
         if (admin.length > 0) {
           const HospitalID = admin[0].HospitalID;
-          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate FROM `appointment` WHERE `HospitalID` = ?', [HospitalID]);
+          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID FROM `appointment` WHERE `HospitalID` = ?', [HospitalID]);
           
+          const fetchTimeSlotHospital = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslothospital
+            WHERE HospitalID = ? AND HospitalDate = ? AND hosSlotID = ?;
+          `;
+          const fetchTimeSlotOffSite = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslotoffsite
+            WHERE HospitalID = ? AND OffSiteDate = ? AND offSlotID = ?;
+          `;
+
           if (results.length > 0) {
             const user_info = [];
 
@@ -3071,6 +3161,7 @@ app.get('/super-admin-get-users-appointment', async (req, res) => {
               const user_name = [];
               const phone = [];
               const Date = [];
+              const Time = [];
               const Address = [];
               const Appointment_Status = [];
 
@@ -3084,9 +3175,13 @@ app.get('/super-admin-get-users-appointment', async (req, res) => {
 
                 if (appointment.HospitalDate !== null) {
                   Date.push(appointment.HospitalDate);
+                  timeSlot = await query(fetchTimeSlotHospital, [appointment.HospitalID, appointment.HospitalDate, appointment.hosSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
                   Address.push('None');
                 } else if (appointment.OffSiteDate !== null) {
                   Date.push(appointment.OffSiteDate);
+                  timeSlot = await query(fetchTimeSlotOffSite, [appointment.HospitalID, appointment.OffSiteDate, appointment.offSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
 
                   const address = await queryAsync('SELECT * FROM `useraddress` WHERE `AddressID` = ?', [result[0].AddressID]);
                   Address.push(address[0].ad_line1);
@@ -3098,7 +3193,7 @@ app.get('/super-admin-get-users-appointment', async (req, res) => {
               }
 
               Appointment_Status.push(appointment.LabStatus);
-              user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
+              user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
             }
 
             res.status(200).send({ message: "Get All Users' Appointment", user_info });
@@ -3131,8 +3226,19 @@ app.get('/super-admin-get-users-appointment-date/:date', async (req, res) => {
 
         if (admin.length > 0) {
           const HospitalID = admin[0].HospitalID;
-          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate FROM `appointment` WHERE `HospitalID` = ?', [HospitalID]);
+          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID FROM `appointment` WHERE `HospitalID` = ?', [HospitalID]);
           
+          const fetchTimeSlotHospital = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslothospital
+            WHERE HospitalID = ? AND HospitalDate = ? AND hosSlotID = ?;
+          `;
+          const fetchTimeSlotOffSite = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslotoffsite
+            WHERE HospitalID = ? AND OffSiteDate = ? AND offSlotID = ?;
+          `;
+
           if (results.length > 0) {
             const user_info = [];
 
@@ -3141,6 +3247,7 @@ app.get('/super-admin-get-users-appointment-date/:date', async (req, res) => {
               const user_name = [];
               const phone = [];
               const Date = [];
+              const Time = [];
               const Address = [];
               const Appointment_Status = [];
 
@@ -3153,13 +3260,17 @@ app.get('/super-admin-get-users-appointment-date/:date', async (req, res) => {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.HospitalDate);
+                  timeSlot = await query(fetchTimeSlotHospital, [appointment.HospitalID, appointment.HospitalDate, appointment.hosSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
                   Address.push('None');
                   Appointment_Status.push(appointment.LabStatus);
-                  user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
+                  user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
                 } else if (appointment.OffSiteDate !== null && appointment.OffSiteDate === req.params.date) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.OffSiteDate);
+                  timeSlot = await query(fetchTimeSlotOffSite, [appointment.HospitalID, appointment.OffSiteDate, appointment.offSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
                   const address = await queryAsync('SELECT * FROM `useraddress` WHERE `AddressID` = ?', [result[0].AddressID]);
                   Address.push(address[0].ad_line1);
                   Address.push(address[0].ad_line2);
@@ -3167,7 +3278,7 @@ app.get('/super-admin-get-users-appointment-date/:date', async (req, res) => {
                   Address.push(address[0].city);
                   Address.push(address[0].zipcode);
                   Appointment_Status.push(appointment.LabStatus);
-                  user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
+                  user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
                 }
               }
             }
@@ -3202,8 +3313,19 @@ app.get('/super-admin-get-users-appointment/:id', async (req, res) => {
         if (admin.length > 0) {
           const HospitalID = admin[0].HospitalID;
           const Appointmentid = req.params.id;
-          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate FROM `appointment` WHERE `HospitalID` = ? AND `AppointmentID` = ?' , [HospitalID, Appointmentid]);
+          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID FROM `appointment` WHERE `HospitalID` = ? AND `AppointmentID` = ?' , [HospitalID, Appointmentid]);
           
+          const fetchTimeSlotHospital = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslothospital
+            WHERE HospitalID = ? AND HospitalDate = ? AND hosSlotID = ?;
+          `;
+          const fetchTimeSlotOffSite = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslotoffsite
+            WHERE HospitalID = ? AND OffSiteDate = ? AND offSlotID = ?;
+          `;
+
           if (results.length > 0) {
             const user_info = [];
 
@@ -3219,9 +3341,13 @@ app.get('/super-admin-get-users-appointment/:id', async (req, res) => {
 
                 if (appointment.HospitalDate !== null) {
                   user_info.push(appointment.HospitalDate);
+                  timeSlot = await query(fetchTimeSlotHospital, [appointment.HospitalID, appointment.HospitalDate, appointment.hosSlotID]);
+                  user_info.push(timeSlot[0].TimeSlot);
                   user_info.push('None');
                 } else if (appointment.OffSiteDate !== null) {
                   user_info.push(appointment.OffSiteDate);
+                  timeSlot = await query(fetchTimeSlotOffSite, [appointment.HospitalID, appointment.OffSiteDate, appointment.offSlotID]);
+                  user_info.push(timeSlot[0].TimeSlot);
 
                   const address = await queryAsync('SELECT * FROM `useraddress` WHERE `AddressID` = ?', [result[0].AddressID]);
                   user_info.push(address[0].ad_line1);
@@ -3301,8 +3427,19 @@ app.get('/super-admin-get-users-appointment-only-waiting', async (req, res) => {
         if (admin.length > 0) {
           const HospitalID = admin[0].HospitalID;
           const LabStatus = "Waiting";
-          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate FROM `appointment` WHERE `HospitalID` = ? AND `LabStatus` = ?', [HospitalID, LabStatus]);
+          const results = await queryAsync('SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID FROM `appointment` WHERE `HospitalID` = ? AND `LabStatus` = ?', [HospitalID, LabStatus]);
           
+          const fetchTimeSlotHospital = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslothospital
+            WHERE HospitalID = ? AND HospitalDate = ? AND hosSlotID = ?;
+          `;
+          const fetchTimeSlotOffSite = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslotoffsite
+            WHERE HospitalID = ? AND OffSiteDate = ? AND offSlotID = ?;
+          `;
+
           if (results.length > 0) {
             const user_info = [];
 
@@ -3311,6 +3448,7 @@ app.get('/super-admin-get-users-appointment-only-waiting', async (req, res) => {
               const user_name = [];
               const phone = [];
               const Date = [];
+              const Time = [];
               const Address = [];
               const Appointment_Status = [];
 
@@ -3324,9 +3462,13 @@ app.get('/super-admin-get-users-appointment-only-waiting', async (req, res) => {
 
                 if (appointment.HospitalDate !== null) {
                   Date.push(appointment.HospitalDate);
+                  timeSlot = await query(fetchTimeSlotHospital, [appointment.HospitalID, appointment.HospitalDate, appointment.hosSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
                   Address.push('None');
                 } else if (appointment.OffSiteDate !== null) {
                   Date.push(appointment.OffSiteDate);
+                  timeSlot = await query(fetchTimeSlotOffSite, [appointment.HospitalID, appointment.OffSiteDate, appointment.offSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
 
                   const address = await queryAsync('SELECT * FROM `useraddress` WHERE `AddressID` = ?', [result[0].AddressID]);
                   Address.push(address[0].ad_line1);
@@ -3338,7 +3480,7 @@ app.get('/super-admin-get-users-appointment-only-waiting', async (req, res) => {
               }
 
               Appointment_Status.push(appointment.LabStatus);
-              user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
+              user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
             }
 
             res.status(200).send({ message: "Get All Users' Appointment", user_info });
@@ -3372,7 +3514,18 @@ app.get('/super-admin-get-users-appointment-only-waiting-date/:date', async (req
         if (admin.length > 0) {
           const HospitalID = admin[0].HospitalID;
           const LabStatus = "Waiting";
-          const results = await queryAsync(`SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate FROM \`appointment\` WHERE \`HospitalID\` = ? AND \`LabStatus\` = ?`, [HospitalID, LabStatus]);
+          const results = await queryAsync(`SELECT AppointmentID, DATE_FORMAT(Book_datetime, "%Y-%m-%d") AS Book_datetime, LabStatus, InfoID, OrderID, HospitalID, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID FROM \`appointment\` WHERE \`HospitalID\` = ? AND \`LabStatus\` = ?`, [HospitalID, LabStatus]);
+
+          const fetchTimeSlotHospital = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslothospital
+            WHERE HospitalID = ? AND HospitalDate = ? AND hosSlotID = ?;
+          `;
+          const fetchTimeSlotOffSite = `
+            SELECT CONCAT(DATE_FORMAT(start_time, '%H:%i'), '-', DATE_FORMAT(end_time, '%H:%i')) AS TimeSlot
+            FROM timeslotoffsite
+            WHERE HospitalID = ? AND OffSiteDate = ? AND offSlotID = ?;
+          `;
 
           if (results.length > 0) {
             const user_info = [];
@@ -3382,6 +3535,7 @@ app.get('/super-admin-get-users-appointment-only-waiting-date/:date', async (req
               const user_name = [];
               const phone = [];
               const Date = [];
+              const Time = [];
               const Address = [];
               const Appointment_Status = [];
 
@@ -3395,13 +3549,17 @@ app.get('/super-admin-get-users-appointment-only-waiting-date/:date', async (req
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.HospitalDate);
+                  timeSlot = await query(fetchTimeSlotHospital, [appointment.HospitalID, appointment.HospitalDate, appointment.hosSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
                   Address.push('None');
                   Appointment_Status.push(appointment.LabStatus);
-                  user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
+                  user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
                 } else if (appointment.OffSiteDate !== null && appointment.OffSiteDate === req.params.date) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.OffSiteDate);
+                  timeSlot = await query(fetchTimeSlotOffSite, [appointment.HospitalID, appointment.OffSiteDate, appointment.offSlotID]);
+                  Time.push(timeSlot[0].TimeSlot);
 
                   const address = await queryAsync('SELECT * FROM `useraddress` WHERE `AddressID` = ?', [result[0].AddressID]);
                   Address.push(address[0].ad_line1);
@@ -3410,7 +3568,7 @@ app.get('/super-admin-get-users-appointment-only-waiting-date/:date', async (req
                   Address.push(address[0].city);
                   Address.push(address[0].zipcode);
                   Appointment_Status.push(appointment.LabStatus);
-                  user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
+                  user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
                 }
               }
             }
