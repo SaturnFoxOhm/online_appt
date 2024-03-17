@@ -171,9 +171,10 @@ const AppointmentDetails = () => {
       if (!response.ok) {
         throw new Error('Failed to fetch user appointment details data');
       }
-
-      alert('Edit Successful!');
-      setEditMode(false);
+      if (response.ok) {
+        alert("Edit Successful!");
+        setEditMode(false);
+      }
     } catch (error) {
       console.error("Error saving appointment:", error);
     }
