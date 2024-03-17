@@ -63,6 +63,7 @@ const SendTestReportAdmin = () => {
                   <tbody>
                     <tr className="border-b">
                       <th className="text-left p-3 px-5">Name</th>
+                      <th className="text-left p-3 px-5">Phone Number</th>
                       <th className="text-left p-3 px-5">Date</th>
                       <th className="text-left p-3 px-5">Location</th>
                       <th className="text-left p-3 px-5">Status</th>
@@ -70,6 +71,7 @@ const SendTestReportAdmin = () => {
                     {appointments.map((appointment) => (
                       <tr key={appointment.AppointmentID} className="border-b hover:bg-orange-100 bg-gray-100">
                         <td className="p-3 px-5 bg-gray-50">{appointment.user_name}</td>
+                        <td className="p-3 px-5 bg-gray-50">{appointment.phone}</td>
                         <td className="p-3 px-5 bg-gray-50">{appointment.Date}</td>
                         <td className="p-3 px-5 bg-gray-50">
                           {appointment.Address[0] && (

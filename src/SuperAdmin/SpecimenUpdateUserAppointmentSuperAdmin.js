@@ -26,22 +26,22 @@ const SpecimenUpdateUserAppointmentSuperAdmin = () => {
 
   const ChangeEditStatus = () => {
     setIsEditing(!isEditing);
-    if(appointment.length === 9){
-        setNewStatus(appointment[8]);
+    if(appointment.length === 10){
+        setNewStatus(appointment[9]);
     }
-    if(appointment.length === 5){
-      setNewStatus(appointment[4]);
+    if(appointment.length === 6){
+      setNewStatus(appointment[5]);
     }
   };
 
   const handleStatusChange = (e) => {
     const selectedValue = e.target.value;
     console.log(selectedValue);
-    if(appointment.length === 9){
-      setNewStatus(selectedValue === '' ? appointment[8].toString() : selectedValue);
+    if(appointment.length === 10){
+      setNewStatus(selectedValue === '' ? appointment[9].toString() : selectedValue);
     }
-    if(appointment.length === 5){
-      setNewStatus(selectedValue === '' ? appointment[4].toString() : selectedValue);
+    if(appointment.length === 6){
+      setNewStatus(selectedValue === '' ? appointment[5].toString() : selectedValue);
     }
   };
 
@@ -159,6 +159,7 @@ const SpecimenUpdateUserAppointmentSuperAdmin = () => {
                   <tbody>
                     <tr className="border-b">
                       <th className="text-left p-3 px-5">Name</th>
+                      <th className="text-left p-3 px-5">Phone Number</th>
                       <th className="text-left p-3 px-5">Date</th>
                       <th className="text-left p-3 px-5">Location</th>
                       <th className="text-left p-3 px-5">Status</th>
@@ -166,10 +167,11 @@ const SpecimenUpdateUserAppointmentSuperAdmin = () => {
                     <tr key={appointment.AppointmentID} className="border-b hover:bg-orange-100 bg-gray-100">
                       <td className="p-3 px-5 bg-gray-50">{appointment[1]}</td>
                       <td className="p-3 px-5 bg-gray-50">{appointment[2]}</td>
-                      {appointment[3] !== 'At Hospital' ? (
+                      <td className="p-3 px-5 bg-gray-50">{appointment[3]}</td>
+                      {appointment[4] !== 'At Hospital' ? (
                         <>
                           <td className="p-3 px-5 bg-gray-50">
-                            {appointment[3]} {appointment[5]} {appointment[6]} {appointment[7]}
+                            {appointment[4]} {appointment[6]} {appointment[7]} {appointment[8]}
                             {/* {appointment[4] !== "" } {" "}
                             {appointment[4]}  */}
                           </td>
@@ -177,26 +179,26 @@ const SpecimenUpdateUserAppointmentSuperAdmin = () => {
                       ) : (
                           <>
                             <td className="p-3 px-5 bg-gray-50">
-                              {appointment[3]}
+                              {appointment[4]}
                             </td>
                           </>
                       )}
                       {isEditing === false ? (
                         <>
-                          {appointment.length === 9 ? (
-                            <td className="p-3 px-5 bg-gray-50">{appointment[8]}</td>
+                          {appointment.length === 10 ? (
+                            <td className="p-3 px-5 bg-gray-50">{appointment[9]}</td>
                           ) : (
                             <td className="p-3 px-5 bg-gray-50">
-                              {appointment[4]}
+                              {appointment[5]}
                             </td>
                           )}
                         </>
                       ) : (
                         <>
-                          {appointment.length === 9 ? (
+                          {appointment.length === 10 ? (
                             <td className="p-3 px-5 bg-gray-50">
                               <select className="bg-white border border-gray-300 p-1 rounded" value={currentStatus} onChange={handleStatusChange}>
-                                {appointment[8].toString() === 'Waiting' ? (
+                                {appointment[9].toString() === 'Waiting' ? (
                                   <>
                                     <option value="Waiting">Waiting</option>
                                     <option value="Received">Received</option>
@@ -212,7 +214,7 @@ const SpecimenUpdateUserAppointmentSuperAdmin = () => {
                           ) : (
                             <td className="p-3 px-5 bg-gray-50">
                               <select className="bg-white border border-gray-300 p-1 rounded" value={currentStatus} onChange={handleStatusChange}>
-                                {appointment[4].toString() === 'Waiting' ? (
+                                {appointment[5].toString() === 'Waiting' ? (
                                   <>
                                     <option value="Waiting">Waiting</option>
                                     <option value="Received">Received</option>
@@ -239,7 +241,7 @@ const SpecimenUpdateUserAppointmentSuperAdmin = () => {
                             ) : (
                             <div className="flex space-x-4">
                                 <button
-                                    className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                                     onClick={ChangeEditStatus}
                                 >
                                     Cancel
