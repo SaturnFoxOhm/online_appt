@@ -21,7 +21,6 @@ const Appointmentlist = () => {
           const data = await response.json();
           console.log('data', data)
           setAppointmentList(data);
-          console.log('appointmentList', appointmentList[0]);
         } else {
           console.error("Failed to fetch user appointment data");
         }
