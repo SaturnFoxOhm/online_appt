@@ -174,6 +174,7 @@ const AppointmentDetails = () => {
       if (response.ok) {
         alert("Edit Successful!");
         setEditMode(false);
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error saving appointment:", error);

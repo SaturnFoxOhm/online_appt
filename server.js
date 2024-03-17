@@ -445,7 +445,7 @@ app.post('/update-appointment-changes', async (req, res) => {
       query(increaseOffSiteSlot, [Hos_id, AppointInfo[0].OffSiteDate, AppointInfo[0].offSlotID])
     ]);
   }
-  res.status(200);
+  res.status(200).send('Edit successfully');;
 });
 
 app.post('/add-user-profile', (req, res) => {
@@ -490,7 +490,7 @@ app.post('/add-user-profile', (req, res) => {
                     return res.status(500).send('Internal Server Error');
                   }
                   else{
-                    res.status(200).send('User data added successfully');;
+                    res.status(200).send('User data added successfully');
                   }
                 }
               );
