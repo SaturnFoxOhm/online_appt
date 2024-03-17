@@ -2058,6 +2058,7 @@ app.get('/admin-get-users-appointment', async (req, res) => {
             for (const appointment of results) {
               const AppointmentID = []
               const user_name = [];
+              const phone = [];
               const Date = [];
               const Address = [];
               const Appointment_Status = [];
@@ -2068,6 +2069,7 @@ app.get('/admin-get-users-appointment', async (req, res) => {
               
               if (result.length > 0) {
                 user_name.push(result[0].first_name + ' ' + result[0].last_name);
+                phone.push(result[0].phone);
 
                 if (appointment.HospitalDate !== null) {
                   Date.push(appointment.HospitalDate);
@@ -2085,7 +2087,7 @@ app.get('/admin-get-users-appointment', async (req, res) => {
               }
 
               Appointment_Status.push(appointment.LabStatus);
-              user_info.push({ AppointmentID, user_name, Date, Address, Appointment_Status });
+              user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
             }
 
             res.status(200).send({ message: "Get All Users' Appointment", user_info });
@@ -2126,6 +2128,7 @@ app.get('/admin-get-users-appointment-date/:date', async (req, res) => {
             for (const appointment of results) {
               const AppointmentID = []
               const user_name = [];
+              const phone = [];
               const Date = [];
               const Address = [];
               const Appointment_Status = [];
@@ -2137,6 +2140,7 @@ app.get('/admin-get-users-appointment-date/:date', async (req, res) => {
               if (result.length > 0) {
                 if (appointment.HospitalDate !== null && appointment.HospitalDate === req.params.date) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
+                  phone.push(result[0].phone);
                   Date.push(appointment.HospitalDate);
                   Address.push('None');
                   Appointment_Status.push(appointment.LabStatus);
@@ -2151,7 +2155,7 @@ app.get('/admin-get-users-appointment-date/:date', async (req, res) => {
                   Address.push(address[0].city);
                   Address.push(address[0].zipcode);
                   Appointment_Status.push(appointment.LabStatus);
-                  user_info.push({ AppointmentID, user_name, Date, Address, Appointment_Status });
+                  user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
                 }
               }
             }
@@ -2199,6 +2203,7 @@ app.get('/admin-get-users-appointment/:id', async (req, res) => {
               
               if (result.length > 0) {
                 user_info.push(result[0].first_name + ' ' + result[0].last_name);
+                user_info.push(result[0].phone);
 
                 if (appointment.HospitalDate !== null) {
                   user_info.push(appointment.HospitalDate);
@@ -2292,6 +2297,7 @@ app.get('/admin-get-users-appointment-only-waiting', async (req, res) => {
             for (const appointment of results) {
               const AppointmentID = []
               const user_name = [];
+              const phone = [];
               const Date = [];
               const Address = [];
               const Appointment_Status = [];
@@ -2302,6 +2308,7 @@ app.get('/admin-get-users-appointment-only-waiting', async (req, res) => {
               
               if (result.length > 0) {
                 user_name.push(result[0].first_name + ' ' + result[0].last_name);
+                phone.push(result[0].phone);
 
                 if (appointment.HospitalDate !== null) {
                   Date.push(appointment.HospitalDate);
@@ -2319,7 +2326,7 @@ app.get('/admin-get-users-appointment-only-waiting', async (req, res) => {
               }
 
               Appointment_Status.push(appointment.LabStatus);
-              user_info.push({ AppointmentID, user_name, Date, Address, Appointment_Status });
+              user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
             }
 
             res.status(200).send({ message: "Get All Users' Appointment", user_info });
@@ -2359,8 +2366,9 @@ app.get('/admin-get-users-appointment-only-waiting-date/:date', async (req, res)
             const user_info = [];
 
             for (const appointment of results) {
-              const AppointmentID = []
+              const AppointmentID = [];
               const user_name = [];
+              const phone = [];
               const Date = [];
               const Address = [];
               const Appointment_Status = [];
@@ -2373,6 +2381,7 @@ app.get('/admin-get-users-appointment-only-waiting-date/:date', async (req, res)
 
                 if (appointment.HospitalDate !== null && appointment.HospitalDate === req.params.date) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
+                  phone.push(result[0].phone);
                   Date.push(appointment.HospitalDate);
                   Address.push('None');
                   Appointment_Status.push(appointment.LabStatus);
