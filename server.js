@@ -2144,9 +2144,10 @@ app.get('/admin-get-users-appointment-date/:date', async (req, res) => {
                   Date.push(appointment.HospitalDate);
                   Address.push('None');
                   Appointment_Status.push(appointment.LabStatus);
-                  user_info.push({ AppointmentID, user_name, Date, Address, Appointment_Status });
+                  user_info.push({ AppointmentID, user_name, phone, Date, Address, Appointment_Status });
                 } else if (appointment.OffSiteDate !== null && appointment.OffSiteDate === req.params.date) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
+                  phone.push(result[0].phone);
                   Date.push(appointment.OffSiteDate);
                   const address = await queryAsync('SELECT * FROM `useraddress` WHERE `AddressID` = ?', [result[0].AddressID]);
                   Address.push(address[0].ad_line1);
