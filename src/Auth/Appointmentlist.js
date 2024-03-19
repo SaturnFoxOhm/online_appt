@@ -6,12 +6,19 @@ import { HiOutlineDocumentMagnifyingGlass } from "react-icons/hi2";
 
 const Appointmentlist = () => {
   const [appointmentList, setAppointmentList] = useState();
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     // Fetch user data from the server when the component mounts
     const fetchUserAppointmentData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/user-appointment', {
+        let apiUrl = 'http://localhost:5000/user-appointment';
+
+        if (selectedDate) {
+          apiUrl = `http://localhost:5000/user-appointment/${selectedDate}`;
+        }
+
+        const response = await fetch(apiUrl, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -31,7 +38,12 @@ const Appointmentlist = () => {
 
     // Call the fetchUserData function
     fetchUserAppointmentData();
-  }, [])
+  }, [selectedDate])
+
+  const handleDateChange = (event) => {
+    const chosenDate = event.target.value;
+    setSelectedDate(chosenDate);
+  };
 
   return (
     <div>
@@ -51,6 +63,11 @@ const Appointmentlist = () => {
             <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-2">
               <div className="text-gray-600">
                 <p className="font-medium text-lg text-black">User's Appointment</p>
+                <input
+                  type="date"
+                  className="border p-2"
+                  onChange={handleDateChange}
+                />
               </div>
               <div className="lg:col-span-2">
                   <table class="w-full text-md bg-white shadow-md rounded mb-4">
