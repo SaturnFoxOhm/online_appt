@@ -14,15 +14,15 @@ const SignupAdmin = () => {
   const handleHospitalChange = (event) => {
     setSelectedHospital(event.target.value);
     // Set role based on the selected hospital
-    if(event.target.value === "Ramathibodi School of Nursing"){
-      setRole('superadmin');
-    }
-    else if(event.target.value === ""){
-      setRole('');
-    }
-    else{
-      setRole('admin');
-    }
+    // if(event.target.value === "Naresuan University Hospital"){
+    //   setRole('superadmin');
+    // }
+    // else if(event.target.value === ""){
+      // setRole('');
+    // }
+    // else{
+    //   setRole('admin');
+    // }
   };
 
   // Regex pattern for a simple AdminID validation
@@ -120,13 +120,14 @@ const SignupAdmin = () => {
         setDataHospital(data.results);
 
         // Filter hospitals based on the role
+        console.log("data", data.results);
         const filteredHospitals = data.results.filter(hospital => {
-          if (role === 'admin' && selectedHospital === '') {
-            // Show all hospitals except the first one
-            return hospital !== data.results[0];
-          } else if (role === 'superadmin' && selectedHospital === '') {
-            // Show all hospitals for superadmin
-            return hospital === data.results[0];
+          console.log("Hos", hospital);
+          if (role === 'superadmin') {
+            return hospital.hos_name === "MDRL NU";
+          } else if (role === 'admin') {
+            // Show all hospitals for admin
+            return true;
           }
           return true;
         });
@@ -139,7 +140,7 @@ const SignupAdmin = () => {
     };
 
     fetchHospitals();
-  }, [role]);  // Dependency on 'role' ensures that it runs whenever 'role' changes
+  }, [role, selectedHospital]);  // Dependency on 'role' ensures that it runs whenever 'role' changes
 
   return (
     <div>

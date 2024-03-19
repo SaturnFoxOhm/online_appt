@@ -11,7 +11,7 @@ const HomeSuperAdmin = () => {
           <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
             <div className="mx-auto max-w-screen-sm text-center mb-8">
               <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-gray-900">Super Admin Page</h2>
-              <h2 className="mb-4 text-2xl lg:text-3xl tracking-tight font-extrabold text-gray-900">โรงพยาบาลมหาวิทยาลัยนเรศวร</h2>
+              <h2 className="mb-4 text-2xl lg:text-3xl tracking-tight font-extrabold text-gray-900">MDRL Naraesuan University</h2>
               <p className="font-light text-gray-500 sm:text-xl ">You are now the Super Admin. Click here to Add or Delete Admin Account, View all Users' Appointments, Send Test Results, Edit your Time Slot.</p>
             </div>
             <div className="flex flex-col items-center space-y-8 mb-8"> {/* Center vertically */}
