@@ -84,6 +84,7 @@ const Payment = () => {
         setFile(selectedFile);
         console.log(selectedFile);
         formData.append('File', selectedFile);
+        console.log(formData);
 
         // You can also preview the selected image if needed
         const reader = new FileReader();
@@ -103,12 +104,13 @@ const Payment = () => {
         // const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
         try {
 
-            const response = await axios.post('http://localhost:5000/check-slip', formData, {
+            const response = await axios.post('http://localhost:5000/check-slip', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "multipart/form-data",
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
+                body: formData
             });
             
             // console.log(JSON.stringify(response.data));
