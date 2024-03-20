@@ -255,7 +255,7 @@ const AppointmentDetails = () => {
                               >
                                 <option value="">Select a time slot</option>
                                 {timeOptions && timeOptions.map((time, index) => (
-                                  <option key={index} value={time.hosSlotID}>
+                                  <option key={index} value={time.hosSlotID ? time.hosSlotID : time.offSlotID}>
                                     {time.TimeSlot}
                                   </option>
                                 ))}

@@ -87,10 +87,6 @@ const Payment = () => {
         for (var key of formData.entries()) {
 			console.log(key[0] + ', ' + key[1])
 		}
-        const formDataJson = {};
-        for (let [key, value] of formData.entries()) {
-            formDataJson[key] = value;
-        }
 
         // You can also preview the selected image if needed
         const reader = new FileReader();
@@ -110,13 +106,12 @@ const Payment = () => {
         // const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
         try {
 
-            const response = await axios.post('http://localhost:5000/check-slip', {
+            const response = await axios.post('http://localhost:5000/check-slip', formData, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "multipart/form-data",
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
-                body: formData.get('file')
             });
             
             // console.log(JSON.stringify(response.data));
