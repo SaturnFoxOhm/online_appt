@@ -84,7 +84,7 @@ const Payment = () => {
         setFile(selectedFile);
         console.log(selectedFile);
 
-        const testForm = new FormData();
+        const testForm = new FormData(e.target);
         testForm.append('key1', 'val1')
         console.log(testForm);
         
