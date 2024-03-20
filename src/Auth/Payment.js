@@ -140,8 +140,6 @@ const Payment = () => {
         console.log('qrDateTime:', qrDateTime.format('YYYY-MM-DD HH:mm:ss'));
         const responseDateTime = moment(response.data.date);
         console.log('responseDateTime:', responseDateTime.format('YYYY-MM-DD HH:mm:ss'));
-        console.log(response.data.amount.amount === amount);
-        console.log(responseDateTime.isAfter(qrDateTime));
         if (
             response &&
             response.data &&
@@ -153,9 +151,9 @@ const Payment = () => {
             (response.data.receiver.account.name.th === "นาย ณภัทร ว" ||
             response.data.receiver.account.name.en === "NAPAT V") &&
             response.data.amount &&
-            response.data.amount.amount === amount &&
+            response.data.amount.amount === amount
             // response.data.amount.local.currency === "764" &&
-            responseDateTime.isAfter(qrDateTime)
+            // responseDateTime.isAfter(qrDateTime)
         ) {
             return true;
         }
