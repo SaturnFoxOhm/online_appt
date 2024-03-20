@@ -14,7 +14,7 @@ const logout = () => {
     }
   }, err => console.error(err)); 
   localStorage.removeItem('token');
-  window.location.reload();
+  window.location.href = `/`;
 }
 
 export const navbar = () => {
