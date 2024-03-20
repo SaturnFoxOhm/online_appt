@@ -112,7 +112,7 @@ const Payment = () => {
                     "Content-Type": "multipart/form-data",
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
-                body: formData
+                body: formData.get('file')
             });
             
             // console.log(JSON.stringify(response.data));

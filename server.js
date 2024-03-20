@@ -1824,12 +1824,12 @@ app.post('/check-payment', async (req, res) => {
   }
 });
 
-app.post('/check-slip', upload.single('file'), async (req, res) => {
+app.post('/check-slip', async (req, res) => {
   console.log("Hello")
   const { file } = req.body;
   const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
 
-  console.log(req.body)
+  console.log(file)
 
   const formData = new FormData();
   // formData.append('file', file.buffer, {
@@ -1847,9 +1847,9 @@ app.post('/check-slip', upload.single('file'), async (req, res) => {
     const response = await axios.post('https://developer.easyslip.com/api/v1/verify' , {
       headers: {
         ...formData.getHeaders(),
-        'Authorization': `Bearer ${apiKey}`,
+        'Authorization': `Bearer 5bd4346e-a4d7-4177-8066-c324e2ed6602`,
       },
-      body: formData
+      body: file
     });
 
     res.json(response.data);
