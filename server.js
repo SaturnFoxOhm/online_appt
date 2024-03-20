@@ -1826,16 +1826,16 @@ app.post('/check-payment', async (req, res) => {
 
 app.post('/check-slip', upload.single('file'), async (req, res) => {
   console.log("Hello")
-  const { file } = req;
+  const { file } = req.body.file;
   console.log(req.body)
   const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
 
   try {
-    // Check if file is a .jpg or .png
-    const fileExt = path.extname(file.originalname);
-    if (fileExt !== '.jpg' && fileExt !== '.png') {
-      throw new Error('Invalid file format. Only .jpg and .png files are allowed.');
-    }
+    // // Check if file is a .jpg or .png
+    // const fileExt = path.extname(file.originalname);
+    // if (fileExt !== '.jpg' && fileExt !== '.png') {
+    //   throw new Error('Invalid file format. Only .jpg and .png files are allowed.');
+    // }
 
     const formData = new FormData();
     formData.append('file', file.buffer, {
