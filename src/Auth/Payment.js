@@ -140,6 +140,8 @@ const Payment = () => {
         console.log('qrDateTime:', qrDateTime.format('YYYY-MM-DD HH:mm:ss'));
         const responseDateTime = moment(response.data.date);
         console.log('responseDateTime:', responseDateTime.format('YYYY-MM-DD HH:mm:ss'));
+        console.log(response.data.amount.amount === amount);
+        console.log(responseDateTime.isAfter(qrDateTime));
         if (
             response &&
             response.data &&
