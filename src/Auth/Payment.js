@@ -100,15 +100,14 @@ const Payment = () => {
         }
         // const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
         try {
-            const formData = new FormData(file);
+            // const formData = new FormData(file);
 
-            const response = await axios.post('http://localhost:5000/check-slip', {
+            const response = await axios.post('http://localhost:5000/check-slip', selectedFile, {
                 method: 'POST',
                 headers: {
-                    "Content-Type": "multipart/form-data",
+                    "Content-Type": selectedFile.type,
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
-                body: formData
             });
             
             // console.log(JSON.stringify(response.data));
