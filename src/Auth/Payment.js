@@ -99,8 +99,8 @@ const Payment = () => {
         // const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
         try {
             const formData = new FormData();
-            formData.append('file', file['File']);
-            console.log(file['File'])
+            formData.append('file', file);
+            console.log(file)
             console.log(formData)
             const response = await axios.post('http://localhost:5000/check-slip', formData, {
                 method: 'POST',
