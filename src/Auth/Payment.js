@@ -101,6 +101,7 @@ const Payment = () => {
             const formData = new FormData();
             formData.append('file', file);
             const response = await axios.post('http://localhost:5000/check-slip', formData, {
+                method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
