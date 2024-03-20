@@ -102,10 +102,10 @@ const Payment = () => {
         try {
             // const formData = new FormData(file);
 
-            const response = await axios.post('http://localhost:5000/check-slip', selectedFile, {
+            const response = await axios.post('http://localhost:5000/check-slip', file, {
                 method: 'POST',
                 headers: {
-                    "Content-Type": selectedFile.type,
+                    "Content-Type": file.type,
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
             });
