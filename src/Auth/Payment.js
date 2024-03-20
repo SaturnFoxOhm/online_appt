@@ -83,9 +83,9 @@ const Payment = () => {
         // Optionally, you can store the selected file in state
         setFile(selectedFile);
         console.log(selectedFile);
-        
+
         const testForm = new FormData();
-        testForm.append('file', selectedFile)
+        testForm.append('file', selectedFile, 'file_image.png')
         console.log(testForm);
         
         formData.set('file', selectedFile);
