@@ -1833,12 +1833,10 @@ app.post('/check-slip', upload.single('file'), async (req, res) => {
 
 
   const formData = new FormData();
-  formData.append('file', file.buffer, {
-    filename: file.originalname,
-    contentType: file.mimetype,
-  });
-
-  console.log(formData)
+  // formData.append('file', file.buffer, {
+  //   filename: file.originalname,
+  //   contentType: file.mimetype,
+  // });
 
   try {
     // // Check if file is a .jpg or .png
