@@ -103,13 +103,14 @@ const Payment = () => {
         try {
             // console.log(file)
             // console.log(formData)
-            const response = await axios.post('http://localhost:5000/check-slip', formData , {
+            const response = await axios.post('http://localhost:5000/check-slip' , {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
+                body: formData
             });
             // console.log(JSON.stringify(response.data));
             // alert('Successfully upload file.', response.data);
