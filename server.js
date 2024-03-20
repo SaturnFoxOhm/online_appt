@@ -3,7 +3,7 @@ var cors = require('cors')
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const fileUpload = require('express-fileupload');
+// const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const multer = require('multer'); // Add this line for handling file uploads
 const buffer = require('buffer');
@@ -35,12 +35,11 @@ const connection = mysql.createConnection({
 
 var app = express();
 
-
 app.use(cors());
 
 app.use(express.json({limit: '100mb'}));
 
-app.use(fileUpload());
+// app.use(fileUpload());
 app.use(bodyParser.json({ limit: '100mb' }));
 app.use(bodyParser.urlencoded({ parameterLimit:100000, extended: true }));
 
