@@ -6,7 +6,8 @@ import { useLocation } from 'react-router-dom';
 
 const SignUp = (props) => {
     const location = useLocation();
-    const LineUserID = new URLSearchParams(location.search).get('LineUserID');
+    // const LineUserID = new URLSearchParams(location.search).get('LineUserID');
+    const LineUserID = new URLSearchParams(location.search).get('lineUserID');
     
     useEffect(() => {
         console.log("Line login user ID: ", LineUserID)
