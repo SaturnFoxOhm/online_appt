@@ -191,7 +191,7 @@ const Confirmation = () => {
                             <div className="mb-4">
                                 <p className="font-semibold text-lg">Date/Time</p>
                                 <p>
-                                    {formatDate(appointmentData.DateTime[0].HospitalDate) || formatDate(appointmentData.DateTime[0].OffSiteDate)}{' '}
+                                    {(appointmentData.DateTime[0].HospitalDate ? formatDate(appointmentData.DateTime[0].HospitalDate) : formatDate(appointmentData.DateTime[0].OffSiteDate))}{' '}
                                     {appointmentData.DateTime[0].start_time.trim().slice(0, -3)}-{appointmentData.DateTime[0].end_time.trim().slice(0, -3)}
                                 </p>
                             </div>
