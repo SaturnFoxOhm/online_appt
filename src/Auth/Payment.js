@@ -100,7 +100,7 @@ const Payment = () => {
         try {
             const formData = new FormData();
             formData.append('file', file);
-            console.log(file)
+            console.log(file.length)
             console.log(formData)
             const response = await axios.post('http://localhost:5000/check-slip', formData, {
                 method: 'POST',
