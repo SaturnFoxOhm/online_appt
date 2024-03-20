@@ -117,8 +117,9 @@ const Payment = () => {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
+                    // 'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                    // 'Accept': 'application/json',
                 },
                 body: formData
             });
