@@ -85,7 +85,7 @@ const Payment = () => {
         console.log(selectedFile);
 
         const testForm = new FormData();
-        testForm.append('file', selectedFile, 'file_image.png')
+        testForm.append('file', selectedFile, 'file_image.jpg')
         console.log(testForm);
         
         formData.set('file', selectedFile);
