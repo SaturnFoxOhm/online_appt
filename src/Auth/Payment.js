@@ -83,6 +83,11 @@ const Payment = () => {
         // Optionally, you can store the selected file in state
         setFile(selectedFile);
         console.log(selectedFile);
+        
+        const testForm = new FormData();
+        testForm.append('file', selectedFile)
+        console.log(testForm);
+        
         formData.set('file', selectedFile);
         console.log(formData);
 
@@ -108,7 +113,6 @@ const Payment = () => {
             const response = await axios.post('http://localhost:5000/check-slip', file, {
                 method: 'POST',
                 headers: {
-                    "Content-Type": file.type,
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
             });
