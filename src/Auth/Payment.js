@@ -12,7 +12,7 @@ const Payment = () => {
     const [transRef, setTransRef] = useState();
     const [qrGeneratedTime, setQrGeneratedTime] = useState(null);
     const navigate = useNavigate();
-    const formData = new FormData();
+    const [formData, setformData] = useState(() => new FormData());
 
     const totalPrice = parseFloat(localStorage.getItem('totalPrice'));
 
@@ -83,7 +83,7 @@ const Payment = () => {
         // Optionally, you can store the selected file in state
         setFile(selectedFile);
         console.log(selectedFile);
-        formData.append('file', selectedFile);
+        formData.set('file', selectedFile);
         console.log(formData);
 
         // You can also preview the selected image if needed
