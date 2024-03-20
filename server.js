@@ -1829,6 +1829,8 @@ app.post('/check-slip', upload.single('file'), async (req, res) => {
   const { file } = req.body;
   const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
 
+  console.log(req.body)
+
   const formData = new FormData();
   formData.append('file', file.buffer, {
     filename: file.originalname,

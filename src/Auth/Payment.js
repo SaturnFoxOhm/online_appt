@@ -12,6 +12,7 @@ const Payment = () => {
     const [transRef, setTransRef] = useState();
     const [qrGeneratedTime, setQrGeneratedTime] = useState(null);
     const navigate = useNavigate();
+    const formData = new FormData();
 
     const totalPrice = parseFloat(localStorage.getItem('totalPrice'));
 
@@ -81,6 +82,7 @@ const Payment = () => {
 
         // Optionally, you can store the selected file in state
         setFile(selectedFile);
+        formData.append('file', selectedFile);
 
         // You can also preview the selected image if needed
         const reader = new FileReader();
@@ -99,11 +101,9 @@ const Payment = () => {
         }
         // const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
         try {
-            const formData = new FormData();
-            formData.append('file', file);
             // console.log(file)
             // console.log(formData)
-            const response = await axios.post('http://localhost:5000/check-slip', { file }, {
+            const response = await axios.post('http://localhost:5000/check-slip', formData , {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
