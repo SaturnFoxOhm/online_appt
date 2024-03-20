@@ -237,7 +237,7 @@ app.post('/user-appointment', (req, res) => {
     return res.status(400).send('LineUserID is required');
   }
   const fetchAllAppointment = `
-    SELECT AppointmentID, first_name, last_name, hos_name, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%d/%m/%Y") AS OffSiteDate, offSlotID, LabStatus, a.HospitalID
+    SELECT AppointmentID, first_name, last_name, hos_name, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID, LabStatus, a.HospitalID
     FROM Appointment a INNER JOIN userinfo u ON a.InfoID = u.InfoID INNER JOIN hospital h ON a.HospitalID = h.HospitalID
     WHERE a.LineUserID = ?;
   `;
@@ -291,7 +291,7 @@ app.post('/user-appointment/:date', (req, res) => {
     return res.status(400).send('LineUserID is required');
   }
   const fetchAllAppointment = `
-    SELECT AppointmentID, first_name, last_name, hos_name, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%d/%m/%Y") AS OffSiteDate, offSlotID, LabStatus, a.HospitalID
+    SELECT AppointmentID, first_name, last_name, hos_name, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID, LabStatus, a.HospitalID
     FROM Appointment a INNER JOIN userinfo u ON a.InfoID = u.InfoID INNER JOIN hospital h ON a.HospitalID = h.HospitalID
     WHERE a.LineUserID = ?;
   `;
@@ -550,13 +550,14 @@ app.post('/add-user-profile', (req, res) => {
       else if (results.length > 0) {
         connection.query(
           'SELECT `InfoID` FROM `userinfo` WHERE `InfoID` = ?',
-          [results[0].InfoID],
+          [id],
           (error, result) => {
             if (error) {
               console.error('Error fetching user profile data:', error);
               return res.status(500).send('Internal Server Error');
             }
             else if(result.length > 0){
+              console.log("already exist")
               res.status(200).send('User already exist');;
             }
             else{
@@ -569,6 +570,7 @@ app.post('/add-user-profile', (req, res) => {
                     return res.status(500).send('Internal Server Error');
                   }
                   else{
+                    console.log("Complete")
                     res.status(200).send('User data added successfully');
                   }
                 }
@@ -1557,6 +1559,8 @@ app.post('/Insert-Payment', async (req, res) => {
 
   console.log(req.body);
 
+
+
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
   const decoded = jwt.verify(token, 'mysecret');
@@ -1565,6 +1569,14 @@ app.post('/Insert-Payment', async (req, res) => {
 
   if (!LineUserID) {
     return res.status(400).send('LineUserID is required');
+  }
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   const InsertPayment = `
@@ -1614,7 +1626,7 @@ app.post('/Insert-Payment', async (req, res) => {
   });
 
   await Promise.all([
-    query(InsertPayment, [LineUserID, CurrentPaymentID, totalPrice, datetime]),
+    query(InsertPayment, [LineUserID, CurrentPaymentID, totalPrice, formatDate(datetime)]),
     query(UpdatePaymentID, [CurrentPaymentID, LineUserID, CurrentOrderID]),
   ]);
 
@@ -1629,6 +1641,8 @@ app.post('/check-payment', async (req, res) => {
   const decoded = jwt.verify(token, 'mysecret');
   LineUserID = decoded.sub;
   // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
+
+  console.log("Hello World");
 
   if (!LineUserID) {
     return res.status(400).send('LineUserID is required');
@@ -1721,6 +1735,7 @@ app.post('/check-payment', async (req, res) => {
         }
       });
     });
+    console.log(CurrentAppointmentID);
 
     const AppointInfo = await new Promise((resolve, reject) => {
       connection.query("SELECT HospitalID, HospitalDate, hosSlotID, OffSiteDate, offSlotID, OrderID FROM `Appointment` WHERE `LineUserID` = ? AND `AppointmentID` = ?", 
@@ -1784,6 +1799,8 @@ app.post('/check-payment', async (req, res) => {
         }
       });
     });
+
+    console.log(CurrentReceiptID);
 
     const CurrentInfoID = await new Promise((resolve, reject) => {
       connection.query("SELECT InfoID FROM `Appointment` WHERE `LineUserID` = ? AND `AppointmentID` = ?", 
