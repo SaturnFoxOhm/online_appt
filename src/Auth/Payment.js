@@ -96,11 +96,10 @@ const Payment = () => {
             alert('Please select a file.');
             return;
         }
-        const formData = new FormData();
-        formData.append('file', file);
         // const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
         try {
-            console.log(formData);
+            const formData = new FormData();
+            formData.append('file', file);
             const response = await axios.post('http://localhost:5000/check-slip', formData, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
