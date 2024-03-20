@@ -80,13 +80,13 @@ const Payment = () => {
         }
 
         // Optionally, you can store the selected file in state
-        // setFile(selectedFile);
+        setFile(selectedFile);
 
         // You can also preview the selected image if needed
         const reader = new FileReader();
         reader.onload = (e) => {
             setPreviewUrl(e.target.result);
-            setFile(e.target.result);
+            // setFile(e.target.result);
         };
         reader.readAsDataURL(selectedFile);
     };

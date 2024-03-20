@@ -1826,9 +1826,16 @@ app.post('/check-payment', async (req, res) => {
 
 app.post('/check-slip', upload.single('file'), async (req, res) => {
   console.log("Hello")
-  const { file } = req.body.file;
-  console.log(req.body)
+  const { file } = req.body;
   const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
+
+  const formData = new FormData();
+  formData.append('file', file.buffer, {
+    filename: file.originalname,
+    contentType: file.mimetype,
+  });
+
+  console.log(formData)
 
   try {
     // // Check if file is a .jpg or .png
@@ -1837,17 +1844,12 @@ app.post('/check-slip', upload.single('file'), async (req, res) => {
     //   throw new Error('Invalid file format. Only .jpg and .png files are allowed.');
     // }
 
-    const formData = new FormData();
-    formData.append('file', file.buffer, {
-      filename: file.originalname,
-      contentType: file.mimetype,
-    });
-
-    const response = await axios.post('https://developer.easyslip.com/api/v1/verify', formData, {
+    const response = await axios.post('https://developer.easyslip.com/api/v1/verify' , {
       headers: {
         ...formData.getHeaders(),
         'Authorization': `Bearer ${apiKey}`,
       },
+      body: formData
     });
 
     res.json(response.data);
