@@ -1827,6 +1827,7 @@ app.post('/check-payment', async (req, res) => {
 app.post('/check-slip', upload.single('file'), async (req, res) => {
   console.log("Hello")
   const { file } = req;
+  console.log(req.body)
   const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
 
   try {

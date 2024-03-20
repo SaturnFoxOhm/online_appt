@@ -80,12 +80,13 @@ const Payment = () => {
         }
 
         // Optionally, you can store the selected file in state
-        setFile(selectedFile);
+        // setFile(selectedFile);
 
         // You can also preview the selected image if needed
         const reader = new FileReader();
         reader.onload = (e) => {
             setPreviewUrl(e.target.result);
+            setFile(e.target.result);
         };
         reader.readAsDataURL(selectedFile);
     };
@@ -99,7 +100,7 @@ const Payment = () => {
         // const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
         try {
             const formData = new FormData();
-            formData.append('file', file);
+            formData.append('file', 'Hello');
             console.log(file)
             console.log(formData)
             const response = await axios.post('http://localhost:5000/check-slip', formData, {
