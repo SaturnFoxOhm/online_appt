@@ -114,6 +114,7 @@ const Payment = () => {
                 },
                 body: formData
             });
+            
             // console.log(JSON.stringify(response.data));
             // alert('Successfully upload file.', response.data);
             if (checkResponse(response.data)) {
