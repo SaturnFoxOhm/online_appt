@@ -87,6 +87,10 @@ const Payment = () => {
         for (var key of formData.entries()) {
 			console.log(key[0] + ', ' + key[1])
 		}
+        const formDataJson = {};
+        for (let [key, value] of formData.entries()) {
+            formDataJson[key] = value;
+        }
 
         // You can also preview the selected image if needed
         const reader = new FileReader();
