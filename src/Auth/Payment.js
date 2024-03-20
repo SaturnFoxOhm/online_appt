@@ -152,7 +152,7 @@ const Payment = () => {
             response.data.receiver.account.name.en === "NAPAT V") &&
             response.data.amount &&
             response.data.amount.amount === amount &&
-            response.data.amount.local.currency === "764" &&
+            // response.data.amount.local.currency === "764" &&
             responseDateTime.isAfter(qrDateTime)
         ) {
             return true;
