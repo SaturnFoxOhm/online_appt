@@ -64,7 +64,7 @@ const Payment = () => {
         }
     };
 
-    const [file, setFile] = useState([]);
+    const [file, setFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState([]);
 
     const handleFileChange = (e) => {
@@ -78,8 +78,6 @@ const Payment = () => {
             alert('Please select a PNG or JPEG file.');
             return;
         }
-
-        console.log(selectedFile)
 
         // Optionally, you can store the selected file in state
         setFile(selectedFile);
@@ -102,7 +100,7 @@ const Payment = () => {
         try {
             const formData = new FormData();
             formData.append('file', file);
-            console.log(file.length)
+            console.log(file)
             console.log(formData)
             const response = await axios.post('http://localhost:5000/check-slip', formData, {
                 method: 'POST',
