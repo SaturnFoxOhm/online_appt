@@ -113,7 +113,7 @@ const Payment = () => {
             // console.log(JSON.stringify(response.data));
             // alert('Successfully upload file.', response.data);
             console.log(response)
-            if (checkResponse(response.data.data)) {
+            if (checkResponse(response.data)) {
                 console.log('Response data is valid:', response.data);
                 handleUploadSlip();
                 alert('Successfully upload file. Confirm Appointment successfully.' + response.data);
