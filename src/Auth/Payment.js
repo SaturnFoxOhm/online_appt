@@ -5,7 +5,6 @@ import axios from 'axios';
 import $ from 'jquery';
 import moment from 'moment';
 
-
 const Payment = () => {
     // const [paymentPrice, setPaymentPrice] = useState();
     const [timeLeft, setTimeLeft] = useState(600);
@@ -101,8 +100,8 @@ const Payment = () => {
         formData.append('file', file);
         // const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
         try {
-            console.log(file);
-            const response = await axios.post('http://localhost:5000/check-slip', file, {
+            console.log(formData);
+            const response = await axios.post('http://localhost:5000/check-slip', formData, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
