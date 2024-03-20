@@ -102,7 +102,7 @@ const Payment = () => {
         // const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
         try {
             console.log(file);
-            const response = await axios.post('http://localhost:5000/check-slip', formData, {
+            const response = await axios.post('http://localhost:5000/check-slip', file, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
