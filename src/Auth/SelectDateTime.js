@@ -23,6 +23,7 @@ const DateTime = () => {
     const fetchTimeSlot = async () => {
         try {
             const selectedHospital = localStorage.getItem('selectedHospital');
+            const selectedPlace = localStorage.getItem('selectedPlace');
 
             var year = selectedDate.getFullYear();
             var month = selectedDate.getMonth() + 1;
@@ -38,7 +39,8 @@ const DateTime = () => {
                 },
                 body: JSON.stringify({
                     selectedHospital: selectedHospital,
-                    selectedDate: formattedDate
+                    selectedDate: formattedDate,
+                    selectedPlace: selectedPlace
                 }),
             });
 
