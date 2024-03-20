@@ -81,7 +81,7 @@ const Payment = () => {
 
         // Optionally, you can store the selected file in state
         setFile(selectedFile);
-        console.log(selectedFile);
+        // console.log(selectedFile);
 
         // You can also preview the selected image if needed
         const reader = new FileReader();
@@ -112,7 +112,7 @@ const Payment = () => {
             
             // console.log(JSON.stringify(response.data));
             // alert('Successfully upload file.', response.data);
-            console.log(response)
+            // console.log(response)
             if (checkResponse(response.data)) {
                 console.log('Response data is valid:', response.data);
                 handleUploadSlip();
@@ -151,9 +151,9 @@ const Payment = () => {
             (response.data.receiver.account.name.th === "นาย ณภัทร ว" ||
             response.data.receiver.account.name.en === "NAPAT V") &&
             response.data.amount &&
-            response.data.amount.amount === amount
+            response.data.amount.amount === amount &&
             // response.data.amount.local.currency === "764" &&
-            // responseDateTime.isAfter(qrDateTime)
+            responseDateTime.isAfter(qrDateTime)
         ) {
             return true;
         }
