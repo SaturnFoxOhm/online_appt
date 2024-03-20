@@ -84,8 +84,6 @@ const Payment = () => {
         setFile(selectedFile);
         console.log(selectedFile);
         formData.append('file', selectedFile);
-        var options = { content: formData };
-        console.log(options)
         for (var key of formData.entries()) {
 			console.log(key[0] + ', ' + key[1])
 		}
@@ -107,19 +105,12 @@ const Payment = () => {
         }
         // const apiKey = '5bd4346e-a4d7-4177-8066-c324e2ed6602';
         try {
-            // console.log(file)
-            // console.log(formData)
-            const option = {
-                "filename": file
-            }
 
-            const response = await axios.post('http://localhost:5000/check-slip', option, {
+            const response = await axios.post('http://localhost:5000/check-slip', {
                 method: 'POST',
                 headers: {
+                    ...formData.getHeaders(), 
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    // 'Content-Type': 'application/json',
-                    'Content-Type': 'multipart/form-data',
-                    // 'Accept': 'application/json',
                 },
                 body: formData
             });

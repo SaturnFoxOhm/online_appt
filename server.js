@@ -1831,7 +1831,6 @@ app.post('/check-slip', upload.single('file'), async (req, res) => {
 
   console.log(req.body)
 
-  console.log(req)
 
   const formData = new FormData();
   formData.append('file', file.buffer, {
