@@ -83,10 +83,7 @@ const Payment = () => {
         // Optionally, you can store the selected file in state
         setFile(selectedFile);
         console.log(selectedFile);
-        formData.append('file', selectedFile);
-        for (var key of formData.entries()) {
-			console.log(key[0] + ', ' + key[1])
-		}
+        formData.append('File', selectedFile);
 
         // You can also preview the selected image if needed
         const reader = new FileReader();
