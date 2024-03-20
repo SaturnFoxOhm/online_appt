@@ -47,7 +47,7 @@ const Confirmation = () => {
                 };
 
                 setAppointmentData(data);
-
+                console.log(appointmentData);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
