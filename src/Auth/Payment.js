@@ -79,6 +79,8 @@ const Payment = () => {
             return;
         }
 
+        console.log(selectedFile)
+
         // Optionally, you can store the selected file in state
         setFile(selectedFile);
 
