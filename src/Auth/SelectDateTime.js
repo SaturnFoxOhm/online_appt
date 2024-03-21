@@ -154,10 +154,11 @@ const DateTime = () => {
                                 <option value="">Select a time slot</option>
                                 {timeslot &&
                                     timeslot.map((slot, index) => (
-                                        <option key={index} value={slot.hosSlotID}>
+                                        <option key={index} value={slot.hosSlotID || slot.offSlotID}>
                                             {`${slot.start_time.slice(0, 5)}-${slot.end_time.slice(0, 5)}`}
                                         </option>
-                                    ))}
+                                    ))
+                                }
                             </select>
                         </div>
 

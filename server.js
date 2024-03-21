@@ -29,7 +29,7 @@ const upload = multer({
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  // password: 'ohm0817742474',
+  password: 'ohm0817742474',
   database: 'healthcheckupplatform'
 });
 
@@ -754,7 +754,7 @@ app.get('/get-distance', async (req, res) => {
 });
 
 app.post('/fetchTimeSlot', (req, res) => {
-  const {selectedHospital, selectedDate} = req.body;
+  const {selectedHospital, selectedDate, selectedPlace} = req.body;
 
   const authToken = req.headers['authorization']
   const token = authToken.substring(7, authToken.length);
@@ -766,22 +766,43 @@ app.post('/fetchTimeSlot', (req, res) => {
     return res.status(400).send('LineUserID is required');
   }
 
-  connection.query(
-    'SELECT `hosSlotID`, `start_time`, `end_time` FROM `timeslothospital` WHERE `HospitalID` = ? AND `HospitalDate` = ? AND `amount` > 0',
-    [selectedHospital, selectedDate],
-    (error, results) => {
-      if (error) {
-        console.error('Error fetching hospital data:', error);
-        return res.status(500).send('Internal Server Error');
+  if(selectedPlace === 'hospital'){
+    connection.query(
+      'SELECT `hosSlotID`, `start_time`, `end_time` FROM `timeslothospital` WHERE `HospitalID` = ? AND `HospitalDate` = ? AND `amount` > 0',
+      [selectedHospital, selectedDate],
+      (error, results) => {
+        if (error) {
+          console.error('Error fetching hospital data:', error);
+          return res.status(500).send('Internal Server Error');
+        }
+  
+        if (results.length === 0) {
+          return res.status(404).send('Hospital not found');
+        }
+        res.json(results);
+        console.log(results);
       }
-
-      if (results.length === 0) {
-        return res.status(404).send('Hospital not found');
+    );
+  }
+  else if(selectedPlace === 'offsite'){
+    connection.query(
+      'SELECT `offSlotID`, `start_time`, `end_time` FROM `timeslotoffsite` WHERE `HospitalID` = ? AND `OffSiteDate` = ? AND `amount` > 0',
+      [selectedHospital, selectedDate],
+      (error, results) => {
+        if (error) {
+          console.error('Error fetching hospital data:', error);
+          return res.status(500).send('Internal Server Error');
+        }
+  
+        if (results.length === 0) {
+          return res.status(404).send('Hospital not found');
+        }
+        res.json(results);
+        console.log(results);
       }
-      res.json(results);
-      console.log(results);
-    }
-  );
+    );
+  }
+  
 });
 
 app.post('/LabTest-list', (req, res) => {
