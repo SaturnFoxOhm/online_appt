@@ -75,7 +75,11 @@ const SuccessAppointment = () => {
                         )}
                         {appointmentData && appointmentData.DateTime && (
                             <div>
-                                <p>{formatDate(appointmentData.DateTime[0].HospitalDate)}</p>
+                                {appointmentData.DateTime[0].HospitalDate ? (
+                                    <p>{formatDate(appointmentData.DateTime[0].HospitalDate)}</p>
+                                ) : (
+                                    <p>{formatDate(appointmentData.DateTime[0].OffSiteDate)}</p>
+                                )}
                                 <p>{appointmentData.DateTime[0].start_time.trim().slice(0, -3)}-{appointmentData.DateTime[0].end_time.trim().slice(0, -3)}</p>
                                 <br/>
                             </div>

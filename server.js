@@ -1526,7 +1526,7 @@ app.post('/confirm-appointment', async (req, res) => {
 
   try {
     const CurrentAppointmentID = await new Promise((resolve, reject) => {
-      connection.query("SELECT MAX(AppointmentID) FROM `Appointment`", 
+      connection.query("SELECT MAX(AppointmentID) FROM `appointment`", 
       (error, results) => {
         if (error) {
           console.error('Error getting max AppointmentID', error);
@@ -1705,11 +1705,17 @@ app.post('/check-payment', async (req, res) => {
   `;
 
   const StuckAppointment = `
-    DELETE FROM Appointment WHERE LineUserID = ? AND AppointmentID IN (
-      SELECT AppointmentID
-      FROM Appointment a INNER JOIN Orders o ON a.OrderID = o.OrderID
-      INNER JOIN Payment p ON o.PaymentID = p.PaymentID
-      WHERE payment_status = "Waiting" AND AppointmentID < ?
+    DELETE FROM appointment
+    WHERE AppointmentID IN (
+        SELECT a.AppointmentID
+        FROM (
+            SELECT AppointmentID, OrderID
+            FROM appointment
+            WHERE LineUserID = ?
+        ) AS a
+        INNER JOIN orders o ON a.OrderID = o.OrderID
+        INNER JOIN payment p ON o.PaymentID = p.PaymentID
+        WHERE p.payment_status = 'Waiting' AND a.AppointmentID < ?
     );
   `;
 
@@ -1719,8 +1725,7 @@ app.post('/check-payment', async (req, res) => {
   `;
 
   const CurrentPaymentID = await new Promise((resolve, reject) => {
-    connection.query("SELECT MAX(PaymentID) FROM `Payment` WHERE `LineUserID` = ?", 
-    [LineUserID], 
+    connection.query('SELECT MAX(PaymentID) FROM `Payment` WHERE `LineUserID` = ?', [LineUserID], 
     (error, results) => {
       if (error) {
         console.error('Error getting max PaymentID:', error);
@@ -1743,22 +1748,24 @@ app.post('/check-payment', async (req, res) => {
 
   try {
     const CurrentAppointmentID = await new Promise((resolve, reject) => {
-      connection.query("SELECT MAX(AppointmentID) FROM `Appointment` WHERE `LineUserID` = ?", 
-      [LineUserID], 
-      (error, results) => {
-        if (error) {
-          console.error('Error getting max AppointmentID', error);
-          reject(error);
-        } else if (results.length > 0){
-          var currentAppID = results[0]['MAX(AppointmentID)'];
-          resolve(currentAppID);
-        }
-      });
-    });
+      connection.query(
+          'SELECT MAX(AppointmentID) AS maxAppointmentID FROM `appointment` WHERE `LineUserID` = ?', 
+          [LineUserID], 
+          (error, results) => {
+              if (error) {
+                  console.error('Error getting max AppointmentID:', error);
+                  reject(error);
+              } else {
+                  const maxAppointmentID = results[0].maxAppointmentID;
+                  resolve(maxAppointmentID);
+              }
+          }
+      );
+    });  
     console.log(CurrentAppointmentID);
 
     const AppointInfo = await new Promise((resolve, reject) => {
-      connection.query("SELECT HospitalID, HospitalDate, hosSlotID, OffSiteDate, offSlotID, OrderID FROM `Appointment` WHERE `LineUserID` = ? AND `AppointmentID` = ?", 
+      connection.query('SELECT HospitalID, HospitalDate, hosSlotID, OffSiteDate, offSlotID, OrderID FROM `appointment` WHERE `LineUserID` = ? AND `AppointmentID` = ?', 
       [LineUserID, CurrentAppointmentID], (error, results) => {
         if (error) {
           console.error('Error getting Appoint Info:', error);
@@ -1784,7 +1791,7 @@ app.post('/check-payment', async (req, res) => {
     await query(StuckAppointment, [LineUserID, CurrentAppointmentID]);
 
     const CurrentOrderID = await new Promise((resolve, reject) => {
-      connection.query("SELECT OrderID FROM `Appointment` WHERE `LineUserID` = ? AND `AppointmentID` = ?", 
+      connection.query('SELECT OrderID FROM `appointment` WHERE `LineUserID` = ? AND `AppointmentID` = ?', 
       [LineUserID, CurrentAppointmentID], (error, results) => {
         if (error) {
           console.error('Error getting Current Order ID:', error);
@@ -1803,7 +1810,7 @@ app.post('/check-payment', async (req, res) => {
     await query(ClearTestinCart, [LineUserID, LineUserID, CurrentOrderID, LineUserID, CurrentOrderID, LineUserID, CurrentOrderID]);
 
     const CurrentReceiptID = await new Promise((resolve, reject) => {
-      connection.query("SELECT MAX(ReceiptID) FROM `Receipt` WHERE `LineUserID` = ?", 
+      connection.query('SELECT MAX(ReceiptID) FROM `Receipt` WHERE `LineUserID` = ?', 
       [LineUserID], 
       (error, results) => {
         if (error) {
@@ -1823,7 +1830,7 @@ app.post('/check-payment', async (req, res) => {
     console.log(CurrentReceiptID);
 
     const CurrentInfoID = await new Promise((resolve, reject) => {
-      connection.query("SELECT InfoID FROM `Appointment` WHERE `LineUserID` = ? AND `AppointmentID` = ?", 
+      connection.query('SELECT InfoID FROM `appointment` WHERE `LineUserID` = ? AND `AppointmentID` = ?', 
       [LineUserID, CurrentAppointmentID], (error, results) => {
         if (error) {
           console.error('Error getting Current Order ID:', error);
@@ -1967,7 +1974,7 @@ app.post('/success-appoint', async (req, res) => {
 
   const FetchCurrentAppointment = `
     SELECT HospitalID, HospitalDate, hosSlotID, OffSiteDate, offSlotID
-    FROM Appointment
+    FROM appointment
     WHERE LineUserID = ? AND AppointmentID = ?;
   `;
 
@@ -1991,17 +1998,20 @@ app.post('/success-appoint', async (req, res) => {
 
   try {
     const CurrentAppointmentID = await new Promise((resolve, reject) => {
-      connection.query("SELECT MAX(AppointmentID) FROM `Appointment` WHERE `LineUserID` = ?", 
-      (error, results) => {
-        if (error) {
-          console.error('Error getting max AppointmentID', error);
-          reject(error);
-        } else if (results.length > 0){
-          var currentAppID = results[0]['MAX(AppointmentID)'];
-          resolve(currentAppID);
-        }
-      });
-    });
+      connection.query(
+          "SELECT MAX(AppointmentID) AS maxAppointmentID FROM `appointment` WHERE `LineUserID` = ?", 
+          [LineUserID], 
+          (error, results) => {
+              if (error) {
+                  console.error('Error getting max AppointmentID', error);
+                  reject(error);
+              } else if (results.length > 0){
+                  var currentAppID = results[0].maxAppointmentID;
+                  resolve(currentAppID);
+              }
+          }
+      );
+    });  
 
     const AppointInfo = await new Promise((resolve, reject) => {
       connection.query(FetchCurrentAppointment, 
