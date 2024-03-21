@@ -72,7 +72,7 @@ const TransportedAppointmentSuperAdmin = () => {
                         {appointment.HospitalDate !== null ? (
                             <td className="p-3 px-5 bg-gray-50 lg:w-[200px]">{appointment.HospitalDate}</td>
                         ) : (
-                            <td className="p-3 px-5 bg-gray-50 lg:w-[200px]">{appointment.appointment.OffSiteDate}</td>
+                            <td className="p-3 px-5 bg-gray-50 lg:w-[200px]">{appointment.appointment && appointment.appointment.OffSiteDate}</td>
                         )}
                         {/* <td className="p-3 px-5 bg-gray-50">
                           <div>{appointment.Appointment_Status}</div>
