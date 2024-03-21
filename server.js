@@ -1833,13 +1833,15 @@ app.post('/check-payment', async (req, res) => {
       connection.query('SELECT InfoID FROM `appointment` WHERE `LineUserID` = ? AND `AppointmentID` = ?', 
       [LineUserID, CurrentAppointmentID], (error, results) => {
         if (error) {
-          console.error('Error getting Current Order ID:', error);
+          console.error('Error getting Current Info ID:', error);
           reject(error);
         } else {
-          resolve(results[0].OrderID);
+          resolve(results[0].InfoID);
         }
       });
     });
+
+    console.log(CurrentInfoID);
 
     await query(CreateReceipt, [LineUserID, CurrentReceiptID, CurrentInfoID, CurrentPaymentID]);
 
