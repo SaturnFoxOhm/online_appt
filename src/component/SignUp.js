@@ -80,33 +80,33 @@ const SignUp = (props) => {
                 <div className='Content'>
                     <h1 className="SignUp-topic">Sign Up</h1>
                     <form name='signUp' onSubmit={submitForm}>
-                        <label for="txtEmail">E-mail</label><br/>
+                        <label for="txtEmail">* E-mail</label><br/>
                         <input type='email' id='txtEmail' required title='Required E-mail'/><br/>
 
-                        <label for="txtIDcard">ID Card</label><br/>
+                        <label for="txtIDcard">* ID Card</label><br/>
                         <input type='text' id='txtIDcard' pattern='[0-9]{13}' required title='Required ID Card'/><br/>
 
-                        <label for="txtFirstname">First name</label><br/>
+                        <label for="txtFirstname">* First name</label><br/>
                         <input type='text' id='txtFirstname' required title='Required First name'/><br/>
 
-                        <label for="txtLastname">Last name</label><br/>
+                        <label for="txtLastname">* Last name</label><br/>
                         <input type='text' id='txtLastname' required title='Required Last name'/><br/>
 
-                        <label for="txtPhone">Mobile Phone</label><br/>
+                        <label for="txtPhone">* Mobile Phone</label><br/>
                         <input type='text' name='mobile' pattern='[0-9]{3}[0-9]{3}[0-9]{4}' id='txtPhone' required/><br/>
                         
-                        <label for="txtBD">Birthday</label><br/>
+                        <label for="txtBD">* Birthday</label><br/>
                         <input type='date' id='txtBD' required/><br/>
 
-                        <label for="txtSex">Sex</label><br/>
+                        <label for="txtSex">* Sex</label><br/>
                         <input type='radio' name='sex' id='txtSex' value='M' checked/> Male
                         <i></i>
                         <input type='radio' name='sex' id='txtSex' value='F'/> Female<br/>
 
-                        <label for="txtWeight">Weight</label><br/>
+                        <label for="txtWeight">* Weight</label><br/>
                         <input type='text' id='txtWeight'/><br/>
 
-                        <label for="txtHeight">Height</label><br/>
+                        <label for="txtHeight">* Height</label><br/>
                         <input type='text' id='txtHeight'/><br/>
 
                         <label for="txtAllergy">Allergy</label><br/>
