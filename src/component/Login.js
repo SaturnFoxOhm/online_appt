@@ -76,6 +76,12 @@ const Login = () => {
       } else if(response.status === 500){
         logout();
       }else if (response.status === 302) {
+        // Assuming `profile.userId` contains the user ID
+        const lineUserID = profile.userId;
+        
+        // Storing the lineUserID in localStorage
+        localStorage.setItem('lineUserID', lineUserID);
+        
         // Redirect to the sign-up page
         window.location.href = `/signup?lineUserID=${profile.userId}`;
       } else {
