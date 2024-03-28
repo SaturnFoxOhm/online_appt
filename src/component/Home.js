@@ -83,7 +83,7 @@ const Home = () => {
             <div className="relative flex justify-center mt-16 h-80 lg:relative lg:flex-none lg:justify-start md:max-lg:flex md:max-lg:justify-center sm:max-md:flex sm:max-md:max-lg:justify-center reveal-container2">
               <img
                 className="absolute w-[22rem] top-0 max-w-none rounded-md bg-white/5 ring-1 ring-white/10 items-center lg:w-[29rem]"
-                src="../images/Intro-pic.jpg"
+                src="../images/Intro-pic-new.png"
                 alt="App screenshot"
               />
             </div>
