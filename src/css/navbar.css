@@ -44,7 +44,7 @@ i:hover{
   display: none;
 }
 
-@media (max-width: 1100px){
+@media (max-width: 1000px){
   label.logo{
     font-size: 20px;
     padding-left: 50px;
@@ -58,7 +58,7 @@ i:hover{
   }
 }
 
-@media (max-width: 1000px){
+@media (max-width: 900px){
   .background{
     height: 100%;
   }
