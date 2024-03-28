@@ -53,23 +53,20 @@ const DeleteAdmin = () => {
         <div className="min-h-screen p-6 bg-gradient-to-r from-green-500 to-emerald-300 flex ">
           <div className="container max-w-screen-lg mx-auto">
             <div className="relative">
-              <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-                Delete Admin Account
-              </h2>
             </div>
             <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 overflow-x-auto">
               <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-2">
                 <div className="text-gray-600">
-                  <p className="font-medium text-lg text-black">Delete Admin Account</p>
+                  <p className="font-medium text-lg text-black">Delete Admin Account / ลบบัญชีผู้ดูแลระบบ </p>
                 </div>
                 <div className="lg:col-span-2">
                   <table className="w-full text-md bg-white shadow-md rounded mb-4">
                     <tbody>
                       <tr className="border-b">
-                        <th className="text-left p-3 px-5">AdminID</th>
-                        <th className="text-left p-3 px-5">Email</th>
-                        <th className="text-left p-3 px-5">Roles</th>
-                        <th className="text-left p-3 px-5">Hospital Name</th>
+                        <th className="text-left p-3 px-5">AdminID / แอดมินไอดี</th>
+                        <th className="text-left p-3 px-5">Email / อีเมล</th>
+                        <th className="text-left p-3 px-5">Roles / ตำแหน่ง</th>
+                        <th className="text-left p-3 px-5">Hospital Name / โรงพยาบาล</th>
                       </tr>
                       {Admin.map((Admin) => (
                         <tr key={Admin.AdminID} className="border-b hover:bg-orange-100 bg-gray-100">
@@ -84,7 +81,7 @@ const DeleteAdmin = () => {
                                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                                 onClick={() => handleDeleteAdmin(Admin.AdminID)}
                                 >
-                                    Delete Account
+                                    Delete Account / ลบบัญชี
                                 </button>
                             </td>
                         </tr>

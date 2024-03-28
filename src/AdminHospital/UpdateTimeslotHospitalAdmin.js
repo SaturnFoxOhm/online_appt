@@ -86,32 +86,29 @@ const UpdateTimeslotHospitalAdmin = () => {
             <div className="min-h-screen p-6 bg-gradient-to-r from-green-500 to-emerald-300 flex">
                 <div className="container max-w-screen-lg mx-auto">
                     <div className="relative">
-                        <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-                            Time Slots
-                        </h2>
                     </div>
                     <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 overflow-x-auto">
                         {/* Add overflow-x-auto to allow horizontal scrolling if needed */}
                         <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-2">
                             <div className="text-gray-600">
-                                <p className="font-medium text-lg text-black">Hospital's Time Slots</p>
-                                <p>Selected Date: {selectedDate}</p>
+                                <p className="font-medium text-lg text-black">Hospital's Time Slots / ช่วงเวลาทำงานในโรงพยาบาล</p>
+                                <p>Selected Date / วันที่เลือก: {selectedDate}</p>
                             </div>
                             <div className="lg:col-span-2">
                                 <table className="w-full text-md bg-white shadow-md rounded mb-4">
                                     <tbody>
                                         <tr className="border-b">
-                                            <th className="text-left p-3 px-5">Start Time</th>
-                                            <th className="text-left p-3 px-5">End Time</th>
-                                            <th className="text-left p-3 px-5">Available Slot</th>
-                                            <th className="text-left p-3 px-5">Edit Slot</th>
+                                            <th className="text-left p-3 px-5">Start Time / เวลาที่เริ่ม</th>
+                                            <th className="text-left p-3 px-5">End Time / เวลาที่จบ</th>
+                                            <th className="text-left p-3 px-5">Available Slot / จำนวนที่ว่าง</th>
+                                            <th className="text-left p-3 px-5">Edit Slot / ช่องแก้ไข</th>
                                         </tr>
                                         {timeslot.map((timeslotItem, index) => (
                                             <tr key={timeslotItem.id} className="border-b hover:bg-orange-100 bg-gray-100">
                                                 <td className="p-3 px-5 bg-gray-50">{timeslotItem.Start_time}</td>
                                                 <td className="p-3 px-5 bg-gray-50">{timeslotItem.End_time}</td>
                                                 <td className="p-3 px-5 bg-gray-50">
-                                                    {timeslotItem.amount == -1 ? 'Not Available' : timeslotItem.amount}
+                                                    {timeslotItem.amount == -1 ? 'Not Available / ไม่เปิดให้บริการ' : timeslotItem.amount}
                                                 </td>
 
                                                 <td className="p-3 px-5 bg-gray-50">
@@ -119,14 +116,14 @@ const UpdateTimeslotHospitalAdmin = () => {
                                                         value={newAmounts[index]}
                                                         onChange={(e) => handleSlot(index, e.target.value)}
                                                     >
-                                                        <option value="" disabled>Select an option</option>
+                                                        <option value="" disabled>Select an option / เลือกตัวเลือก</option>
                                                         <option value={5}>5</option>
                                                         <option value={4}>4</option>
                                                         <option value={3}>3</option>
                                                         <option value={2}>2</option>
                                                         <option value={1}>1</option>
                                                         <option value={0}>0</option>
-                                                        <option value={-1}>Not Available</option>
+                                                        <option value={-1}>Not Available / ไม่เปิดให้บริการ</option>
                                                     </select>
                                                 </td>
                                                 <td className="p-3 px-5 bg-gray-50">
@@ -134,7 +131,7 @@ const UpdateTimeslotHospitalAdmin = () => {
                                                         className="bg-yellow-500 hover:bg-yellow-700 text-black font-bold py-2 px-4 rounded mr-4"
                                                         onClick={() => handleSlotChange(timeslotItem.hosSlotID[0], newAmounts[index])}
                                                     >
-                                                        Update
+                                                        Update อัปเดต
                                                     </button>
                                                 </td>
                                             </tr>
@@ -144,7 +141,7 @@ const UpdateTimeslotHospitalAdmin = () => {
                                 <div className="inline-flex items-end">
                                     <button
                                         onClick={handleConfirm}
-                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-4">Confirm
+                                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-4">Confirm / ยืนยัน
                                     </button>
                                 </div>
                                 {/* <div className="inline-flex items-end">

@@ -370,7 +370,7 @@ const Cart = () => {
                         )}
                         {packageList.length === 0 && diseaseList.length === 0 && labTestList.length === 0 && (
                             <div style={{ textAlign: 'center', color: 'gray'}}>
-                                <p>Your cart is empty.</p>
+                                <p>Your cart is empty. ตะกร้าว่างเปล่า</p>
                             </div>
                         )}
                         <br/>

@@ -84,33 +84,30 @@ const SendEmailTestReportSuperAdmin = () => {
       <div className="min-h-screen p-6 bg-gradient-to-r from-green-500 to-emerald-300 flex ">
         <div className="container max-w-screen-md mx-auto">
           <div className="relative">
-            <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-              Send Test Result
-            </h2>
           </div>
           <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5">
             <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-2">
               <div className="text-gray-600">
-                <p className="font-medium text-lg text-black">Send Test Result</p>
+                <p className="font-medium text-lg text-black">Send Test Report / ส่งผลตรวจให้กับผู้ใช้</p>
               </div>
               <div className="lg:col-span-2">
                 <form id="emailForm" onSubmit={sendEmail}>
-                  <label htmlFor="to" style={{ fontSize: '18px'}}>To: {appointment[2]}</label>
+                  <label htmlFor="to" style={{ fontSize: '18px'}}>To / ถึง: {appointment[2]}</label>
                   <br />
                   <br />
-                  <label htmlFor="subject" style={{ fontSize: '18px' }}>Subject:</label>
+                  <label htmlFor="subject" style={{ fontSize: '18px' }}>Subject / หัวข้อ:</label>
                   <input type="text" id="subject" name="subject" value={subject} required onChange={(e) => setSubject(e.target.value)} />
                   <br />
                   <br />
-                  <label htmlFor="text" style={{ fontSize: '18px' }}>Message:</label>
+                  <label htmlFor="text" style={{ fontSize: '18px' }}>Message / ข้อความ:</label>
                   <textarea type="text" id="text" name="text" value={text} required onChange={(e) => setText(e.target.value)} class="w-full h-48 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"/>
                   <br />
                   <br />
-                  <label htmlFor="attachment" style={{ fontSize: '18px' }}>Attachment (PDF):</label>
+                  <label htmlFor="attachment" style={{ fontSize: '18px' }}>Attachment ไฟล์แนบ (PDF):</label>
                   <input type="file" id="attachment" name="attachment" required/>
                   <br />
                   <br />
-                  <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send Email</button>
+                  <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send Email / ส่งอีเมล</button>
                 </form>
               </div>
             </div>

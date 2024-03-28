@@ -76,7 +76,7 @@ const Home = () => {
                 <Link to="/about"
                   className="text-sm font-semibold leading-6 text-white"
                 >
-                  Learn more <span aria-hidden="true">→</span>
+                  Learn more / เพิ่มเติม <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </div>

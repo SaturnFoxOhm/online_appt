@@ -42,14 +42,11 @@ const TransportedAppointmentSuperAdmin = () => {
       <div className="min-h-screen p-6 bg-gradient-to-r from-green-500 to-emerald-300 flex ">
         <div className="container max-w-screen-xl mx-auto">
           <div className="relative">
-            <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-                Specimen Transportation List
-            </h2>
           </div>
           <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 overflow-x-auto">
             <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-2">
               <div className="text-gray-600">
-                <p className="font-medium text-lg text-black">Transported Users' Appointment</p>
+                <p className="font-medium text-lg text-black">Transported Users' Appointment / การนัดหมายผู้ใช้ที่ถูกโอนย้าย</p>
                 <input
                   type="date"
                   className="border p-2"
@@ -60,10 +57,10 @@ const TransportedAppointmentSuperAdmin = () => {
                 <table className="w-full text-md bg-white shadow-md rounded mb-4">
                   <tbody>
                     <tr className="border-b">
-                      <th className="text-left p-3 px-5">Name</th>
-                      <th className="text-left p-3 px-5">Hospital</th>
-                      <th className="text-left p-3 px-5">Date</th>
-                      <th className="text-left p-3 px-5">Status</th>
+                      <th className="text-left p-3 px-5">Name / ชื่อ นามสกุล</th>
+                      <th className="text-left p-3 px-5">Hospital / โรงพยาบาล</th>
+                      <th className="text-left p-3 px-5">Date / วันที่</th>
+                      <th className="text-left p-3 px-5">Result Status / สถานะผลการตรวจ</th>
                     </tr>
                     {appointments.map((appointment) => (
                       <tr key={appointment.AppointmentID} className="border-b hover:bg-orange-100 bg-gray-100">
