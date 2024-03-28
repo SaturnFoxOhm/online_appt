@@ -16,13 +16,13 @@ const TestSelection = () => {
                 </div>
 
                 <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 text-center">
-                    <p className="font-large text-xl text-black whitespace-nowrap">Test Selection</p>
+                    <p className="font-large text-xl text-black whitespace-nowrap">Test Selection / ประเภทการทดสอบ</p>
                     <br/>
                     <div>
-                        <a href="/user/Package" className="button">Package</a><br/>
-                        <a href="/user/Disease" className="button">Specific Disease</a><br/>
-                        <a href="/user/LabTest" className="button">Lab Test</a><br/>
-                        <a href="/user/NHSO" className="button">Reimbursement with NHSO</a><br/>
+                        <a href="/user/Package" className="button">Package / แพ็กเกจ</a><br/>
+                        <a href="/user/Disease" className="button">Specific Disease / โรคเฉพาะ</a><br/>
+                        <a href="/user/LabTest" className="button">Lab Test / การทดสอบในห้องปฏิบัติการ</a><br/>
+                        <a href="/user/NHSO" className="button">Reimbursement with NHSO / การทดสอบที่สามารถเบิกเงินกับ สปสช</a><br/>
                     </div>
                 </div>
             </div>

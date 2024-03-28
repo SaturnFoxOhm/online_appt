@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './navbar';
 import { IoIosAddCircleOutline, IoIosList } from "react-icons/io";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { RxCrossCircled } from "react-icons/rx";
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
 const Package = () => {
     const [packageList, setPackageList] = useState([]);
@@ -49,13 +52,21 @@ const Package = () => {
             });
             if (response.ok) {
                 // console.error("Add package data successful");
-                setShowMessage('Added to Cart');
+                setShowMessage(
+                <span>
+                    Added to Cart 
+                    <FontAwesomeIcon icon={faCartShopping} style={{ color: "#ffffff" }} />
+                </span>);
                 setTimeout(() => {
                     setShowMessage(null);
                 }, 1000);
             } else {
                 // console.error("Failed to add package data");
-                setShowMessage('Cannot Add to Cart');
+                setShowMessage(
+                <span>
+                    Cannot Add to Cart
+                    <RxCrossCircled style={{ color: 'red' }} />
+                </span>);
                 setTimeout(() => {
                     setShowMessage(null);
                 }, 1000);
@@ -77,7 +88,7 @@ const Package = () => {
             <div className="container max-w-screen-md mx-auto">
 
                 <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 text-center">
-                    <p className="font-large text-xl text-black whitespace-nowrap">Package</p>
+                    <p className="font-large text-xl text-black whitespace-nowrap">Package / แพ็กเกจ</p>
                     <br/>
                     <div>
                         <table className="table-auto mx-auto" style={{ borderCollapse: 'collapse', width: '100%' }}>

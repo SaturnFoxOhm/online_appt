@@ -77,7 +77,7 @@ const Disease = () => {
             <div className="container max-w-screen-md mx-auto">
 
                 <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 text-center">
-                    <p className="font-large text-xl text-black whitespace-nowrap">Specific Disease</p>
+                    <p className="font-large text-xl text-black whitespace-nowrap">Specific Disease / โรคเฉพาะ</p>
                     <br/>
                     <div>
                         <table className="table-auto mx-auto" style={{ borderCollapse: 'collapse', width: '100%' }}>
