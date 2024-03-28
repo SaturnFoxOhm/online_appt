@@ -73,11 +73,11 @@ const Appointmentlist = () => {
                   <table class="w-full text-md bg-white shadow-md rounded mb-4">
                     <tbody>
                         <tr class="border-b">
-                            <th class="text-left p-3 px-5">Name</th>
-                            <th class="text-left p-3 px-5">Hospital</th>
-                            <th class="text-left p-3 px-5">Date</th>
-                            <th class="text-left p-3 px-5">Time</th>
-                            <th class="text-left p-3 px-5">Result Status</th>
+                            <th class="text-left p-3 px-5">Name / ชื่อ</th>
+                            <th class="text-left p-3 px-5">Hospital / โรงพยาบาล</th>
+                            <th class="text-left p-3 px-5">Date / วันที่</th>
+                            <th class="text-left p-3 px-5">Time / เวลา</th>
+                            <th class="text-left p-3 px-5">Result Status / สถานะผลการตรวจ</th>
                         </tr>
                         {appointmentList && appointmentList.map(appointment => (
                           <tr key={appointment.appointment.AppointmentID} className="border-b hover:bg-orange-100 bg-gray-100">

@@ -71,7 +71,7 @@ const Home = () => {
                   href="/user/testSelection"
                   className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-green-900 shadow-sm hover:bg-gray-400"
                 >
-                  Start Appointment / เริ่มการจอง
+                  Start Appointment / เริ่มการนัดหมาย
                 </a>
                 <Link to="/user/about"
                   className="text-sm font-semibold leading-6 text-white"

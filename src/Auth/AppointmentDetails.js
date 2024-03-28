@@ -198,38 +198,35 @@ const AppointmentDetails = () => {
             {/* Add overflow-x-auto to allow horizontal scrolling if needed */}
             <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-2">
               <div className="text-gray-600">
-                <p className="font-medium text-lg text-black">User's Appointment</p>
+                <p className="font-medium text-lg text-black">User's Appointment / การนัดหมายของผู้ใช้</p>
               </div>
               <div className="lg:col-span-2">
                 <div>
                     {appointmentDetails && appointmentDetails.Details &&(
                       <div>
                         <div>
-                          <p className="font-semibold">Name</p>
+                          <p className="font-semibold">Name / ชื่อ นามสกุล</p>
                           <ul>
                               <li>{appointmentDetails.Details.AppointInfo[0]?.Name}</li>
                               <br/>
                           </ul>
                         </div>
                         <div>
-                          <p className="font-semibold">Hospital</p>
+                          <p className="font-semibold">Hospital / โรงพยาบาล</p>
                           <p>{appointmentDetails.Details.AppointInfo[0]?.hos_name}</p>
                           <br/>
                         </div>
                         {appointmentDetails.Details.Address != null &&(
                           <div>
-                              <p className="font-semibold">Location</p>
-                              <p>{appointmentDetails.Details.Address[0]?.ad_line1}</p>
-                              <p>{appointmentDetails.Details.Address[0]?.ad_line2}</p>
-                              <p>{appointmentDetails.Details.Address[0]?.province}</p>
-                              <p>{appointmentDetails.Details.Address[0]?.city} {appointmentDetails.Details.Address[0]?.zipcode}</p>
+                              <p className="font-semibold">Location / ที่อยู่ที่ต้องการให้ไปตรวจ</p>
+                              <p>{`${appointmentDetails.Details.Address[0]?.ad_line1}, ${appointmentDetails.Details.Address[0]?.ad_line2}, ${appointmentDetails.Details.Address[0]?.province}, ${appointmentDetails.Details.Address[0]?.city} ${appointmentDetails.Details.Address[0]?.zipcode}`}</p>
                               <br/>
                           </div>
                         )}
 
                         <div>
-                          <p className="font-semibold">Date</p>
-                          <div className="flex items-center mt-2">
+                          <p className="font-semibold">Date / วันที่</p>
+                          <div>
                             {editMode ? (
                               <input
                                 type="date"
@@ -245,15 +242,15 @@ const AppointmentDetails = () => {
                             )}
                           </div>
 
-                          <p className="font-semibold mt-4">Time</p>
-                          <div className="flex items-center mt-2">
+                          <p className="font-semibold mt-4">Time / เวลา</p>
+                          <div>
                             {editMode ? (
                               <select
                                 value={editedSlot}
                                 onChange={handleSlotChange}
                                 className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring focus:border-blue-500"
                               >
-                                <option value="">Select a time slot</option>
+                                <option value="">Select a time slot / กรุณาเลือกช่วงเวลา</option>
                                 {timeOptions && timeOptions.map((time, index) => (
                                   <option key={index} value={time.hosSlotID ? time.hosSlotID : time.offSlotID}>
                                     {time.TimeSlot}
@@ -270,7 +267,7 @@ const AppointmentDetails = () => {
                     <br />
                     {appointmentDetails && appointmentDetails.Orders && (
                       <div>
-                        <p className="font-semibold">Test</p>
+                        <p className="font-semibold">Test / รายการการตรวจ</p>
                           {appointmentDetails.Orders.Package && appointmentDetails.Orders.Package.map((order, index) => (
                             <li key={`package_order_${index}`}>&bull; {order.th_package_name} ({order.en_package_name})</li>
                           ))}
@@ -286,7 +283,7 @@ const AppointmentDetails = () => {
                     {appointmentDetails && appointmentDetails.Details && (
                       <div>
                         <p>
-                          <span className="font-bold">Status:</span> {appointmentDetails.Details.AppointInfo[0]?.LabStatus}
+                          <span className="font-bold">Result Status / สถานะผลการตรวจ:</span> {appointmentDetails.Details.AppointInfo[0]?.LabStatus}
                         </p>
                       </div>
                     )}
@@ -296,24 +293,24 @@ const AppointmentDetails = () => {
                           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                           onClick={editAppointment}
                         >
-                          Edit
+                          Edit Selected Date and Time / เลือกวันที่ และ เวลาการจองใหม่
                         </button>
                       )}
 
                       {editMode && (
                         <>
                           <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            onClick={handleSave}
-                          >
-                            Save
-                          </button>
-
-                          <button
                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             onClick={handleCancel}
                           >
-                            Cancel
+                            Cancel / ยกเลิก
+                          </button>
+
+                          <button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            onClick={handleSave}
+                          >
+                            Save / บันทึก
                           </button>
                         </>
                       )}
