@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from './navbar';
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { RxCrossCircled } from "react-icons/rx";
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
 const DiseaseDetail = () => {
     const location = useLocation();
@@ -65,13 +68,21 @@ const DiseaseDetail = () => {
             });
             if (response.ok) {
                 // console.error("Add disease data successful");
-                setShowMessage('Added to Cart');
+                setShowMessage(
+                    <span>
+                        Added to Cart{' '}
+                        <FontAwesomeIcon icon={faCartShopping} style={{ color: "#ffffff", fontSize: "1.5em" }} />
+                    </span>);
                 setTimeout(() => {
                     setShowMessage(null);
                 }, 1000);
             } else {
                 // console.error("Failed to add disease data");
-                setShowMessage('Cannot Add to Cart');
+                setShowMessage(
+                    <span style={{ display: 'flex', alignItems: 'center' }}>
+                        Can't Add to Cart{' '}
+                        <RxCrossCircled style={{ color: 'red', fontSize: '2em', marginLeft: '5px' }} />
+                    </span>);
                 setTimeout(() => {
                     setShowMessage(null);
                 }, 1000);
