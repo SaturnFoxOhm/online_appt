@@ -384,16 +384,16 @@ const Cart = () => {
                                 />
                                 <label>Select All</label>
                             </div>
-                            <div>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <div>
+                                    Total Price: ฿{totalPrice}
+                                </div>
                                 <button
-                                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out"
+                                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out ml-4"
                                     onClick={storeOrder}
                                 >
                                     Checkout
                                 </button>
-                            </div>
-                            <div>
-                                Total Price: ฿{totalPrice}
                             </div>
                         </div>
                     </div>
