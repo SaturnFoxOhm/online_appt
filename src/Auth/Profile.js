@@ -82,6 +82,12 @@ const Profile = () => {
   // Regex pattern for a simple Gender validation
   const GenderRegex = /^(M|F)$/;
 
+  // Regex pattern for simple Weight validation
+  const WeightRegex = /(\s)?\d+(.|,)/;
+
+  // Regex pattern for simple Height validation
+  const HeightRegex = /(\s)?\d+(.|,)/;
+
   // Function to check if the email is valid
   const isEmailValid = (value) => emailRegex.test(value);
 
@@ -98,6 +104,10 @@ const Profile = () => {
 
   const isGenderValid = (value) => GenderRegex.test(value);
 
+  const isWeightValid = (value) => WeightRegex.test(value);
+
+  const isHeightValid = (value) => HeightRegex.test(value);
+
   // Function to handle form submission
   const handleFormSubmit = async (e) => {
     // Perform validation checks
@@ -107,6 +117,8 @@ const Profile = () => {
     const isPhoneValid = PhoneRegex.test(phone_number);
     const isBirthdateValid = BirthDateRegex.test(birthdate);
     const isGenderValid = GenderRegex.test(gender);
+    const isWeightValid = WeightRegex.test(weight);
+    const isHeightValid = HeightRegex.test(height);
 
     // If any validation fails, return without submitting the form
     if (
@@ -115,15 +127,30 @@ const Profile = () => {
       !isLastNameValid ||
       !isPhoneValid ||
       !isBirthdateValid ||
-      !isGenderValid
+      !isGenderValid ||
+      !isWeightValid ||
+      !isHeightValid
     ) {
       // Optionally, you can display error messages or handle invalid input feedback
       alert("Please Insert All Section Correctly.");
       return false;
     }
-    
-    console.log('Fname', first_name);
-    console.log('Lname', last_name);
+    else if (first_name.length > 50) {
+      alert("First Name field should not exceed 50 characters.");
+      return false;
+    }
+    else if (last_name.length > 50) {
+      alert("Last Name field should not exceed 50 characters.");
+      return false;
+    }
+    else if (allergic.length > 50) {
+      alert("Allergic field should not exceed 50 characters.");
+      return false;
+    }
+    else if (congenital_disease.length > 50) {
+      alert("Cognitive Disease field should not exceed 50 characters.");
+      return false;
+    }
 
     try {
       const response = await fetch('http://localhost:5000/update-profile', {
@@ -184,7 +211,20 @@ const Profile = () => {
                 <div class="lg:col-span-2">
                   <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-4">
                     <div class="md:col-span-4">
-                      <label for="id_number">ID Number</label>
+                    <label for="id_number">
+                      {isEditing ? 
+                        (
+                          <>
+                            ID Number / บัตรประชาชน
+                            <span className="text-red-500">
+                                (Can't edit. Please Contact the officer / แก้ไขไม่ได้ โปรดติดต่อเจ้าหน้าที่)
+                            </span>
+                          </>
+                        ) 
+                        : 
+                        'ID Number / บัตรประชาชน'
+                      }
+                    </label>
                         <div
                           class={`h-10 border mt-1 rounded px-2 w-full bg-gray-50 flex items-center justify-left`}
                         >
@@ -201,7 +241,7 @@ const Profile = () => {
                     </div>
 
                     <div class="md:col-span-2">
-                      <label for="first_name">First Name</label>
+                      <label for="first_name">First Name / ชื่อ</label>
                       {isEditing ? (
                         <div>
                           <input
@@ -221,7 +261,7 @@ const Profile = () => {
                           {!isFirstNameValid(first_name) && (
                             <p class="text-red-500 text-xs mt-1">
                               Please enter a valid First Name (More than 1
-                              letter).
+                              letter). ชื่อควรมีความยาวมากกว่า 1 ตัวอักษร
                             </p>
                           )}
                         </div>
@@ -233,7 +273,7 @@ const Profile = () => {
                     </div>
 
                     <div class="md:col-span-2">
-                      <label for="last_name">Last Name</label>
+                      <label for="last_name">Last Name / นามสกุล</label>
                       {isEditing ? (
                         <div>
                           <input
@@ -253,7 +293,7 @@ const Profile = () => {
                           {!isLastNameValid(last_name) && (
                             <p class="text-red-500 text-xs mt-1">
                               Please enter a valid Last Name (More than 1
-                              letter).
+                              letter). นามสกุลควรมีความยาวมากกว่า 1 ตัวอักษร
                             </p>
                           )}
                         </div>
@@ -265,7 +305,7 @@ const Profile = () => {
                     </div>
 
                     <div class="md:col-span-2">
-                      <label for="email">Email Address</label>
+                      <label for="email">Email Address / อีเมล</label>
                       {isEditing ? (
                         <div>
                           <input
@@ -282,7 +322,7 @@ const Profile = () => {
                           />
                           {!isEmailValid(email) && (
                             <p class="text-red-500 text-xs mt-1">
-                              Please enter a valid email address.
+                              Please enter a valid email address. โปรดใส่อีเมลในรูปแบบให้ถูกต้อง
                             </p>
                           )}
                         </div>
@@ -294,22 +334,29 @@ const Profile = () => {
                     </div>
 
                     <div class="md:col-span-1">
-                      <label for="phone_number">Phone Number</label>
+                      <label for="phone_number">Phone Number / เบอร์โทรศัพท์</label>
                       {isEditing ? (
-                        <input
-                          type="text"
-                          name="phone_number"
-                          id="phone_number"
-                          class={`h-10 border mt-1 rounded px-2 w-full ${
-                            isPhoneValid(phone_number)
-                              ? "bg-gray-50"
-                              : "bg-red-200"
-                          }`}
-                          value={phone_number}
-                          onChange={(e) => {
-                            setPhoneNumber(e.target.value);
-                          }}
-                        />
+                        <div>
+                          <input
+                            type="text"
+                            name="phone_number"
+                            id="phone_number"
+                            class={`h-10 border mt-1 rounded px-2 w-full ${
+                              isPhoneValid(phone_number)
+                                ? "bg-gray-50"
+                                : "bg-red-200"
+                            }`}
+                            value={phone_number}
+                            onChange={(e) => {
+                              setPhoneNumber(e.target.value);
+                            }}
+                          />
+                          {!isPhoneValid(phone_number) && (
+                            <p class="text-red-500 text-xs mt-1">
+                              Please enter a valid phone number (10 numbers). เบอร์โทรศัพท์ควรมีเลข 10 ตัว
+                            </p>
+                          )}
+                        </div> 
                       ) : (
                         <div
                           class={`h-10 border mt-1 rounded px-2 w-full ${
@@ -328,7 +375,7 @@ const Profile = () => {
                     </div>
 
                     <div class="md:col-span-1">
-                      <label for="birthdate">Birth Date</label>
+                      <label for="birthdate">Birth Date / วัน เดือน ปี เกิด</label>
                       {isEditing ? (
                         <input
                           type="date"
@@ -354,13 +401,13 @@ const Profile = () => {
                       )}
                       {isEditing && birthdate === "" && (
                         <p className="text-red-500 text-xs mt-1">
-                          Please select a birthdate.
+                          Please select a birthdate. โปรดใส่ข้อมูลวันเกิด
                         </p>
                       )}
                     </div>
 
                     <div className="md:col-span-2">
-                      <label htmlFor="gender">Gender</label>
+                      <label htmlFor="gender">Gender / เพศ</label>
                       {isEditing ? (
                         <div
                           className={`h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1 ${
@@ -396,13 +443,13 @@ const Profile = () => {
                       )}
                       {isEditing && !isGenderValid(gender) && (
                         <p className="text-red-500 text-xs mt-1">
-                          Please select a gender.
+                          Please select a gender. โปรดระบุเพศ
                         </p>
                       )}
                     </div>
 
                     <div class="md:col-span-1">
-                      <label for="weight">Weight</label>
+                      <label for="weight">Weight / น้ำหนัก</label>
                       {isEditing ? (
                         <input
                           type="text"
@@ -419,10 +466,15 @@ const Profile = () => {
                           {weight}
                         </div>
                       )}
+                      {isEditing && !isWeightValid(weight) && (
+                        <p className="text-red-500 text-xs mt-1">
+                          Please enter a valid weight. โปรดระบุน้ำหนัก ให้ถูกต้อง
+                        </p>
+                      )}
                     </div>
 
                     <div class="md:col-span-1">
-                      <label for="height">Height</label>
+                      <label for="height">Height / ส่วนสูง</label>
                       {isEditing ? (
                         <input
                           type="text"
@@ -439,10 +491,15 @@ const Profile = () => {
                           {height}
                         </div>
                       )}
+                      {isEditing && !isHeightValid(height) && (
+                        <p className="text-red-500 text-xs mt-1">
+                          Please enter a valid height. โปรดระบุส่วนสูง ให้ถูกต้อง
+                        </p>
+                      )}
                     </div>
 
                     <div class="md:col-span-2">
-                      <label for="allergic">Allergic</label>
+                      <label for="allergic">Allergic / โรคภูมิแพ้</label>
                       {isEditing ? (
                         <input
                           type="text"
@@ -459,10 +516,15 @@ const Profile = () => {
                           {allergic}
                         </div>
                       )}
+                      {isEditing && allergic.length > 50 && (
+                        <p className="text-red-500 text-xs mt-1">
+                          Allergic field should not exceed 50 characters. โรคภูมิแพ้อย่าเกิน 50 ตัวอักษร
+                        </p>
+                      )}
                     </div>
 
                     <div class="md:col-span-2">
-                      <label for="congenital_disease">Congenital Disease</label>
+                      <label for="congenital_disease">Congenital Disease / โรคประจำตัว</label>
                       {isEditing ? (
                         <input
                           type="text"
@@ -478,6 +540,11 @@ const Profile = () => {
                         <div class="h-10 border mt-1 rounded px-2 w-full bg-gray-50 flex items-center justify-left">
                           {congenital_disease}
                         </div>
+                      )}
+                      {isEditing && congenital_disease.length > 50 && (
+                        <p className="text-red-500 text-xs mt-1">
+                          Congenital Disease field should not exceed 50 characters. โรคประจำตัวอย่าเกิน 50 ตัวอักษร
+                        </p>
                       )}
                     </div>
                     <br />

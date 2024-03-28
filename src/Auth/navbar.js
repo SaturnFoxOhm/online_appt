@@ -56,7 +56,7 @@ export const navbar = () => {
                 <Link className='Navbar' to="/user/profile"> Profile </Link>
               </li>
               <li>
-                <Link className='Navbar' to="/user/profile"> My Appointment / การจองของฉัน </Link>
+                <Link className='Navbar' to="/user/appointmentlist"> My Appointment / การจองของฉัน </Link>
               </li>
               <li>
                 <Link className='Navbar' to="/user/cart"> Cart / ตะกร้า </Link>
