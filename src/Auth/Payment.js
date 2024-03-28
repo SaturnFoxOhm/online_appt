@@ -240,7 +240,7 @@ const Payment = () => {
                     </div>
 
                     <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 text-center">
-                        <p className="font-semibold font-large text-xl text-black whitespace-nowrap">Make A Payment</p>
+                        <p className="font-semibold font-large text-xl text-black whitespace-nowrap">Make A Payment / ชำระเงิน</p>
                         <br />
                         <div>
                             <p>ยอดรวม: {totalPrice} บาท</p>
@@ -292,12 +292,12 @@ const Payment = () => {
                         </button>
 
                         <div className="flex flex-col items-center justify-center">
-                            <p className="font-medium text-lg text-black">Choose Slip:</p>
+                            <p className="font-medium text-lg text-black">Choose Slip / เลือกสลิป:</p>
                             <input
                                 type="file"
                                 accept="image/png, image/jpeg"
                                 onChange={handleFileChange}
-                                style={{ marginTop: '8px' }}
+                                style={{ marginTop: '8px', marginBottom: '8px' }}
                             />
                         </div>
                         {previewUrl && (

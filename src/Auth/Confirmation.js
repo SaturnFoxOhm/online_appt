@@ -138,6 +138,26 @@ const Confirmation = () => {
             console.error("Error Confirm Appointment:", error);
         }
     };
+
+    // Define a function to format the ID number
+    const formatIDNumber = (id) => {
+        // Check if the ID number has the correct length
+        if (id.length !== 13) {
+            return 'Invalid ID number';
+        }
+
+        // Split the ID number into segments
+        const segments = [
+            id.slice(0, 1),
+            id.slice(1, 5),
+            id.slice(5, 10),
+            id.slice(10, 12),
+            id.slice(12)
+        ];
+
+        // Join the segments with dashes
+        return segments.join('-');
+    };
     
     return(
         <div>
@@ -158,7 +178,7 @@ const Confirmation = () => {
                             <div className="mb-4">
                              {/* Personal Information */}
                                 <p className="font-semibold text-lg">Personal Information</p>
-                                    <li>ID Number / เลขบัตรประชาชน: {appointmentData.userInfo[0]?.InfoID}</li>
+                                    <li>ID Number / เลขบัตรประชาชน: {formatIDNumber(appointmentData.userInfo[0]?.InfoID)}</li>
                                     <li>Name / ชื่อ นามสกุล: {appointmentData.userInfo[0]?.first_name} {appointmentData.userInfo[0]?.last_name}</li>
                                     <li>Birthday / วันเดือนปี เกิด: {formatDate(appointmentData.userInfo[0]?.birthday)}</li>
                                     <li>Sex / เพศ: {getSexLabel(appointmentData.userInfo[0]?.sex)}</li>
