@@ -514,7 +514,7 @@ const Profile = () => {
                           name="allergic"
                           id="allergic"
                           className={`transition-all flex items-center h-10 border mt-1 rounded px-2 w-full bg-gray-50 ${
-                            allergic.length > 50 ? "bg-gray-50" : "bg-red-200"
+                            allergic.length <= 50 ? "bg-gray-50" : "bg-red-200"
                           }`}
                           value={allergic}
                           onChange={(e) => {
@@ -541,7 +541,7 @@ const Profile = () => {
                           name="congenital_disease"
                           id="congenital_disease"
                           className={`transition-all flex items-center h-10 border mt-1 rounded px-2 w-full bg-gray-50 ${
-                            congenital_disease.length > 50 ? "bg-gray-50" : "bg-red-200"
+                            congenital_disease.length <= 50 ? "bg-gray-50" : "bg-red-200"
                           }`}
                           value={congenital_disease}
                           onChange={(e) => {
