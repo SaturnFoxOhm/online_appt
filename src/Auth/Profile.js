@@ -215,7 +215,7 @@ const Profile = () => {
                       {isEditing ? 
                         (
                           <>
-                            ID Number / บัตรประชาชน
+                            ID Number / บัตรประชาชน{' '}
                             <span className="text-red-500">
                                 (Can't edit. Please Contact the officer / แก้ไขไม่ได้ โปรดติดต่อเจ้าหน้าที่)
                             </span>
@@ -455,7 +455,11 @@ const Profile = () => {
                           type="text"
                           name="weight"
                           id="weight"
-                          class="h-10 border mt-1 rounded px-2 w-full bg-gray-50"
+                          class={`h-10 border mt-1 rounded px-2 w-full bg-gray-50 ${
+                            isWeightValid(weight)
+                              ? "bg-gray-50"
+                              : "bg-red-200"
+                          }`}
                           value={weight}
                           onChange={(e) => {
                             setWeight(e.target.value);
@@ -480,7 +484,11 @@ const Profile = () => {
                           type="text"
                           name="height"
                           id="height"
-                          class="h-10 border mt-1 rounded px-2 w-full bg-gray-50"
+                          class={`h-10 border mt-1 rounded px-2 w-full bg-gray-50 ${
+                            isHeightValid(height)
+                              ? "bg-gray-50"
+                              : "bg-red-200"
+                          }`}
                           value={height}
                           onChange={(e) => {
                             setHeight(e.target.value);
@@ -505,7 +513,9 @@ const Profile = () => {
                           type="text"
                           name="allergic"
                           id="allergic"
-                          class="transition-all flex items-center h-10 border mt-1 rounded px-2 w-full bg-gray-50"
+                          className={`transition-all flex items-center h-10 border mt-1 rounded px-2 w-full bg-gray-50 ${
+                            allergic.length > 50 ? "bg-gray-50" : "bg-red-200"
+                          }`}
                           value={allergic}
                           onChange={(e) => {
                             setAllergic(e.target.value);
@@ -530,7 +540,9 @@ const Profile = () => {
                           type="text"
                           name="congenital_disease"
                           id="congenital_disease"
-                          class="transition-all flex items-center h-10 border mt-1 rounded px-2 w-full bg-gray-50"
+                          className={`transition-all flex items-center h-10 border mt-1 rounded px-2 w-full bg-gray-50 ${
+                            congenital_disease.length > 50 ? "bg-gray-50" : "bg-red-200"
+                          }`}
                           value={congenital_disease}
                           onChange={(e) => {
                             setCongenitalDisease(e.target.value);
