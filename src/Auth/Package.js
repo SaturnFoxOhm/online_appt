@@ -54,8 +54,8 @@ const Package = () => {
                 // console.error("Add package data successful");
                 setShowMessage(
                 <span>
-                    Added to Cart 
-                    <FontAwesomeIcon icon={faCartShopping} style={{ color: "#ffffff" }} />
+                    Added to Cart{' '}
+                    <FontAwesomeIcon icon={faCartShopping} style={{ color: "#ffffff", fontSize: "1.5em" }} />
                 </span>);
                 setTimeout(() => {
                     setShowMessage(null);
@@ -64,8 +64,8 @@ const Package = () => {
                 // console.error("Failed to add package data");
                 setShowMessage(
                 <span>
-                    Cannot Add to Cart
-                    <RxCrossCircled style={{ color: 'red' }} />
+                    Cannot Add to Cart{' '}
+                    <RxCrossCircled style={{ color: 'red', fontSize: "1.5em" }} />
                 </span>);
                 setTimeout(() => {
                     setShowMessage(null);
