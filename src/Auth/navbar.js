@@ -50,19 +50,16 @@ export const navbar = () => {
                 <Link className='Navbar' to="/user"> Home </Link>
               </li>
               <li>
-                <a className='Navbar' href="/user/service">Service</a>
-              </li>
-              <li>
                 <Link className='Navbar' to="/user/about"> About </Link>
-              </li>
-              <li>
-                <a className='Navbar' href="/user/contactus">Contact Us</a>
               </li>
               <li>
                 <Link className='Navbar' to="/user/profile"> Profile </Link>
               </li>
               <li>
-                <Link className='Navbar' to="/user/cart"> Cart </Link>
+                <Link className='Navbar' to="/user/profile"> My Appointment / การจองของฉัน </Link>
+              </li>
+              <li>
+                <Link className='Navbar' to="/user/cart"> Cart / ตะกร้า </Link>
               </li>
               <li>
                 <Link className='Navbar' onClick={() => logout()}> Sign Out </Link>

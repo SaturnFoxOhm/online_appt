@@ -69,7 +69,7 @@ const ContactUsPage = () => {
               {/* Email Section */}
                 <div>
                   <h2 style={{ fontWeight: 'bold' }}>Email</h2>
-                    <p>info@example.com</p>
+                    <p>test.fastappt@gmail.com</p>
                 </div>
               </div>
             </div>
