@@ -63,9 +63,9 @@ const Package = () => {
             } else {
                 // console.error("Failed to add package data");
                 setShowMessage(
-                <span>
+                <span style={{ display: 'flex', alignItems: 'center' }}>
                     Can't Add to Cart{' '}
-                    <RxCrossCircled style={{ color: 'red', fontSize: "1.5em" }} />
+                    <RxCrossCircled style={{ color: 'red', fontSize: '2em', marginLeft: '5px' }} />
                 </span>);
                 setTimeout(() => {
                     setShowMessage(null);
