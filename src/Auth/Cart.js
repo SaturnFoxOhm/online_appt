@@ -387,12 +387,14 @@ const Cart = () => {
                             <div>
                                 Total Price: ฿{totalPrice}
                             </div>
-                            <button
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out"
-                                onClick={storeOrder}
-                            >
-                                Checkout
-                            </button>
+                            <div>
+                                <button
+                                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out"
+                                    onClick={storeOrder}
+                                >
+                                    Checkout
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
