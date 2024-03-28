@@ -1,18 +1,21 @@
-nav{
-    background: rgba(1,112,69,1);
-    height: 81px;
-    width: 100%;
+nav {
+  background: rgba(1, 112, 69, 1);
+  height: 81px;
+  width: 100%;
 }
-nav ul{
+
+nav ul {
   float: right;
   margin-right: 10px;
 }
-nav ul li{
+
+nav ul li {
   display: inline-block;
-  line-height: 80px;
+  line-height: 81px; /* Adjusted to match the height of the navbar */
   margin: 0 5px;
 }
-nav ul li a.Navbar{
+
+nav ul li a.Navbar {
   color: white;
   font-size: 16px;
   padding: 7px 13px;
@@ -20,76 +23,83 @@ nav ul li a.Navbar{
   text-transform: uppercase;
   font-weight: bold;
 }
-a.Navbar.active,a.Navbar:hover{
+
+a.Navbar.active,
+a.Navbar:hover {
   background: rgb(1, 175, 108);
-  transition: .5s;
+  transition: 0.5s;
 }
-.checkbtn{
+
+.checkbtn {
   font-size: 30px;
   color: white;
   float: right;
-  line-height: 80px;
+  line-height: 81px; /* Adjusted to match the height of the navbar */
   margin-right: 30px;
   display: none;
 }
-i{
+
+i {
   padding: 10px;
   border-radius: 50px;
 }
-i:hover{
+
+i:hover {
   background: rgb(1, 175, 108);
-  transition: .5s;
+  transition: 0.5s;
 }
-#check{
+
+#check {
   display: none;
 }
 
-@media (max-width: 1200px){
-  label.logo{
-    font-size: 20px;
+@media (max-width: 1500px) {
+  label.logo {
+    font-size: 25px;
     padding-left: 50px;
   }
-  nav ul li a{
+  nav ul li a {
     font-size: 16px;
   }
-  section{
+  section {
     padding: 0 10%;
-    transition: .2s;
+    transition: 0.2s;
   }
 }
 
-@media (max-width: 1100px){
-  .background{
+@media (max-width: 1500px) {
+  .background {
     height: 100%;
   }
-  .checkbtn{
+  .checkbtn {
     display: block;
   }
-  ul{
+  ul {
     position: fixed;
     width: 100%;
     height: 100vh;
     background: rgb(1, 106, 112);
-    top: 80px;
+    top: 81px; /* Adjusted to match the height of the navbar */
     left: -100%;
     text-align: center;
-    transition: all .5s;
+    transition: all 0.5s;
     position: absolute;
     z-index: 1;
   }
-  nav ul li{
+  nav ul li {
     display: block;
     margin: 50px 0;
     line-height: 30px;
   }
-  nav ul li a{
+  nav ul li a {
     font-size: 20px;
   }
-  a.Navbar:hover,a.Navbar.active{
+  a.Navbar:hover,
+  a.Navbar.active {
     background: none;
     color: rgb(1, 175, 108);
   }
-  #check:checked ~ ul{
+  #check:checked ~ ul {
     left: 0;
   }
 }

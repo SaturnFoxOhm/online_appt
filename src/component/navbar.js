@@ -41,13 +41,13 @@ export const navbar = () => {
                 <Link className='Navbar' to="/"> Home </Link>
               </li>
               <li>
-                <a className='Navbar' href="/service">Service / บริการ</a>
+                <Link className='Navbar' href="/service">Service / บริการ</Link>
               </li>
               <li>
                 <Link className='Navbar' to="/about"> About / เกี่ยวกับเรา</Link>
               </li>
               <li>
-                <a className='Navbar' href="/contactus">Contact Us / ติดต่อเรา</a>
+                <Link className='Navbar' href="/contactus">Contact Us / ติดต่อเรา</Link>
               </li>
               <li>
                 <Link className='Navbar' to="/login"> Sign In / เข้าสู่ระบบ</Link>

@@ -55,7 +55,7 @@
   display: none;
 }
 
-@media (max-width: 1450px) {
+@media (max-width: 1500px) {
   .adminNav label.logo {
     font-size: 25px;
     padding-left: 50px;
@@ -71,7 +71,7 @@
   }
 }
 
-@media (max-width: 1450px) {
+@media (max-width: 1500px) {
   .adminNav .background {
     height: 100%;
   }
