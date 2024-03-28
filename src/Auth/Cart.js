@@ -285,7 +285,7 @@ const Cart = () => {
             <div className="min-h-screen p-6 bg-gradient-to-r from-green-500 to-emerald-300 flex">
             <div className="container max-w-screen-lg mx-auto">
                 <div className="bg-white rounded shadow-lg p-4 px-4 md:p-6 mb-5 text-center">
-                    <p className="font-large text-xl text-black whitespace-nowrap mb-6 font-bold">Cart</p>  
+                    <p className="font-large text-xl text-black whitespace-nowrap mb-6 font-bold">Cart / ตะกร้า</p>  
                     <div style={{ paddingLeft: '20px', textAlign: 'left' }}>
                         <p>รายการตรวจ</p>
                         

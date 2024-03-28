@@ -131,6 +131,25 @@ const Appoint = () => {
     setBookingForSomeoneElse((prev) => !prev);
   };
 
+  const formatIDNumber = (id) => {
+    // Check if the ID number has the correct length
+    if (id.length !== 13) {
+        return 'Invalid ID number';
+    }
+
+    // Split the ID number into segments
+    const segments = [
+        id.slice(0, 1),
+        id.slice(1, 5),
+        id.slice(5, 10),
+        id.slice(10, 12),
+        id.slice(12)
+    ];
+
+    // Join the segments with dashes
+    return segments.join('-');
+  };
+
   return (
     <div>
       <Navbar />
@@ -146,21 +165,21 @@ const Appoint = () => {
           <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5">
             <div className="grid gap-4 gap-y-2 text-m grid-cols-1 lg:grid-cols-2">
               <div className="text-gray-600">
-                <p className="font-large text-xl text-black">User Information</p>
+                <p className="font-large font-bold text-xl text-black">User Information</p>
               </div>
 
               <div className="lg:col-span-2 flex flex-col">
                 <div>
-                  <p>ID: {currentUserInfo.id}</p>
-                  <p>Name: {currentUserInfo.name}</p>
-                  <p>Email: {currentUserInfo.email}</p>
-                  <p>Phone: {currentUserInfo.phone}</p>
-                  <p>Birthday: {currentUserInfo.birthdate}</p>
-                  <p>Sex: {currentUserInfo.sex}</p>
-                  <p>Weight: {currentUserInfo.weight}</p>
-                  <p>Height: {currentUserInfo.height}</p>
-                  <p>Allergic: {currentUserInfo.allergic || '-'}</p>
-                  <p>Congenital Disease: {currentUserInfo.disease || '-'}</p>
+                  <p>ID Number / เลขบัตรประชาชน: {formatIDNumber(currentUserInfo.id)}</p>
+                  <p>Name / ชื่อ นามสกุล: {currentUserInfo.name}</p>
+                  <p>Email / อีเมล: {currentUserInfo.email}</p>
+                  <p>Phone / เบอร์โทรศัพท์: {currentUserInfo.phone}</p>
+                  <p>Birthday / วันเดือนปี เกิด: {currentUserInfo.birthdate}</p>
+                  <p>Sex / เพศ: {currentUserInfo.sex}</p>
+                  <p>Weight / น้ำหนัก: {currentUserInfo.weight}</p>
+                  <p>Height / ส่วนสูง: {currentUserInfo.height}</p>
+                  <p>Allergic / โรคภูมิแพ้: {currentUserInfo.allergic || '-'}</p>
+                  <p>Congenital Disease / โรคประจำตัว: {currentUserInfo.disease || '-'}</p>
 
                   <label className="block mt-4">
                      <input
@@ -169,7 +188,7 @@ const Appoint = () => {
                         onChange={handleCheckboxChange}
                         className="mr-2 h-4 w-4" // Adjust the height and width as needed
                     />
-                     Make this booking for someone else
+                     Make this booking for someone else / ทำการจองนี้ให้คนอื่น
                   </label>
                 </div>
                 
@@ -267,32 +286,32 @@ const BookingForSomeoneElseForm = () => {
     <br />
       <form onSubmit={addNewUserProfile}>
         <label>
-          * ID Number:
+          * ID Number / เลขบัตรประชาชน:
           <input type="text" required pattern="\d{13}" title="Please enter a valid 13-digit ID Number" value={newIDNumber} onChange={(e) => setNewIDNumber(e.target.value)} />
         </label>
         <br />
         <label>
-          * First Name:
+          * First Name / ชื่อ:
           <input type="text" required value={newFirstName} onChange={(e) => setNewFirstName(e.target.value)} />
         </label>
         <br />
         <label>
-          * Last Name:
+          * Last Name / นามสกุล:
           <input type="text" required value={newLastName} onChange={(e) => setNewLastName(e.target.value)} />
         </label>
         <br />
         <label>
-          * Email:
+          * Email / อีเมล:
           <input type="email" required pattern="\S+@\S+\.\S+" title="Please enter a valid email address" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
         </label>
         <br />
         <label>
-          * Birthdate:
+          * Birthdate / วันเดือนปี เกิด:
           <input type="date" required value={newBirthdate} onChange={(e) => setNewBirthdate(e.target.value)} />
         </label>
         <br />
         <label className="flex items-center">
-          * Sex:
+          * Sex / เพศ:
           <select
             required 
             defaultValue='M'
@@ -306,26 +325,26 @@ const BookingForSomeoneElseForm = () => {
         </label>
         <br />
         <label>
-          * Phone:
+          * Phone / เบอร์โทรศัพท์:
           <input type="text" required pattern="\d{10}" title="Please enter a valid 10-digit Phone Number" value={newPhone} onChange={(e) => setNewPhone(e.target.value)} />
         </label>
         <br />
         <label>
-          * Weight:
+          * Weight / น้ำหนัก:
           <input type='text' required value={newWeight} onChange={(e) => setNewWeight(e.target.value)} />
         </label>
         <label>
-          * Height: 
+          * Height / ส่วนสูง: 
           <input type='text'required value={newHeight} onChange={(e) => setNewHeight(e.target.value)} />
         </label>               
         <br />
         <label>
-          Allergy:
+          Allergy / โรคภูมิแพ้:
           <input type='text' value={newAllergy} onChange={(e) => setNewAllergy(e.target.value)} />
         </label>
         <br/>
         <label>
-          Cognition Disease: 
+          Cognition Disease / โรคประจำตัว: 
           <input type='text' value={newDisease} onChange={(e) => setNewDisease(e.target.value)} />
         </label> 
         <div style={{ display: 'grid', placeItems: 'end' }}>

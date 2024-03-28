@@ -215,7 +215,7 @@ const Profile = () => {
                       {isEditing ? 
                         (
                           <>
-                            ID Number / บัตรประชาชน{' '}
+                            ID Number / เลขบัตรประชาชน{' '}
                             <span className="text-red-500">
                                 (Can't edit. Please Contact the officer / แก้ไขไม่ได้ โปรดติดต่อเจ้าหน้าที่)
                             </span>
