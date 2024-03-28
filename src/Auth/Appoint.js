@@ -141,9 +141,6 @@ const Appoint = () => {
             <div className="progress-bar-container h-8 bg-gray-300 mt-2 mb-8 rounded-full border-2 border-gray-800 overflow-hidden">
               <div className="progress-bar font-bold bg-yellow-500 h-full border-r-2 border-gray-800 flex items-center justify-center" style={{ width: `10%` }}> 10 %</div>
             </div>
-            <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-              Appoint Health Checkup
-            </h2>
           </div>
 
           <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5">
