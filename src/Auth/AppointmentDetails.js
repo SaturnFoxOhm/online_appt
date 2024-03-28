@@ -188,10 +188,10 @@ const AppointmentDetails = () => {
         <div className="container max-w-screen-lg mx-auto">
           <div className="relative">
             <a href='/user/profile' className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-gray-500 py-2 px-4 rounded-l-md rounded-r-md">
-              Profile Page
+              Profile Page / หน้าโปรไฟล์
             </a>
             <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-              Appointment Page
+              Appointment Page / หน้าการนัดหมาย
             </h2>
           </div>
           <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 overflow-x-auto">
