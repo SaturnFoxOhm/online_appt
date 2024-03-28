@@ -149,39 +149,36 @@ const Confirmation = () => {
                 <div className="progress-bar-container h-8 bg-gray-300 mt-2 mb-8 rounded-full border-2 border-gray-800 overflow-hidden">
                     <div className="progress-bar font-bold bg-yellow-500 h-full border-r-2 border-gray-800 flex items-center justify-center" style={{ width: `70%` }}> 70 %</div>
                 </div>
-                <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-                    Appoint Health Checkup
-                </h2>
                 </div>
 
                 <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 text-center">
-                    <p className="font-bold font-large text-xl text-black whitespace-nowrap mb-4">Appointment Confirmation</p>
+                    <p className="font-bold font-large text-xl text-black whitespace-nowrap mb-4">Appointment Confirmation / ยืนยันการนัดหมาย</p>
                     <div>
                         {appointmentData && appointmentData.userInfo &&(
                             <div className="mb-4">
                              {/* Personal Information */}
                                 <p className="font-semibold text-lg">Personal Information</p>
-                                    <li>Personal ID: {appointmentData.userInfo[0]?.InfoID}</li>
-                                    <li>Name: {appointmentData.userInfo[0]?.first_name} {appointmentData.userInfo[0]?.last_name}</li>
-                                    <li>Birthday: {formatDate(appointmentData.userInfo[0]?.birthday)}</li>
-                                    <li>Sex: {getSexLabel(appointmentData.userInfo[0]?.sex)}</li>
-                                    <li>Phone: {appointmentData.userInfo[0]?.phone}</li>
-                                    <li>Weight: {appointmentData.userInfo[0]?.weight || "-"}</li>
-                                    <li>Height: {appointmentData.userInfo[0]?.height || "-"}</li>
-                                    <li>Allergy: {appointmentData.userInfo[0]?.allergic || "-"}</li>
-                                    <li>Congenital Disease: {appointmentData.userInfo[0]?.congenital_disease || "-"}</li>
-                                    <li>Email: {appointmentData.userInfo[0]?.email}</li>
+                                    <li>ID Number / เลขบัตรประชาชน: {appointmentData.userInfo[0]?.InfoID}</li>
+                                    <li>Name / ชื่อ นามสกุล: {appointmentData.userInfo[0]?.first_name} {appointmentData.userInfo[0]?.last_name}</li>
+                                    <li>Birthday / วันเดือนปี เกิด: {formatDate(appointmentData.userInfo[0]?.birthday)}</li>
+                                    <li>Sex / เพศ: {getSexLabel(appointmentData.userInfo[0]?.sex)}</li>
+                                    <li>Phone / เบอร์โทรศัพท์: {appointmentData.userInfo[0]?.phone}</li>
+                                    <li>Weight / น้ำหนัก: {appointmentData.userInfo[0]?.weight || "-"}</li>
+                                    <li>Height / ส่วนสูง: {appointmentData.userInfo[0]?.height || "-"}</li>
+                                    <li>Allergy / โรคภูมิแพ้: {appointmentData.userInfo[0]?.allergic || "-"}</li>
+                                    <li>Congenital Disease / โรคประจำตัว: {appointmentData.userInfo[0]?.congenital_disease || "-"}</li>
+                                    <li>Email / อีเมล: {appointmentData.userInfo[0]?.email}</li>
                             </div>
                         )}
                         {appointmentData && (
                             <div className="mb-4">
-                                <p className="font-semibold text-lg">Hospital</p>
+                                <p className="font-semibold text-lg">Hospital / โรงพยาบาล</p>
                                 <p>{appointmentData.hospital[0].hos_name}</p>
                             </div>
                         )}
                         {appointmentData && appointmentData.Address && (
                         <div className="mb-4">
-                            <p className="font-semibold text-lg">Address</p>
+                            <p className="font-semibold text-lg">Address / ที่อยู่</p>
                             <p>
                             {`${appointmentData.Address[0].ad_line1}${appointmentData.Address[0].ad_line2 !== "" ? `, ${appointmentData.Address[0].ad_line2}` : ''}, ${appointmentData.Address[0].city}, ${appointmentData.Address[0].province}, ${appointmentData.Address[0].zipcode}`}
                             </p>
@@ -189,7 +186,7 @@ const Confirmation = () => {
                         )}
                         {appointmentData && appointmentData.DateTime && (
                             <div className="mb-4">
-                                <p className="font-semibold text-lg">Date/Time</p>
+                                <p className="font-semibold text-lg">Date/Time (วันที่ เวลา ที่นัดหมาย)</p>
                                 <p>
                                     {(appointmentData.DateTime[0].HospitalDate ? formatDate(appointmentData.DateTime[0].HospitalDate) : formatDate(appointmentData.DateTime[0].OffSiteDate))}{' '}
                                     {appointmentData.DateTime[0].start_time.trim().slice(0, -3)}-{appointmentData.DateTime[0].end_time.trim().slice(0, -3)}
@@ -198,7 +195,7 @@ const Confirmation = () => {
                         )}
                         {appointmentData && (
                             <div className="mb-4">
-                                <p className="font-semibold text-lg">Test List</p>
+                                <p className="font-semibold text-lg">Test List / รายการการตรวจ</p>
                                     {appointmentData.PackageOrders && appointmentData.PackageOrders.map((order, index) => (
                                         <div key={`package_order_${index}`} className='mb-2'>
                                             <p className='mb-1'>&bull; {order.th_package_name}</p>
@@ -215,7 +212,7 @@ const Confirmation = () => {
                             </div>
                         )}
                         <div className="mb-4">
-                            <p className="font-semibold text-lg">Specimen</p>
+                            <p className="font-semibold text-lg">Specimen / สิ่งส่งตรวจ</p>
                             {appointmentData && appointmentData.AllSpecimens && (
                                 <p>{appointmentData.AllSpecimens}</p>
                             )}
@@ -224,7 +221,7 @@ const Confirmation = () => {
                             className="mt-2 mb-1 text-lg bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out"
                             onClick={confirmAppointment}
                         >
-                            Confirm
+                            Confirm / ยืนยัน
                         </button>
                     </div>
                 </div>

@@ -382,17 +382,17 @@ const Cart = () => {
                                     onChange={() => handleSelectAll()}
                                     className='mr-2'
                                 />
-                                <label>Select All</label>
+                                <label>Select All / เลือกทั้งหมด</label>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <div>
-                                    Total Price: ฿{totalPrice}
+                                    Total Price / ราคารวม: ฿{totalPrice}
                                 </div>
                                 <button
                                     className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out ml-4"
                                     onClick={storeOrder}
                                 >
-                                    Checkout
+                                    Checkout / เช็คเอาท์
                                 </button>
                             </div>
                         </div>

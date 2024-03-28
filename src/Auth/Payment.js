@@ -70,6 +70,7 @@ const Payment = () => {
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0]; // Get the first file from the list
         if (!selectedFile) {
+            setPreviewUrl(null); // No file selected, set previewUrl to null
             return; // No file selected
         }
 
@@ -236,9 +237,6 @@ const Payment = () => {
                         <div className="progress-bar-container h-8 bg-gray-300 mt-2 mb-8 rounded-full border-2 border-gray-800 overflow-hidden">
                             <div className="progress-bar font-bold bg-yellow-500 h-full border-r-2 border-gray-800 flex items-center justify-center" style={{ width: `90%` }}> 90 %</div>
                         </div>
-                        <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-                            Appoint Health Checkup
-                        </h2>
                     </div>
 
                     <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 text-center">
@@ -290,7 +288,7 @@ const Payment = () => {
                             onMouseOver={(e) => { e.target.style.backgroundColor = '#54D388'; }}
                             onMouseOut={(e) => { e.target.style.backgroundColor = '#017045'; }}
                         >
-                            Save QRCode
+                            Save QRCode / บันทึก คิวอาร์โค้ด
                         </button>
 
                         <div className="flex flex-col items-center justify-center">
@@ -304,7 +302,7 @@ const Payment = () => {
                         </div>
                         {previewUrl && (
                             <div className="mt-2 flex flex-col items-center">
-                                <p className="font-medium text-lg text-black">Preview:</p>
+                                <p className="font-medium text-lg text-black">Preview / ภาพสลิป:</p>
                                 <img src={previewUrl} alt="Preview" style={{ marginBottom: '10px', marginTop: '8px', maxWidth: '100%', maxHeight: '200px', objectFit: 'contain' }} />
                             </div>
                         )}

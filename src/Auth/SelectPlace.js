@@ -43,20 +43,17 @@ const Place = () => {
                     <div className="progress-bar-container h-8 bg-gray-300 mt-2 mb-8 rounded-full border-2 border-gray-800 overflow-hidden">
                         <div className="progress-bar font-bold bg-yellow-500 h-full border-r-2 border-gray-800 flex items-center justify-center" style={{ width: `20%` }}> 20 %</div>
                     </div>
-                    <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-                        Appoint Health Checkup
-                    </h2>
                 </div>
 
                 <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5">
                     <div className="grid gap-4 gap-y-2 text-m grid-cols-1 lg:grid-cols-1">
                         <div className="text-gray-600">
-                            <p className="font-large text-xl text-black whitespace-nowrap">Where do you want to collect specimen?</p>
+                            <p className="font-large text-xl text-black whitespace-nowrap">Where do you want to collect specimen ? / คุณต้องการให้เก็บตัวอย่างที่ไหน ?</p>
                             <br/>
                             <input type="radio" id="hospital" name="hospital" value="hospital" onChange={handleOptionChange} checked={selectedOption === "hospital"}/>
-                            <label for="hospital" style={{ color: "black", marginLeft: "5px" }}>Hospital</label><br/>
+                            <label for="hospital" style={{ color: "black", marginLeft: "5px" }}>Hospital / โรงพยาบาล</label><br/>
                             <input type="radio" id="offsite" name="offsite" value="offsite" onChange={handleOptionChange} checked={selectedOption === "offsite"}/>
-                            <label for="offsite" style={{ color: "black", marginLeft: "5px" }}>Home / Anywhere that you what to take a blood collection</label><br/>
+                            <label for="offsite" style={{ color: "black", marginLeft: "5px" }}>Home / Anywhere that you want (บ้าน / ที่ไหนก็ได้ที่คุณต้องการ)</label><br/>
                         </div>
 
                         <div style={{ display: 'grid', placeItems: 'end' }}>
@@ -64,7 +61,7 @@ const Place = () => {
                             onClick={storePlace}
                             className="self-end bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             >
-                            Next
+                            Next / ต่อไป
                             </button>
                         </div>
                     </div>

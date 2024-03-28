@@ -223,14 +223,11 @@ const Hospital = () => {
                         <div className="progress-bar-container h-8 bg-gray-300 mt-2 mb-8 rounded-full border-2 border-gray-800 overflow-hidden">
                             <div className="progress-bar font-bold bg-yellow-500 h-full border-r-2 border-gray-800 flex items-center justify-center" style={{ width: `30%` }}> 30 %</div>
                         </div>
-                        <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-                            Appoint Health Checkup
-                        </h2>
                     </div>
                     <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5">
                         <div className="grid gap-4 gap-y-2 text-m grid-cols-1 lg:grid-cols-1">
                             <div className="text-gray-600">
-                                <p className="font-large text-xl text-black whitespace-nowrap">Select Hospital</p>
+                                <p className="font-large text-xl text-black whitespace-nowrap">Select Hospital / กรุณาเลือกโรงพยาบาล</p>
                                 <br />
                                 <input
                                     type="radio"
@@ -252,27 +249,27 @@ const Hospital = () => {
                                 {method === 'address' && (
                                   <div>
                                     <label>
-                                    Address line 1 *
+                                    Address line 1 / ที่อยู่ 1 *
                                     <input type="text" required value={addressLine1} onChange={(e) => setAddressLine1(e.target.value)} />
                                     </label>
                                     <br />
                                     <label>
-                                    Address line 2 (optional)
+                                    Address line 2 / ที่อยู่ 2 (optional)
                                     <input type="text" value={addressLine2} onChange={(e) => setAddressLine2(e.target.value)} />
                                     </label>
                                     <br />
                                     <label>
-                                    Province *
+                                    Province / จังหวัด *
                                     <input type="text" required value={province} onChange={(e) => setProvince(e.target.value)} />
                                     </label>
                                     <br />
                                     <label>
-                                    City *
+                                    City / เมือง *
                                     <input type="text" required value={city} onChange={(e) => setCity(e.target.value)} />
                                     </label>
                                     <br />
                                     <label>
-                                    Postal code *
+                                    Postal code / รหัสไปรษณีย์ *
                                     <input type="text" required value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
                                     </label>
                                     <br />
@@ -293,13 +290,13 @@ const Hospital = () => {
                                         />
                                         <div style={{ backgroundColor: '#fff', border: '1px solid #ccc', borderRadius: '10px', padding: '10px', width: '100%', marginLeft: '10px' }}>
                                             <span><strong>{hospital.hos_name}</strong></span> <br />
-                                            <span>Telephone: {hospital.hos_tel}</span><br />
+                                            <span>Telephone / เบอร์โทรศัพท์: {hospital.hos_tel}</span><br />
                                             {/* <span>Region: {hospital.hos_region}</span><br />
                                             <span>Location: {hospital.hos_location}</span><br /> */}
-                                            <span>Type: {hospital.hos_type}</span><br />
+                                            <span>Type / ประเภท: {hospital.hos_type}</span><br />
                                             {/* <span>Laitude: {hospital.latitude}</span><br />
                                             <span>longtiude: {hospital.longitude}</span><br /> */}
-                                            <span>Distance: {hospital.distance || '-'}</span>
+                                            <span>Distance / ระยะทาง: {hospital.distance || '-'}</span>
                                         </div>
                                     </li>
                                 ))}
@@ -309,7 +306,7 @@ const Hospital = () => {
                                     onClick={storeHospital}
                                     className="self-end bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                 >
-                                    Next
+                                    Next / ต่อไป
                                 </button>
                             </div>
                         </div>

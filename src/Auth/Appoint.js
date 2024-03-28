@@ -199,7 +199,7 @@ const Appoint = () => {
                       onClick={storeIDnumber}
                       className="self-end bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     >
-                      Next
+                      Next / ต่อไป
                     </button>
                   </Link>
                 </div>

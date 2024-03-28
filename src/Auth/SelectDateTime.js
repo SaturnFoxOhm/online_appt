@@ -62,7 +62,7 @@ const DateTime = () => {
         </div>
     ) : (
         <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mt-5 flex items-center justify-between">
-            <p className="font-large text-xl text-black">Please pick a day.</p>
+            <p className="font-large text-xl text-black">Please pick a day. / กรุณาเลือกวันที่</p>
         </div>
     );
 
@@ -105,9 +105,6 @@ const DateTime = () => {
                         <div className="progress-bar-container h-8 bg-gray-300 mt-2 mb-8 rounded-full border-2 border-gray-800 overflow-hidden">
                             <div className="progress-bar font-bold bg-yellow-500 h-full border-r-2 border-gray-800 flex items-center justify-center" style={{ width: `50%` }}> 50 %</div>
                         </div>
-                        <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-                            Appoint Health Checkup
-                        </h2>
                     </div>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
                         <div
@@ -117,7 +114,7 @@ const DateTime = () => {
                                 borderRadius: '8px',
                             }}
                         >
-                            <p style={{ fontSize: '1rem', color: 'black', fontWeight: 'bold' }}>Select Date / Time</p>
+                            <p className="font-large text-xl text-black whitespace-nowrap">Select Date / Time (กรุณาเลือกวัน และ เวลา ที่ท่านต้องการ)</p>
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                 <DayPicker
                                     mode="single"
@@ -151,7 +148,7 @@ const DateTime = () => {
                                     borderRadius: '4px',
                                 }}
                             >
-                                <option value="">Select a time slot</option>
+                                <option value="">Select a time slot / กรุณาเลือกช่วงเวลา</option>
                                 {timeslot &&
                                     timeslot.map((slot, index) => (
                                         <option key={index} value={slot.hosSlotID || slot.offSlotID}>
@@ -167,7 +164,7 @@ const DateTime = () => {
                                 onClick={storeDateTime}
                                 className="self-end bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             >
-                                Next
+                                Next / ต่อไป
                             </button>
                         </div>
                     </div>

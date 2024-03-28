@@ -55,16 +55,13 @@ const SuccessAppointment = () => {
                 <div className="progress-bar-container h-8 bg-gray-300 mt-2 mb-8 rounded-full border-2 border-gray-800 overflow-hidden">
                     <div className="progress-bar font-bold bg-yellow-500 h-full border-r-2 border-gray-800 flex items-center justify-center" style={{ width: `100%` }}> 100 %</div>
                 </div>
-                <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-                    Appoint Health Checkup
-                </h2>
                 </div>
 
                 <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 text-center">
                     <div style={{ textAlign: 'center', color: '#017045', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <FaRegCalendarCheck size={90}/>
                         <br/>
-                        <p className="font-large text-xl whitespace-nowrap" style={{ fontWeight: '600' }}>Appointment Successfully !</p>
+                        <p className="font-large text-xl whitespace-nowrap" style={{ fontWeight: '600' }}>Appointment Successfully ! / การนัดหมายสำเร็จ !</p>
                     </div>
                     <br/>
                     <div className='details'>
@@ -99,7 +96,7 @@ const SuccessAppointment = () => {
                             onMouseOver={(e) => { e.target.style.backgroundColor = '#54D388'; }}
                             onMouseOut={(e) => { e.target.style.backgroundColor = '#017045'; }}
                         >
-                            My Appointments
+                            My Appointments / การจองของฉัน
                         </button>
                     </a>
                 </div>
