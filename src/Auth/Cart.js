@@ -302,7 +302,7 @@ const Cart = () => {
                                             </div>
                                         </div>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <p>{packages.price}</p>
+                                            <p>{new Intl.NumberFormat('en-US').format(packages.price)}</p>
                                             <RiDeleteBin6Line
                                                 style={{ marginLeft: '20px', cursor: 'pointer' }}
                                                 onClick={() => handleDeleteItemClick(packages)}
@@ -326,7 +326,7 @@ const Cart = () => {
                                             </div>
                                         </div>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <p>{disease.price}</p>
+                                            <p>{new Intl.NumberFormat('en-US').format(disease.price)}</p>
                                             <RiDeleteBin6Line
                                                 style={{ marginLeft: '20px', cursor: 'pointer' }}
                                                 onClick={() => handleDeleteItemClick(disease)}
@@ -358,7 +358,7 @@ const Cart = () => {
                                             </div>
                                         </div>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <p>{labTest.price}</p>
+                                            <p>{new Intl.NumberFormat('en-US').format(labTest.price)}</p>
                                             <RiDeleteBin6Line
                                                 style={{ marginLeft: '20px', cursor: 'pointer' }}
                                                 onClick={() => handleDeleteItemClick(labTest)}
@@ -386,7 +386,7 @@ const Cart = () => {
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <div>
-                                    Total Price / ราคารวม: ฿{totalPrice}
+                                    Total Price / ราคารวม: ฿{new Intl.NumberFormat('en-US').format(totalPrice)}
                                 </div>
                                 <button
                                     className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out ml-4"

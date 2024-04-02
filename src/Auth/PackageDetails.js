@@ -122,7 +122,7 @@ const PackageDetail = () => {
                             สิ่งส่งตรวจ: {PackageSpecimen()}
                         </div>
                         <div className='price'>
-                            ราคา: {packages.price.toLocaleString()}฿
+                            ราคา: {new Intl.NumberFormat('en-US').format(packages.price)}฿
                         </div>
                         <div style={{ width: '80%', margin: '0 auto', marginTop: '20px', textAlign: 'center' }}>
                             <button className="icon-button" onClick={() => handleButtonClickAdd(packages)} 
