@@ -100,7 +100,7 @@ const Disease = () => {
                                                 {index + 1}. {disease.th_name} ({disease.en_name})
                                             </div>
                                             <div className='price'>
-                                                Price: {disease.price}฿
+                                                Price: {disease.price.toLocaleString()}฿
                                             </div>
                                             <button className="icon-button" style={{ position: 'absolute', right: '60px', top: '50%', transform: 'translateY(-50%)' }} onClick={() => handleButtonClickList(disease)}>
                                                 <IoIosList size={24}/>

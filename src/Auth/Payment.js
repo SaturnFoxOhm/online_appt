@@ -243,7 +243,7 @@ const Payment = () => {
                         <p className="font-semibold font-large text-xl text-black whitespace-nowrap">Make A Payment / ชำระเงิน</p>
                         <br />
                         <div>
-                            <p>ยอดรวม: {totalPrice} บาท</p>
+                            <p>ยอดรวม: {totalPrice.toLocaleString()} บาท</p>
                         </div>
                         <br />
                         <div>

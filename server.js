@@ -4131,7 +4131,6 @@ app.put('/update-test-transportation', async (req, res) => {
 });
 
 // Get All Users' Appointment that are transported by other hospital
-// Get All Users' Appointment that are transported by other hospital
 app.get('/super-admin-get-users-appointment-transported', async (req, res) => {
   const authToken = req.headers['authorization'];
   if (authToken && authToken.startsWith('Bearer ')) {

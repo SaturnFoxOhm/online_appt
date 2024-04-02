@@ -121,7 +121,7 @@ const DiseaseDetail = () => {
                             สิ่งส่งตรวจ: {DiseaseSpecimen()}
                         </div>
                         <div className='price'>
-                            ราคา: {disease.price}฿
+                            ราคา: {disease.price.toLocaleString()}฿
                         </div>
                         <div style={{ width: '80%', margin: '0 auto', marginTop: '20px', textAlign: 'center' }}>
                             <button className="icon-button" onClick={() => handleButtonClickAdd(disease)} 

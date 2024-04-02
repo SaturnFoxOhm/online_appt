@@ -97,7 +97,7 @@ const LabTest = () => {
                                                 Specimen: {labTest.specimen}
                                             </div>
                                             <div className='price'>
-                                                Price: {labTest.price}฿
+                                                Price: {labTest.price.toLocaleString()}฿
                                             </div>
                                             <button className="icon-button" style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)' }} onClick={() => handleButtonClickAdd(labTest)}>
                                                 <IoIosAddCircleOutline size={24}/>
