@@ -127,10 +127,10 @@ const SignUp = (props) => {
                         <input type='radio' name='sex' id='txtSex' value='F'/> Female<br/>
 
                         <label for="txtWeight">* Weight</label><br/>
-                        <input type='text' id='txtWeight' required pattern='(\s)?\d+(.|,)' title='Please enter a valid weight'/><br/>
+                        <input type='text' id='txtWeight' required pattern='^\d{1,3}(?:\.\d{1,2})?$' title='Please enter a valid weight'/><br/>
 
                         <label for="txtHeight">* Height</label><br/>
-                        <input type='text' id='txtHeight' required pattern='(\s)?\d+(.|,)' title='Please enter a valid height'/><br/>
+                        <input type='text' id='txtHeight' required pattern='^\d{1,3}(?:\.\d)?$' title='Please enter a valid height'/><br/>
 
                         <label for="txtAllergy">Allergy</label><br/>
                         <input type='text' id='txtAllergy'/><br/>
