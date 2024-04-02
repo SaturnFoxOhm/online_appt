@@ -84,15 +84,15 @@ return (
                         <div className="bg-white p-6 rounded-lg shadow-md flex-1">
                             <h3 className="text-xl font-semibold mb-2">Affiliated Hospitals</h3>
                             <p className="text-gray-700 mb-4">With our collaboration with Naresuan University Hospital, there are also some affiliated hospital that under Naresuan University Hospital and collaborate with us which are:</p>
-                            <ul className="pl-6">
-                                <li>ท่ามะเขือแล็บ คลินิกเทคนิคการแพทย์</li>
-                                <li>รพ.สต.บ่อทอง พิษณุโลก</li>
-                                <li>คลินิกเทคนิคการแพทยสหเวชศาสตร์ ม.นเรศวร</li>
-                                <li>รพ.สต.เขื่อนขันธ์ พิษณุโลก</li>
-                                <li>รพ.สต. ปากโทก</li>
-                                <li>รพ.สต.ชุมแสงสงคราม อ.บางระกำ</li>
-                                <li>รพ.สต.บ้านปรือกระเทียม อ.บางระกำ</li>
-                            </ul>
+                            <dl className="list-disc pl-6">
+                                <li> - ท่ามะเขือแล็บ คลินิกเทคนิคการแพทย์</li>
+                                <li> - รพ.สต.บ่อทอง พิษณุโลก</li>
+                                <li> - คลินิกเทคนิคการแพทยสหเวชศาสตร์ ม.นเรศวร</li>
+                                <li >- รพ.สต.เขื่อนขันธ์ พิษณุโลก</li>
+                                <li> - รพ.สต.ปากโทก</li>
+                                <li> - รพ.สต.ชุมแสงสงคราม อ.บางระกำ</li>
+                                <li> - รพ.สต.บ้านปรือกระเทียม อ.บางระกำ</li>
+                            </dl>
                         </div>
                     </div>
                 </div>
