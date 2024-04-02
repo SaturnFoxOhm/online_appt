@@ -25,8 +25,8 @@ const SignUp = (props) => {
         event.preventDefault();
 
         const NameRegex = /^[^\s][A-Za-z\s]{1,50}$/;
-        const AllergicRegex = /^[^\s]{1,50}$/;
-        const CongenitalDiseaseRegex = /^[^\s]{1,50}$/;
+        const AllergicRegex = /^[^\s]{0,50}$/;
+        const CongenitalDiseaseRegex = /^[^\s]{0,50}$/;
 
         const firstNameInput = document.getElementById("txtFirstname").value;
         const lastNameInput = document.getElementById("txtLastname").value;
@@ -104,16 +104,16 @@ const SignUp = (props) => {
                     <h1 className="SignUp-topic">Sign Up</h1>
                     <form name='signUp' onSubmit={submitForm}>
                         <label for="txtEmail">* E-mail</label><br/>
-                        <input type='email' id='txtEmail' required pattern='^[^\s@]+@[^\s@]+\.[^\s@]+$' title='Required E-mail'/><br/>
+                        <input type='email' id='txtEmail' required pattern='^[^\s@]+@[^\s@]+\.[^\s@]+$' title='Please enter a valid E-mail'/><br/>
 
                         <label for="txtIDcard">* ID Card</label><br/>
-                        <input type='text' id='txtIDcard' pattern='[0-9]{13}' required title='Required ID Card'/><br/>
+                        <input type='text' id='txtIDcard' pattern='[0-9]{13}' required title='Please enter a valid ID Card'/><br/>
 
                         <label for="txtFirstname">* First name</label><br/>
-                        <input type='text' id='txtFirstname' required pattern='^\S[A-z]+$' title='Required First name'/><br/>
+                        <input type='text' id='txtFirstname' required pattern='^[^\s][A-Za-z\s]{1,50}$' title='First Name field should not exceed 50 characters'/><br/>
 
                         <label for="txtLastname">* Last name</label><br/>
-                        <input type='text' id='txtLastname' required pattern='^\S[A-z]+$' title='Required Last name'/><br/>
+                        <input type='text' id='txtLastname' required pattern='^[^\s][A-Za-z\s]{1,50}$' title='Last Name field should not exceed 50 characters'/><br/>
 
                         <label for="txtPhone">* Mobile Phone</label><br/>
                         <input type='text' name='mobile' pattern='[0-9]{3}[0-9]{3}[0-9]{4}' id='txtPhone' required title='Please enter a valid phone number (10 digits starting with 0)'/><br/>
@@ -133,10 +133,10 @@ const SignUp = (props) => {
                         <input type='text' id='txtHeight' required pattern='^\d{1,3}(?:\.\d)?$' title='Please enter a valid height'/><br/>
 
                         <label for="txtAllergy">Allergy</label><br/>
-                        <input type='text' id='txtAllergy'/><br/>
+                        <input type='text' id='txtAllergy' pattern='^[^\s]{0,50}$' title='Allergy field should not exceed 50 characters'/><br/>
 
                         <label for="txtDisease">Cognition Disease</label><br/>
-                        <input type='text' id='txtDisease'/><br/>
+                        <input type='text' id='txtDisease' pattern='^[^\s]{0,50}$' title='Cognitive Disease field should not exceed 50 characters'/><br/>
 
                         <button type='submit' className='SubmitBtn bg-green-500 text-white p-4 rounded-md w-full'>Sign Up</button>
                     </form>
