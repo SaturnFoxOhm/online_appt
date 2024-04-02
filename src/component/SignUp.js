@@ -28,18 +28,23 @@ const SignUp = (props) => {
         const AllergicRegex = /^[^\s]{1,50}$/;
         const CongenitalDiseaseRegex = /^[^\s]{1,50}$/;
 
-        if (!NameRegex.test(first_name)) {
-        alert("First Name field should not exceed 50 characters and must not start with a space.");
-        return;
-        } else if (!NameRegex.test(last_name)) {
-        alert("Last Name field should not exceed 50 characters and must not start with a space.");
-        return;
-        } else if (!AllergicRegex.test(allergic)) {
-        alert("Allergic field should not exceed 50 characters and must not contain spaces.");
-        return;
-        } else if (!CongenitalDiseaseRegex.test(congenital_disease)) {
-        alert("Cognitive Disease field should not exceed 50 characters and must not contain spaces.");
-        return;
+        const firstNameInput = document.getElementById("txtFirstname").value;
+        const lastNameInput = document.getElementById("txtLastname").value;
+        const allergicInput = document.getElementById("txtAllergy").value;
+        const congenitalDiseaseInput = document.getElementById("txtDisease").value;
+
+        if (!NameRegex.test(firstNameInput)) {
+            alert("First Name field should not exceed 50 characters and must not start with a space.");
+            return;
+        } else if (!NameRegex.test(lastNameInput)) {
+            alert("Last Name field should not exceed 50 characters and must not start with a space.");
+            return;
+        } else if (!AllergicRegex.test(allergicInput)) {
+            alert("Allergic field should not exceed 50 characters and must not contain spaces.");
+            return;
+        } else if (!CongenitalDiseaseRegex.test(congenitalDiseaseInput)) {
+            alert("Cognitive Disease field should not exceed 50 characters and must not contain spaces.");
+            return;
         }
 
         console.log("Line user ID in fc: ", LineUserID);
