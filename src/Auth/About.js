@@ -73,6 +73,22 @@ return (
                 </div>
             </section>
 
+            <section className="bg-gray-100 py-10 reveal">
+                <div className="container mx-auto px-4">
+                    <h2 className="text-3xl font-bold text-center mb-8">Collaboration</h2>
+                    <div className="flex flex-col md:flex-row md:justify-center gap-8">
+                        <div className="bg-white p-6 rounded-lg shadow-md flex-1">
+                            <h3 className="text-xl font-semibold mb-2">Partner with Us</h3>
+                            <p className="text-gray-700 mb-4">We are always looking for opportunities to collaborate with healthcare providers, technology companies, and other organizations to improve healthcare accessibility and efficiency. If you are interested in partnering with us, please reach out to discuss potential collaboration opportunities.</p>
+                        </div>
+                        <div className="bg-white p-6 rounded-lg shadow-md flex-1">
+                            <h3 className="text-xl font-semibold mb-2">Join Our Network</h3>
+                            <p className="text-gray-700 mb-4">Become a part of our growing network of healthcare professionals and service providers. Whether you are a doctor, nurse, technician, or administrator, we welcome you to join our platform and contribute to our mission of making healthcare more accessible to everyone.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section className="bg-gray-200 py-10 reveal">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl font-bold text-center mb-8">Contact Us</h2>

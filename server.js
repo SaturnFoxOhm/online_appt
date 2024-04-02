@@ -295,7 +295,7 @@ app.post('/user-appointment/:date', (req, res) => {
   const fetchAllAppointment = `
     SELECT AppointmentID, first_name, last_name, hos_name, DATE_FORMAT(HospitalDate, "%Y-%m-%d") AS HospitalDate, hosSlotID, DATE_FORMAT(OffSiteDate, "%Y-%m-%d") AS OffSiteDate, offSlotID, LabStatus, a.HospitalID
     FROM Appointment a INNER JOIN userinfo u ON a.InfoID = u.InfoID INNER JOIN hospital h ON a.HospitalID = h.HospitalID
-    WHERE a.LineUserID = ?;
+    WHERE a.LineUserID = ?
     ORDER BY COALESCE(HospitalDate, OffSiteDate) ASC;
   `;
   const fetchTimeSlotHospital = `
@@ -322,12 +322,17 @@ app.post('/user-appointment/:date', (req, res) => {
         let appointmentsWithTimeSlots = [];
         for (let i = 0; i < results.length; i++) {
           let timeSlot;
+          const appointmentDate = results[i].HospitalDate || results[i].OffSiteDate;
+          const appointmentYear = appointmentDate.split('-')[0];
+          const appointmentMonth = appointmentDate.split('-')[1];
+          const reqYear = req.params.date.split('-')[0];
+          const reqMonth = req.params.date.split('-')[1];
           console.log(results[i].HospitalDate)
           console.log(results[i].hosSlotID)
-          if (results[i].HospitalDate && results[i].hosSlotID && results[i].HospitalDate === req.params.date) {
+          if (results[i].HospitalDate && results[i].hosSlotID && appointmentYear === reqYear && appointmentMonth === reqMonth) {
             timeSlot = await query(fetchTimeSlotHospital, [results[i].HospitalID, results[i].HospitalDate, results[i].hosSlotID]);
             appointmentsWithTimeSlots.push({ appointment: results[i], timeSlot: timeSlot });
-          } else if (results[i].OffSiteDate && results[i].offSlotID && results[i].OffSiteDate === req.params.date) {
+          } else if (results[i].OffSiteDate && results[i].offSlotID && appointmentYear === reqYear && appointmentMonth === reqMonth) {
             timeSlot = await query(fetchTimeSlotOffSite, [results[i].HospitalID, results[i].OffSiteDate, results[i].offSlotID]);
             appointmentsWithTimeSlots.push({ appointment: results[i], timeSlot: timeSlot });
           }
@@ -2302,7 +2307,13 @@ app.get('/admin-get-users-appointment-date/:date', async (req, res) => {
               const result = await queryAsync('SELECT InfoID, email, first_name, last_name, DATE_FORMAT(birthday, "%Y-%m-%d") AS birthday, sex, phone, weight, height, allergic, congenital_disease, AddressID FROM userinfo WHERE `InfoID` = ?', [appointment.InfoID]);
               
               if (result.length > 0) {
-                if (appointment.HospitalDate !== null && appointment.HospitalDate === req.params.date) {
+                const reqYear = req.params.date.split('-')[0];
+                const reqMonth = req.params.date.split('-')[1];
+                const appointmentDate = results[0].HospitalDate || results[0].OffSiteDate;
+                const appointmentYear = appointmentDate.split('-')[0];
+                const appointmentMonth = appointmentDate.split('-')[1];
+
+                if (appointment.HospitalDate !== null && appointmentYear === reqYear && appointmentMonth === reqMonth) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.HospitalDate);
@@ -2311,7 +2322,8 @@ app.get('/admin-get-users-appointment-date/:date', async (req, res) => {
                   Address.push('None');
                   Appointment_Status.push(appointment.LabStatus);
                   user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
-                } else if (appointment.OffSiteDate !== null && appointment.OffSiteDate === req.params.date) {
+                
+                } else if (appointment.OffSiteDate !== null && appointmentYear === reqYear && appointmentMonth === reqMonth) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.OffSiteDate);
@@ -2590,8 +2602,13 @@ app.get('/admin-get-users-appointment-only-waiting-date/:date', async (req, res)
               const result = await queryAsync('SELECT InfoID, email, first_name, last_name, DATE_FORMAT(birthday, "%Y-%m-%d") AS birthday, sex, phone, weight, height, allergic, congenital_disease, AddressID FROM userinfo WHERE `InfoID` = ?', [appointment.InfoID]);
               
               if (result.length > 0) {
+                const reqYear = req.params.date.split('-')[0];
+                const reqMonth = req.params.date.split('-')[1];
+                const appointmentDate = results[0].HospitalDate || results[0].OffSiteDate;
+                const appointmentYear = appointmentDate.split('-')[0];
+                const appointmentMonth = appointmentDate.split('-')[1];
 
-                if (appointment.HospitalDate !== null && appointment.HospitalDate === req.params.date) {
+                if (appointment.HospitalDate !== null && appointmentYear === reqYear && appointmentMonth === reqMonth) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.HospitalDate);
@@ -2600,7 +2617,8 @@ app.get('/admin-get-users-appointment-only-waiting-date/:date', async (req, res)
                   Address.push('None');
                   Appointment_Status.push(appointment.LabStatus);
                   user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
-                } else if (appointment.OffSiteDate !== null && appointment.OffSiteDate === req.params.date) {
+
+                } else if (appointment.OffSiteDate !== null && appointmentYear === reqYear && appointmentMonth === reqMonth) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.OffSiteDate);
@@ -3368,7 +3386,13 @@ app.get('/super-admin-get-users-appointment-date/:date', async (req, res) => {
               const result = await queryAsync('SELECT InfoID, email, first_name, last_name, DATE_FORMAT(birthday, "%Y-%m-%d") AS birthday, sex, phone, weight, height, allergic, congenital_disease, AddressID FROM userinfo WHERE `InfoID` = ?', [appointment.InfoID]);
               
               if (result.length > 0) {
-                if (appointment.HospitalDate !== null && appointment.HospitalDate === req.params.date) {
+                const reqYear = req.params.date.split('-')[0];
+                const reqMonth = req.params.date.split('-')[1];
+                const appointmentDate = results[0].HospitalDate || results[0].OffSiteDate;
+                const appointmentYear = appointmentDate.split('-')[0];
+                const appointmentMonth = appointmentDate.split('-')[1];
+
+                if (appointment.HospitalDate !== null && appointmentYear === reqYear && appointmentMonth === reqMonth) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.HospitalDate);
@@ -3377,7 +3401,8 @@ app.get('/super-admin-get-users-appointment-date/:date', async (req, res) => {
                   Address.push('None');
                   Appointment_Status.push(appointment.LabStatus);
                   user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
-                } else if (appointment.OffSiteDate !== null && appointment.OffSiteDate === req.params.date) {
+
+                } else if (appointment.OffSiteDate !== null && appointmentYear === reqYear && appointmentMonth === reqMonth) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.OffSiteDate);
@@ -3656,8 +3681,13 @@ app.get('/super-admin-get-users-appointment-only-waiting-date/:date', async (req
               const result = await queryAsync('SELECT InfoID, email, first_name, last_name, DATE_FORMAT(birthday, "%Y-%m-%d") AS birthday, sex, phone, weight, height, allergic, congenital_disease, AddressID FROM userinfo WHERE `InfoID` = ?', [appointment.InfoID]);
               
               if (result.length > 0) {
+                const reqYear = req.params.date.split('-')[0];
+                const reqMonth = req.params.date.split('-')[1];
+                const appointmentDate = results[0].HospitalDate || results[0].OffSiteDate;
+                const appointmentYear = appointmentDate.split('-')[0];
+                const appointmentMonth = appointmentDate.split('-')[1];
 
-                if (appointment.HospitalDate !== null && appointment.HospitalDate === req.params.date) {
+                if (appointment.HospitalDate !== null && appointmentYear === reqYear && appointmentMonth === reqMonth) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.HospitalDate);
@@ -3666,7 +3696,8 @@ app.get('/super-admin-get-users-appointment-only-waiting-date/:date', async (req
                   Address.push('None');
                   Appointment_Status.push(appointment.LabStatus);
                   user_info.push({ AppointmentID, user_name, phone, Date, Time, Address, Appointment_Status });
-                } else if (appointment.OffSiteDate !== null && appointment.OffSiteDate === req.params.date) {
+
+                } else if (appointment.OffSiteDate !== null && appointmentYear === reqYear && appointmentMonth === reqMonth) {
                   user_name.push(result[0].first_name + ' ' + result[0].last_name);
                   phone.push(result[0].phone);
                   Date.push(appointment.OffSiteDate);
@@ -4178,15 +4209,16 @@ app.get('/super-admin-get-users-appointment-transported-date/:date', async (req,
         WHERE OrderID IN (
           SELECT OrderID FROM OrdersDetails WHERE transfer = 1
         )
-        AND (DATE(HospitalDate) = ? OR DATE(OffSiteDate) = ?)
+        AND (MONTH(HospitalDate) = ? AND YEAR(HospitalDate) = ?) OR (MONTH(OffSiteDate) = ? AND YEAR(OffSiteDate) = ?)
         ORDER BY COALESCE(HospitalDate, OffSiteDate) ASC
       `;
       try {
         const decoded = jwt.verify(token, 'mysecret');
         const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
         if (admin.length > 0) {
-          
-          let test = await queryAsync(fetchReceiveSpecimenAppointment, [req.params.date, req.params.date]);
+          const reqYear = req.params.date.split('-')[0];
+          const reqMonth = req.params.date.split('-')[1];
+          let test = await queryAsync(fetchReceiveSpecimenAppointment, [reqMonth, reqYear, reqMonth, reqYear]);
           res.status(200).send({ message: "Get all transported appointment", test});
         }
       } catch (error) {
