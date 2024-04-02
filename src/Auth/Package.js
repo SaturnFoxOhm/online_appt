@@ -100,7 +100,7 @@ const Package = () => {
                                                 {index + 1}. {packages.th_package_name} ({packages.en_package_name})
                                             </div>
                                             <div className='price'>
-                                                Price: {packages.price.toLocaleString()}฿
+                                                Price: {new Intl.NumberFormat('en-US').format(packages.price)}฿
                                             </div>
                                             <button className="icon-button" style={{ position: 'absolute', right: '60px', top: '50%', transform: 'translateY(-50%)' }} onClick={() => handleButtonClickList(packages)}>
                                                 <IoIosList size={24}/>
