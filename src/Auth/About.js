@@ -78,12 +78,21 @@ return (
                     <h2 className="text-3xl font-bold text-center mb-8">Collaboration</h2>
                     <div className="flex flex-col md:flex-row md:justify-center gap-8">
                         <div className="bg-white p-6 rounded-lg shadow-md flex-1">
-                            <h3 className="text-xl font-semibold mb-2">Partner with Us</h3>
-                            <p className="text-gray-700 mb-4">We are always looking for opportunities to collaborate with healthcare providers, technology companies, and other organizations to improve healthcare accessibility and efficiency. If you are interested in partnering with us, please reach out to discuss potential collaboration opportunities.</p>
+                            <h3 className="text-xl font-semibold mb-2">Naresuan University Hospital</h3>
+                            <p className="text-gray-700 mb-4">Naresuan University Hospital is our main collaboration that will provide a finest health service and useful information for our users </p>
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md flex-1">
-                            <h3 className="text-xl font-semibold mb-2">Join Our Network</h3>
-                            <p className="text-gray-700 mb-4">Become a part of our growing network of healthcare professionals and service providers. Whether you are a doctor, nurse, technician, or administrator, we welcome you to join our platform and contribute to our mission of making healthcare more accessible to everyone.</p>
+                            <h3 className="text-xl font-semibold mb-2">Affiliated Hospitals</h3>
+                            <p className="text-gray-700 mb-4">With our collaboration with Naresuan University Hospital, there are also some affiliated hospital that under Naresuan University Hospital and collaborate with us which are:</p>
+                            <ul className="list-disc pl-6">
+                                <li>ท่ามะเขือแล็บ คลินิกเทคนิคการแพทย์</li>
+                                <li>รพ.สต.บ่อทอง พิษณุโลก</li>
+                                <li>คลินิกเทคนิคการแพทยสหเวชศาสตร์ ม.นเรศวร</li>
+                                <li>รพ.สต.เขื่อนขันธ์ พิษณุโลก</li>
+                                <li>รพ.สต. ปากโทก</li>
+                                <li>รพ.สต.ชุมแสงสงคราม อ.บางระกำ</li>
+                                <li>รพ.สต.บ้านปรือกระเทียม อ.บางระกำ</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -95,12 +104,12 @@ return (
                     <p className="text-lg text-gray-700 mb-6 text-center">Feel free to contact us with any questions, feedback, or concerns. We are here to assist you and provide the best possible support. Your health and well-being are our top priorities.</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="bg-white p-6 rounded-lg shadow-md">
-                            <h3 className="text-xl font-semibold mb-2">Address</h3>
-                            <p className="text-gray-700 mb-4">123 Street Name, City, Country</p>
+                            <h3 className="text-xl font-semibold mb-2">Address (Naresuan University Hospital)</h3>
+                            <p className="text-gray-700 mb-4">99 Tha Pho, Mueang Phitsanulok District, Phitsanulok 65000</p>
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md">
                             <h3 className="text-xl font-semibold mb-2">Phone</h3>
-                            <p className="text-gray-700 mb-4">+123 456 7890</p>
+                            <p className="text-gray-700 mb-4">055-965-777</p>
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md">
                             <h3 className="text-xl font-semibold mb-2">Email</h3>
