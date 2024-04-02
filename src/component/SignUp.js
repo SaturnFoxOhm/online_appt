@@ -24,6 +24,24 @@ const SignUp = (props) => {
         // var ReceivedLineUserID = localStorage.getItem("SendLineUserID");
         event.preventDefault();
 
+        const NameRegex = /^[^\s][A-Za-z\s]{1,50}$/;
+        const AllergicRegex = /^[^\s]{1,50}$/;
+        const CongenitalDiseaseRegex = /^[^\s]{1,50}$/;
+
+        if (!NameRegex.test(first_name)) {
+        alert("First Name field should not exceed 50 characters and must not start with a space.");
+        return;
+        } else if (!NameRegex.test(last_name)) {
+        alert("Last Name field should not exceed 50 characters and must not start with a space.");
+        return;
+        } else if (!AllergicRegex.test(allergic)) {
+        alert("Allergic field should not exceed 50 characters and must not contain spaces.");
+        return;
+        } else if (!CongenitalDiseaseRegex.test(congenital_disease)) {
+        alert("Cognitive Disease field should not exceed 50 characters and must not contain spaces.");
+        return;
+        }
+
         console.log("Line user ID in fc: ", LineUserID);
 
         const data = {
@@ -81,22 +99,22 @@ const SignUp = (props) => {
                     <h1 className="SignUp-topic">Sign Up</h1>
                     <form name='signUp' onSubmit={submitForm}>
                         <label for="txtEmail">* E-mail</label><br/>
-                        <input type='email' id='txtEmail' required title='Required E-mail'/><br/>
+                        <input type='email' id='txtEmail' required pattern='^[^\s@]+@[^\s@]+\.[^\s@]+$' title='Required E-mail'/><br/>
 
                         <label for="txtIDcard">* ID Card</label><br/>
                         <input type='text' id='txtIDcard' pattern='[0-9]{13}' required title='Required ID Card'/><br/>
 
                         <label for="txtFirstname">* First name</label><br/>
-                        <input type='text' id='txtFirstname' required title='Required First name'/><br/>
+                        <input type='text' id='txtFirstname' required pattern='^\S[A-z]+$' title='Required First name'/><br/>
 
                         <label for="txtLastname">* Last name</label><br/>
-                        <input type='text' id='txtLastname' required title='Required Last name'/><br/>
+                        <input type='text' id='txtLastname' required pattern='^\S[A-z]+$' title='Required Last name'/><br/>
 
                         <label for="txtPhone">* Mobile Phone</label><br/>
-                        <input type='text' name='mobile' pattern='[0-9]{3}[0-9]{3}[0-9]{4}' id='txtPhone' required/><br/>
+                        <input type='text' name='mobile' pattern='[0-9]{3}[0-9]{3}[0-9]{4}' id='txtPhone' required title='Please enter a valid phone number (10 digits starting with 0)'/><br/>
                         
                         <label for="txtBD">* Birthday</label><br/>
-                        <input type='date' id='txtBD' required/><br/>
+                        <input type='date' id='txtBD' required pattern='^(?:19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$' title='Please enter a valid date in the format YYYY-MM-DD'/><br/>
 
                         <label for="txtSex">* Sex</label><br/>
                         <input type='radio' name='sex' id='txtSex' value='M' checked/> Male
@@ -104,10 +122,10 @@ const SignUp = (props) => {
                         <input type='radio' name='sex' id='txtSex' value='F'/> Female<br/>
 
                         <label for="txtWeight">* Weight</label><br/>
-                        <input type='text' id='txtWeight'/><br/>
+                        <input type='text' id='txtWeight' required pattern='(\s)?\d+(.|,)' title='Please enter a valid weight'/><br/>
 
                         <label for="txtHeight">* Height</label><br/>
-                        <input type='text' id='txtHeight'/><br/>
+                        <input type='text' id='txtHeight' required pattern='(\s)?\d+(.|,)' title='Please enter a valid height'/><br/>
 
                         <label for="txtAllergy">Allergy</label><br/>
                         <input type='text' id='txtAllergy'/><br/>
