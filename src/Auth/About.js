@@ -80,7 +80,7 @@ return (
                         <div className="bg-white p-6 rounded-lg shadow-md flex-1">
                             <h3 className="text-xl font-semibold mb-2">Naresuan University Hospital</h3>
                             <p className="text-gray-700 mb-4">Naresuan University Hospital is our main collaboration that will provide a finest health service and useful information for our users </p>
-                            <img src="../images/hospital-1.png" alt="Naresuan University Hospital" className="mb-4 rounded-lg w-full" />
+                            <img src="../images/hospital-1.png" alt="Naresuan University Hospital" className="mb-4 rounded-lg w-full reveal" />
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md flex-1">
                             <h3 className="text-xl font-semibold mb-2">Affiliated Hospitals</h3>
