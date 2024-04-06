@@ -29,7 +29,7 @@ const upload = multer({
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'ohm0817742474',
+  // password: 'ohm0817742474',
   database: 'healthcheckupplatform'
 });
 
@@ -1969,6 +1969,50 @@ function generateRandomNumber(length) {
   }
   return result;
 }
+
+app.post('/expired-Payment', async (req, res) => {
+  const authToken = req.headers['authorization']
+  const token = authToken.substring(7, authToken.length);
+  const decoded = jwt.verify(token, 'mysecret');
+  LineUserID = decoded.sub;
+  // LineUserID = "Uda15171e876e434f23c22eaa70925bc7";
+
+  if (!LineUserID) {
+    return res.status(400).send('LineUserID is required');
+  }
+
+  const delFailedAppointment = `
+    DELETE FROM appointment
+    WHERE LineUserID = ? AND AppointmentID = ?;
+  `;
+
+  try {
+    const CurrentAppointmentID = await new Promise((resolve, reject) => {
+      connection.query(
+          'SELECT MAX(AppointmentID) AS maxAppointmentID FROM `appointment` WHERE `LineUserID` = ?', 
+          [LineUserID], 
+          (error, results) => {
+              if (error) {
+                  console.error('Error getting max AppointmentID:', error);
+                  reject(error);
+              } else {
+                  const maxAppointmentID = results[0].maxAppointmentID;
+                  resolve(maxAppointmentID);
+              }
+          }
+      );
+    });  
+    console.log(CurrentAppointmentID);
+
+    await query(delFailedAppointment, [LineUserID, CurrentAppointmentID]);
+
+    res.status(200).send('Delete Appointment Successfully');
+
+  } catch (error) {
+    console.error('Error delete data:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 module.exports = app;
 

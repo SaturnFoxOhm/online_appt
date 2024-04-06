@@ -70,7 +70,6 @@ const Payment = () => {
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0]; // Get the first file from the list
         if (!selectedFile) {
-            setPreviewUrl(null); // No file selected, set previewUrl to null
             return; // No file selected
         }
 
@@ -178,6 +177,8 @@ const Payment = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             if (timeLeft === 0) {
+                clearTimeout(timer);
+                expiredPayment();
                 // Navigate to another page when timer expires
                 navigate('/user/confirmation');
             } else {
@@ -187,6 +188,28 @@ const Payment = () => {
         // Clean up the timer when component unmounts
         return () => clearTimeout(timer);
     }, [timeLeft, navigate]);
+
+    const expiredPayment = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/expired-Payment', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    
+                })
+            });
+            if (response.ok) {
+                console.log("Delete stuck appointment successfully");
+            } else {
+                console.error("Failed to delete stuck appointment");
+            }
+        } catch (error) {
+            console.error('Error making new POST request:', error);
+        }
+    };
 
     // Format the remaining time as minutes and seconds
     const minutes = Math.floor(timeLeft / 60);
@@ -237,13 +260,16 @@ const Payment = () => {
                         <div className="progress-bar-container h-8 bg-gray-300 mt-2 mb-8 rounded-full border-2 border-gray-800 overflow-hidden">
                             <div className="progress-bar font-bold bg-yellow-500 h-full border-r-2 border-gray-800 flex items-center justify-center" style={{ width: `90%` }}> 90 %</div>
                         </div>
+                        <h2 className="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
+                            Appoint Health Checkup
+                        </h2>
                     </div>
 
                     <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5 text-center">
-                        <p className="font-semibold font-large text-xl text-black whitespace-nowrap">Make A Payment / ชำระเงิน</p>
+                        <p className="font-semibold font-large text-xl text-black whitespace-nowrap">Make A Payment</p>
                         <br />
                         <div>
-                            <p>ยอดรวม: {new Intl.NumberFormat('en-US').format(totalPrice)} บาท</p>
+                            <p>ยอดรวม: {totalPrice} บาท</p>
                         </div>
                         <br />
                         <div>
@@ -288,21 +314,21 @@ const Payment = () => {
                             onMouseOver={(e) => { e.target.style.backgroundColor = '#54D388'; }}
                             onMouseOut={(e) => { e.target.style.backgroundColor = '#017045'; }}
                         >
-                            Save QRCode / บันทึก คิวอาร์โค้ด
+                            Save QRCode
                         </button>
 
                         <div className="flex flex-col items-center justify-center">
-                            <p className="font-medium text-lg text-black">Choose Slip / เลือกสลิป:</p>
+                            <p className="font-medium text-lg text-black">Choose Slip:</p>
                             <input
                                 type="file"
                                 accept="image/png, image/jpeg"
                                 onChange={handleFileChange}
-                                style={{ marginTop: '8px', marginBottom: '8px' }}
+                                style={{ marginTop: '8px' }}
                             />
                         </div>
                         {previewUrl && (
                             <div className="mt-2 flex flex-col items-center">
-                                <p className="font-medium text-lg text-black">Preview / ภาพสลิป:</p>
+                                <p className="font-medium text-lg text-black">Preview:</p>
                                 <img src={previewUrl} alt="Preview" style={{ marginBottom: '10px', marginTop: '8px', maxWidth: '100%', maxHeight: '200px', objectFit: 'contain' }} />
                             </div>
                         )}
