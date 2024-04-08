@@ -124,7 +124,7 @@ const AddTimeslotHospitalAdmin = () => {
                                         </tr>
                                         <tr className="border-b hover:bg-orange-100 bg-gray-100">
                                             <td className="p-3 px-5 bg-gray-50">{/* Render the year here */}
-                                            <select
+                                                <select
                                                     required
                                                     value={selectedYear}
                                                     onChange={(e) => setSelectedYear(e.target.value)}

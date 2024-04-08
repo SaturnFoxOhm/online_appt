@@ -3008,6 +3008,7 @@ app.post('/admin-update-timeslotoffsite', async (req, res) => {
   }
 });
 
+// Admin get all existing year of time slot hospital in the database
 app.get('/admin-get-existing-years-timeslothospital', async (req, res) => {
   try {
     const authToken = req.headers['authorization'];
@@ -3093,6 +3094,41 @@ app.post('/admin-add-timeslothospital', async (req, res) => {
     } else {
       res.status(400).send({ message: 'Missing required fields' });
     }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Admin get all existing year of time slot offsite in the database
+app.get('/admin-get-existing-years-timeslotoffsite', async (req, res) => {
+  try {
+    const authToken = req.headers['authorization'];
+    if (!authToken || !authToken.startsWith('Bearer ')) {
+      return res.status(401).send('Token is not found');
+    }
+
+    const token = authToken.substring(7);
+    const isValid = validateAuth(token);
+    if (!isValid) {
+      return res.status(401).send('Token is not valid');
+    }
+
+    const decoded = jwt.verify(token, 'mysecret');
+    const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
+    if (admin.length === 0) {
+      return res.status(404).send('Admin not found');
+    }
+
+    const HospitalID = admin[0].HospitalID;
+
+    const year = await queryAsync('SELECT DISTINCT YEAR(`OffsiteDate`) AS year FROM `timeslotoffsite` WHERE `HospitalID` = ?', [HospitalID]);
+    if(year.length === 0){
+      return res.status(404).send('Year Does not Exist');
+    }else{
+      res.status(200).send({ message: "Get All Year", year });
+    }
+    
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('Internal Server Error');
