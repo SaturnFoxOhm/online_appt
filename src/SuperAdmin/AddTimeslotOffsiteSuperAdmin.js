@@ -4,12 +4,39 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const AddTimeslotOffsiteSuperAdmin = () => {
     // const [timeslot, setTimeslot] = useState([]);
+    const [existingYears, setExistingYears] = useState([]);
     const [selectedAmount, setSelectedAmount] = useState([]);
     const [selectedYear, setSelectedYear] = useState([]);
     const [selectedStartTime, setSelectedStartTime] = useState([]);
     const [selectedEndTime, setSelectedEndTime] = useState([]);
 
     const navigate = useNavigate(); // Hook to navigate programmatically
+
+    useEffect(() => {
+        // Fetch existing years from the database
+        fetchExistingYears();
+    }, []);
+
+    const fetchExistingYears = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/super-admin-get-existing-years-timeslotoffsite', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('tokenSuperAdmin')}`,
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                const years = data.year.map(item => item.year.toString());
+                setExistingYears(years);
+            } else {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
     const handleConfirm = async () => {
 
@@ -58,6 +85,19 @@ const AddTimeslotOffsiteSuperAdmin = () => {
         }
     };
 
+    const generateFutureYears = () => {
+        const currentYear = new Date().getFullYear();
+        const futureYears = [];
+        let year = currentYear + 1;
+        while (futureYears.length < 10) {
+            if (!existingYears.includes(year.toString())) {
+                futureYears.push(year.toString());
+            }
+            year++;
+        }
+        return futureYears;
+    };
+
     return (
         <div>
             <NavbarSuperAdmin />
@@ -90,13 +130,9 @@ const AddTimeslotOffsiteSuperAdmin = () => {
                                                     onChange={(e) => setSelectedYear(e.target.value)}
                                                 >
                                                     <option value="">Select an option</option>
-                                                    <option value={2025}>2025</option>
-                                                    <option value={2026}>2026</option>
-                                                    <option value={2027}>2027</option>
-                                                    <option value={2028}>2028</option>
-                                                    <option value={2029}>2029</option>
-                                                    <option value={2030}>2030</option>
-                                                    <option value={2031}>2031</option>
+                                                    {generateFutureYears().map(year => (
+                                                        <option key={year} value={year}>{year}</option>
+                                                    ))}
                                                 </select>
                                             </td>
                                             <td className="p-3 px-5 bg-gray-50">
