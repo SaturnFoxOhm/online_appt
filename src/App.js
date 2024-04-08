@@ -53,6 +53,8 @@ import TimeslotHospitalAdmin from './AdminHospital/TimeslotHospitalAdmin';
 import UpdateTimeslotHospitalAdmin from './AdminHospital/UpdateTimeslotHospitalAdmin';
 import TimeslotOffsiteAdmin from './AdminHospital/TimeslotOffsiteAdmin';
 import UpdateTimeslotOffsiteAdmin from './AdminHospital/UpdateTimeslotOffsiteAdmin';
+import AddTimeslotHospitalAdmin from './AdminHospital/AddTimeslotHospitalAdmin';
+import AddTimeslotOffsiteAdmin from './AdminHospital/AddTimeslotOffsiteAdmin';
 
 // Super Admin //
 import LoginSuperAdmin from './SuperAdmin/LoginSuperAdmin';
@@ -70,7 +72,8 @@ import TimeslotOffsiteSuperAdmin from './SuperAdmin/TimeslotOffsiteSuperAdmin';
 import UpdateTimeslotOffsiteSuperAdmin from './SuperAdmin/UpdateTimeslotOffsiteSuperAdmin';
 import TransportedAppointmentSuperAdmin from './SuperAdmin/TransportedAppointmentSuperAdmin';
 import TransportedAppointmentDetailSuperAdmin from './SuperAdmin/TransportedAppointmentDetailSuperAdmin';
-import PackageDetail from './Auth/PackageDetails';
+import AddTimeslotHospitalSuperAdmin from './SuperAdmin/AddTimeslotHospitalSuperAdmin';
+import AddTimeslotOffsiteSuperAdmin from './SuperAdmin/AddTimeslotOffsiteSuperAdmin';
 
 function App() {
   return (
@@ -252,6 +255,14 @@ function App() {
         path="/admin/timeslotoffsite/:selectedDate"
         element={<ProtectedRouteAdmin element={<UpdateTimeslotOffsiteAdmin />} />}
       />
+      <Route
+        path="/admin/addtimeslothospital"
+        element={<ProtectedRouteAdmin element={<AddTimeslotHospitalAdmin />} />}
+      />
+      <Route
+        path="/admin/addtimeslotoffsite"
+        element={<ProtectedRouteAdmin element={<AddTimeslotOffsiteAdmin />} />}
+      />
 
 
       {/* Super Admin Section */}
@@ -311,6 +322,14 @@ function App() {
       <Route
         path="/super-admin/TransportedUsersAppointment/:id"
         element={<ProtectedRouteSuperAdmin element={<TransportedAppointmentDetailSuperAdmin />} />}
+      />
+      <Route
+        path="/super-admin/addtimeslothospital"
+        element={<ProtectedRouteSuperAdmin element={<AddTimeslotHospitalSuperAdmin />} />}
+      />
+      <Route
+        path="/super-admin/addtimeslotoffsite"
+        element={<ProtectedRouteSuperAdmin element={<AddTimeslotOffsiteSuperAdmin />} />}
       />
 
     </Routes>

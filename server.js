@@ -29,7 +29,7 @@ const upload = multer({
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  // password: 'ohm0817742474',
+  password: 'ohm0817742474',
   database: 'healthcheckupplatform'
 });
 
@@ -3008,6 +3008,138 @@ app.post('/admin-update-timeslotoffsite', async (req, res) => {
   }
 });
 
+// Add new timeslot yealy of the hospital that admin works to
+app.post('/admin-add-timeslothospital', async (req, res) => {
+  try {
+    const authToken = req.headers['authorization'];
+    if (!authToken || !authToken.startsWith('Bearer ')) {
+      return res.status(401).send('Token is not found');
+    }
+
+    const token = authToken.substring(7);
+    const isValid = validateAuth(token);
+    if (!isValid) {
+      return res.status(401).send('Token is not valid');
+    }
+
+    const decoded = jwt.verify(token, 'mysecret');
+    const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
+    if (admin.length === 0) {
+      return res.status(404).send('Admin not found');
+    }
+
+    const HospitalID = admin[0].HospitalID;
+    const startYear = parseInt(req.body.selectedYear, 10);
+    let start_date = new Date(startYear, 0, 1);
+    let end_date = new Date(startYear, 11, 31);
+    let hosSlotID = 1;
+    const start_time = `${padZero(req.body.selectedStartTime)}:00:00`;
+    const end_time = `${padZero(req.body.selectedEndTime)}:00:00`;
+    const amount = parseInt(req.body.selectedAmount, 10);
+
+    if (startYear && start_time && end_time && amount) {
+      while (start_date <= end_date) {
+        let current_start_time = '06:00:00';
+        while (current_start_time < '18:00:00') {
+          const current_end_time = addHours(current_start_time, 1);
+          const current_amount = (current_start_time < start_time || current_start_time >= end_time) ? -1 : amount;
+          await queryAsync(
+            'INSERT IGNORE INTO `timeslothospital` (`HospitalID`, `HospitalDate`, `hosSlotID`, `start_time`, `end_time`, `amount`) VALUES (?, ?, ?, ?, ?, ?)',
+            [HospitalID, formatDate(start_date), hosSlotID, current_start_time, current_end_time, current_amount]
+          );
+
+          hosSlotID++;
+          current_start_time = addHours(current_start_time, 1);
+        }
+        hosSlotID = 1;
+        start_date.setDate(start_date.getDate() + 1);
+      }
+
+      res.status(200).send({ message: 'New time slot added successfully' });
+    } else {
+      res.status(400).send({ message: 'Missing required fields' });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Add new timeslot yealy of the hospital that admin works to
+app.post('/admin-add-timeslotoffsite', async (req, res) => {
+  try {
+    const authToken = req.headers['authorization'];
+    if (!authToken || !authToken.startsWith('Bearer ')) {
+      return res.status(401).send('Token is not found');
+    }
+
+    const token = authToken.substring(7);
+    const isValid = validateAuth(token);
+    if (!isValid) {
+      return res.status(401).send('Token is not valid');
+    }
+
+    const decoded = jwt.verify(token, 'mysecret');
+    const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
+    if (admin.length === 0) {
+      return res.status(404).send('Admin not found');
+    }
+
+    const HospitalID = admin[0].HospitalID;
+    const startYear = parseInt(req.body.selectedYear, 10);
+    let start_date = new Date(startYear, 0, 1);
+    let end_date = new Date(startYear, 11, 31);
+    let hosSlotID = 1;
+    const start_time = `${padZero(req.body.selectedStartTime)}:00:00`;
+    const end_time = `${padZero(req.body.selectedEndTime)}:00:00`;
+    const amount = parseInt(req.body.selectedAmount, 10);
+
+    if (startYear && start_time && end_time && amount) {
+      while (start_date <= end_date) {
+        let current_start_time = '06:00:00';
+        while (current_start_time < '18:00:00') {
+          const current_end_time = addHours(current_start_time, 1);
+          const current_amount = (current_start_time < start_time || current_start_time >= end_time) ? -1 : amount;
+          await queryAsync(
+            'INSERT IGNORE INTO `timeslotoffsite` (`HospitalID`, `OffSiteDate`, `offSlotID`, `start_time`, `end_time`, `amount`) VALUES (?, ?, ?, ?, ?, ?)',
+            [HospitalID, formatDate(start_date), hosSlotID, current_start_time, current_end_time, current_amount]
+          );
+
+          hosSlotID++;
+          current_start_time = addHours(current_start_time, 1);
+        }
+        hosSlotID = 1;
+        start_date.setDate(start_date.getDate() + 1);
+      }
+
+      res.status(200).send({ message: 'New time slot added successfully' });
+    } else {
+      res.status(400).send({ message: 'Missing required fields' });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+function addHours(timeString, hoursToAdd) {
+  const [hours, minutes, seconds] = timeString.split(':').map(Number);
+  const date = new Date(0, 0, 0, hours, minutes, seconds);
+  date.setHours(date.getHours() + hoursToAdd);
+  return `${padZero(date.getHours())}:${padZero(date.getMinutes())}:${padZero(date.getSeconds())}`;
+}
+
+function padZero(num) {
+  return num.toString().padStart(2, '0');
+}
+
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = padZero(date.getMonth() + 1);
+  const day = padZero(date.getDate());
+  return `${year}-${month}-${day}`;
+}
+
 // Get the test specimen
 app.post('/admin-test-specimen', async (req, res) => {
   const authToken = req.headers['authorization'];
@@ -4085,6 +4217,138 @@ app.post('/super-admin-update-timeslotoffsite', async (req, res) => {
     res.status(500).send('Token is not found');
   }
 });
+
+// Add new timeslot yealy of the hospital that admin works to
+app.post('/super-admin-add-timeslothospital', async (req, res) => {
+  try {
+    const authToken = req.headers['authorization'];
+    if (!authToken || !authToken.startsWith('Bearer ')) {
+      return res.status(401).send('Token is not found');
+    }
+
+    const token = authToken.substring(7);
+    const isValid = validateSuperAuth(token);
+    if (!isValid) {
+      return res.status(401).send('Token is not valid');
+    }
+
+    const decoded = jwt.verify(token, 'mysecret');
+    const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
+    if (admin.length === 0) {
+      return res.status(404).send('Admin not found');
+    }
+
+    const HospitalID = admin[0].HospitalID;
+    const startYear = parseInt(req.body.selectedYear, 10);
+    let start_date = new Date(startYear, 0, 1);
+    let end_date = new Date(startYear, 11, 31);
+    let hosSlotID = 1;
+    const start_time = `${padZero(req.body.selectedStartTime)}:00:00`;
+    const end_time = `${padZero(req.body.selectedEndTime)}:00:00`;
+    const amount = parseInt(req.body.selectedAmount, 10);
+
+    if (startYear && start_time && end_time && amount) {
+      while (start_date <= end_date) {
+        let current_start_time = '06:00:00';
+        while (current_start_time < '18:00:00') {
+          const current_end_time = addHours(current_start_time, 1);
+          const current_amount = (current_start_time < start_time || current_start_time >= end_time) ? -1 : amount;
+          await queryAsync(
+            'INSERT IGNORE INTO `timeslothospital` (`HospitalID`, `HospitalDate`, `hosSlotID`, `start_time`, `end_time`, `amount`) VALUES (?, ?, ?, ?, ?, ?)',
+            [HospitalID, formatDate(start_date), hosSlotID, current_start_time, current_end_time, current_amount]
+          );
+
+          hosSlotID++;
+          current_start_time = addHours(current_start_time, 1);
+        }
+        hosSlotID = 1;
+        start_date.setDate(start_date.getDate() + 1);
+      }
+
+      res.status(200).send({ message: 'New time slot added successfully' });
+    } else {
+      res.status(400).send({ message: 'Missing required fields' });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Add new timeslot yealy of the hospital that admin works to
+app.post('/super-admin-add-timeslotoffsite', async (req, res) => {
+  try {
+    const authToken = req.headers['authorization'];
+    if (!authToken || !authToken.startsWith('Bearer ')) {
+      return res.status(401).send('Token is not found');
+    }
+
+    const token = authToken.substring(7);
+    const isValid = validateSuperAuth(token);
+    if (!isValid) {
+      return res.status(401).send('Token is not valid');
+    }
+
+    const decoded = jwt.verify(token, 'mysecret');
+    const admin = await queryAsync('SELECT * FROM `adminaccount` WHERE `AdminID` = ?', [decoded.sub]);
+    if (admin.length === 0) {
+      return res.status(404).send('Admin not found');
+    }
+
+    const HospitalID = admin[0].HospitalID;
+    const startYear = parseInt(req.body.selectedYear, 10);
+    let start_date = new Date(startYear, 0, 1);
+    let end_date = new Date(startYear, 11, 31);
+    let hosSlotID = 1;
+    const start_time = `${padZero(req.body.selectedStartTime)}:00:00`;
+    const end_time = `${padZero(req.body.selectedEndTime)}:00:00`;
+    const amount = parseInt(req.body.selectedAmount, 10);
+
+    if (startYear && start_time && end_time && amount) {
+      while (start_date <= end_date) {
+        let current_start_time = '06:00:00';
+        while (current_start_time < '18:00:00') {
+          const current_end_time = addHours(current_start_time, 1);
+          const current_amount = (current_start_time < start_time || current_start_time >= end_time) ? -1 : amount;
+          await queryAsync(
+            'INSERT IGNORE INTO `timeslotoffsite` (`HospitalID`, `OffSiteDate`, `offSlotID`, `start_time`, `end_time`, `amount`) VALUES (?, ?, ?, ?, ?, ?)',
+            [HospitalID, formatDate(start_date), hosSlotID, current_start_time, current_end_time, current_amount]
+          );
+
+          hosSlotID++;
+          current_start_time = addHours(current_start_time, 1);
+        }
+        hosSlotID = 1;
+        start_date.setDate(start_date.getDate() + 1);
+      }
+
+      res.status(200).send({ message: 'New time slot added successfully' });
+    } else {
+      res.status(400).send({ message: 'Missing required fields' });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+function addHours(timeString, hoursToAdd) {
+  const [hours, minutes, seconds] = timeString.split(':').map(Number);
+  const date = new Date(0, 0, 0, hours, minutes, seconds);
+  date.setHours(date.getHours() + hoursToAdd);
+  return `${padZero(date.getHours())}:${padZero(date.getMinutes())}:${padZero(date.getSeconds())}`;
+}
+
+function padZero(num) {
+  return num.toString().padStart(2, '0');
+}
+
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = padZero(date.getMonth() + 1);
+  const day = padZero(date.getDate());
+  return `${year}-${month}-${day}`;
+}
 
 // Get the test specimen
 app.post('/super-admin-test-specimen', async (req, res) => {
