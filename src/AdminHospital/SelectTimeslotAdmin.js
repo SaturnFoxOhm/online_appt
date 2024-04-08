@@ -95,7 +95,9 @@ const PlaceAdmin = () => {
                 <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5">
                     <div className="grid gap-4 gap-y-2 text-m grid-cols-1 lg:grid-cols-1">
                         <div className="text-gray-600">
-                            <p className="font-large text-xl text-black whitespace-nowrap">Where do you want to add New Year Time Slot ? / คุณต้องการเพิ่ม Time Slot ของปีใหม่ ของที่ไหน ?</p>
+                        <p className="font-large text-xl text-black whitespace-normal">
+                            Where do you want to add New Year Time Slot ? / คุณต้องการเพิ่ม Time Slot ของปีใหม่ ของที่ไหน ?
+                        </p>
                             <br/>
                             <input type="radio" id="hospitaladd" name="hospitaladd" value="timeslothospitaladd" onChange={handleOptionAddChange} checked={selectedOptionAdd === "timeslothospitaladd"}/>
                             <label for="hospitaladd" style={{ color: "black", marginLeft: "5px" }}>Hospital / เวลาทำงานในโรงพยาบาล</label><br/>
