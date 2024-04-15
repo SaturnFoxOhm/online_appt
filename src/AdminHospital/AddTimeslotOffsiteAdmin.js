@@ -101,7 +101,7 @@ const AddTimeslotOffsiteAdmin = () => {
     return (
         <div>
             <NavbarAdmin />
-            <div className="min-h-screen p-6 flex">
+            <div className="min-h-screen p-6 flex bg-light-yellow">
                 <div className="container max-w-screen-lg mx-auto">
                     <div className="relative">
                     </div>

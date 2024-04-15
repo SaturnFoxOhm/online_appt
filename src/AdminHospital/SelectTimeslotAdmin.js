@@ -65,7 +65,7 @@ const PlaceAdmin = () => {
         <div>
             <NavbarAdmin />
 
-            <div className="min-h-screen p-6 flex">
+            <div className="min-h-screen p-6 flex bg-light-yellow">
             <div className="container max-w-screen-md mx-auto">
                 <div className="relative">
                 </div>

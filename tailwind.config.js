@@ -5,7 +5,10 @@ module.exports = {
     extend: {
       spacing: {
         '6.5': '76rem',
-      }
+      },
+      colors: {
+        'light-yellow': '#FFE99D',
+      },
     },
   },
   plugins: [],
