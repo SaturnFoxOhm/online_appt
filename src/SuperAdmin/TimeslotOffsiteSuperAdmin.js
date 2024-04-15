@@ -99,7 +99,7 @@ const TimeslotOffsiteAdmin = () => {
                                 </table>
                                 <td className="md:col-span-4 text-right inline-flex items-end">
                                     <Link
-                                        to={`/super-admin/timeslothospital/${selectedDate}`}
+                                        to={`/super-admin/timeslotoffsite/${selectedDate}`}
                                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                     >
                                         Edit Time Slot / แก้ไขช่วงเวลา
