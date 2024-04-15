@@ -193,13 +193,13 @@ const Profile = () => {
           <div>
             <div class="relative">
               <h2 class="font-bold text-lg text-white mb-6 inline-block mr-6 bg-blue-500 py-2 px-4 rounded-l-md rounded-r-md">
-                Profile Page
+                Profile Page / หน้าโปรไฟล์
               </h2>
               <a
                 href="/user/appointmentlist"
                 class="font-bold text-lg text-white mb-6 inline-block mr-6 bg-gray-500 py-2 px-4 rounded-l-md rounded-r-md"
               >
-                Appointment Page
+                Appointment Page / หน้าการนัดหมาย
               </a>
             </div>
             <div class="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5">

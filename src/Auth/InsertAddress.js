@@ -159,31 +159,31 @@ const Address = () => {
                         <br/>
                         <form onSubmit={insertAddress}>
                             <label>
-                            Address line 1 / ที่อยู่ 1 *
+                            Address line 1 / ที่อยู่บรรทัดที่ 1 *
                             <input type="text" required value={addressLine1} onChange={(e) => setAddressLine1(e.target.value)} />
                             </label>
                             <br />
                             <label>
-                            Address line 2 / ที่อยู่ 2 (optional)
+                            Address line 2 / ที่อยู่บรรทัดที่ 2 (optional)
                             <input type="text" value={addressLine2} onChange={(e) => setAddressLine2(e.target.value)} />
                             </label>
                             <br />
                             <label>
-                            Province / จังหวัด *
+                            Province / เขต *
                             <input type="text" required value={province} onChange={(e) => setProvince(e.target.value)} />
                             </label>
                             <br />
                             <label>
-                            City / เมือง *
+                            City / จังหวัด *
                             <input type="text" required value={city} onChange={(e) => setCity(e.target.value)} />
                             </label>
                             <br />
                             <label>
-                            Postal code / รหัสไปรษณีย์*
+                            Postal code / รหัสไปรษณีย์ *
                             <input type="text" required value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
                             </label>
                             <br />
-                            {nearestHospital.length > 0&& (
+                            {nearestHospital.length > 0 && (
                                 <p>Nearest Hospital / โรงพยาบาลที่ใกล้ที่สุด: {nearestHospital[0].hos_name} ({nearestHospital[0].distance})</p>
                             )}
                             <div style={{ display: 'grid', placeItems: 'end' }}>
