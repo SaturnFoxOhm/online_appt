@@ -70,7 +70,7 @@ const PlaceAdmin = () => {
                 <div className="relative">
                 </div>
 
-                <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5">
+                <div className="rounded shadow-lg p-4 px-4 md:p-6 mb-5">
                     <div className="grid gap-4 gap-y-2 text-m grid-cols-1 lg:grid-cols-1">
                         <div className="text-gray-600">
                             <p className="font-large text-xl text-black whitespace-normal">
@@ -94,7 +94,7 @@ const PlaceAdmin = () => {
                     </div>
                 </div>
 
-                <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5">
+                <div className="rounded shadow-lg p-4 px-4 md:p-6 mb-5">
                     <div className="grid gap-4 gap-y-2 text-m grid-cols-1 lg:grid-cols-1">
                         <div className="text-gray-600">
                         <p className="font-large text-xl text-black whitespace-normal">
