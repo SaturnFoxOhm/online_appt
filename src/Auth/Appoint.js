@@ -162,7 +162,7 @@ const Appoint = () => {
       {/* Modal for PDPA consent */}
       {showConsentModal && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-white p-8 rounded-lg" style={{ width: '80%', maxWidth: '600px' }}>
+          <div className="bg-white p-8 rounded-lg">
             <h2 className="text-l font-bold mb-4">ขอความยินยอมการเก็บข้อมูลส่วนบุคคล</h2>
             <p>เราให้ความสำคัญกับความเป็นส่วนตัวและความคุ้มครองข้อมูลส่วนบุคคลของท่าน ดังนั้นเราขอความยินยอมในการเก็บ ใช้ และเปิดเผยข้อมูลส่วนบุคคลของท่านตามนโยบายด้านล่างนี้:</p>
             
@@ -190,11 +190,6 @@ const Appoint = () => {
             <button 
               onClick={handleConsentConfirm} 
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-              style={{
-                position: 'fixed',
-                bottom: '0',
-                right: '0'
-              }}
             >
                 ยอมรับ
             </button>
