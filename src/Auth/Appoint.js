@@ -162,7 +162,7 @@ const Appoint = () => {
       {/* Modal for PDPA consent */}
       {showConsentModal && (
         <div className="fixed left-10 right-10 pt-6 pb-6 flex items-center justify-center bg-gray-800 bg-opacity-50" style={{ zIndex: 2 }}>
-          <div className="bg-white p-8 rounded-lg" style={{ zIndex: 2, maxHeight: '80%', overflowY: 'auto' }}>
+          <div className="bg-white p-8 rounded-lg" style={{ zIndex: 2}}>
             <h2 className="text-xl font-bold mb-4">ขอความยินยอมการเก็บข้อมูลส่วนบุคคล</h2>
             <p>เราให้ความสำคัญกับความเป็นส่วนตัวและความคุ้มครองข้อมูลส่วนบุคคลของท่าน ดังนั้นเราขอความยินยอมในการเก็บ ใช้ และเปิดเผยข้อมูลส่วนบุคคลของท่านตามนโยบายด้านล่างนี้:</p>
             <br/>
