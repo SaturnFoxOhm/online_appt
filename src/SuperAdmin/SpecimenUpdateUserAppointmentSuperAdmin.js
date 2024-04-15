@@ -138,7 +138,7 @@ const SpecimenUpdateUserAppointmentSuperAdmin = () => {
   return (
     <div>
       <NavbarAdmin />
-      <div className="min-h-screen p-6 bg-gradient-to-r from-green-500 to-emerald-300 flex ">
+      <div className="min-h-screen p-6 bg-light-yellow flex ">
         <div className="container max-w-screen-xl mx-auto">
           <div className="relative">
           </div>

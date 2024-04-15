@@ -65,7 +65,7 @@ const PlaceAdmin = () => {
         <div>
             <NavbarSuperAdmin />
 
-            <div className="min-h-screen p-6 bg-gradient-to-r from-green-500 to-emerald-300 flex">
+            <div className="min-h-screen p-6 bg-light-yellow flex">
             <div className="container max-w-screen-md mx-auto">
                 <div className="relative">
                     {/* <div className="progress-bar-container h-8 bg-gray-300 mt-2 mb-8 rounded-full border-2 border-gray-800 overflow-hidden">
@@ -73,7 +73,7 @@ const PlaceAdmin = () => {
                     </div> */}
                 </div>
 
-                <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5">
+                <div className="bg-white rounded shadow-lg p-4 px-4 md:p-6 mb-5">
                     <div className="grid gap-4 gap-y-2 text-m grid-cols-1 lg:grid-cols-1">
                         <div className="text-gray-600">
                             <p className="font-large text-xl text-black whitespace-normal">Where do you want to edit Time Slot ? / คุณต้องการแก้ไข Time Slot ของที่ไหน ?</p>
@@ -95,7 +95,7 @@ const PlaceAdmin = () => {
                     </div>
                 </div>
 
-                <div className="bg-gray-300 rounded shadow-lg p-4 px-4 md:p-6 mb-5">
+                <div className="bg-white rounded shadow-lg p-4 px-4 md:p-6 mb-5">
                     <div className="grid gap-4 gap-y-2 text-m grid-cols-1 lg:grid-cols-1">
                         <div className="text-gray-600">
                             <p className="font-large text-xl text-black whitespace-normal">Where do you want to add New Year Time Slot  / คุณต้องการเพิ่ม Time Slot ของปีใหม่ ของที่ไหน ?</p>
