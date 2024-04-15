@@ -29,7 +29,7 @@ const upload = multer({
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'ohm0817742474',
+  // password: 'ohm0817742474',
   database: 'healthcheckupplatform'
 });
 
@@ -112,7 +112,15 @@ app.post('/submit-form', function (req, res, next) {
           sub: LineUserID,
         };
         const token = jwt.sign(payload, secret, {expiresIn: '24h'})
-        res.status(200).send({ message:'Form data inserted successfully', token });
+        
+        const decodedToken = jwt.decode(token);
+        if (decodedToken.exp * 1000 < Date.now()) {
+          // Token is expired, clear localStorage
+          res.status(401).send({ message: 'Token expired' });
+        } else {
+          // Token is valid, send it along with the response
+          res.status(200).send({ message: 'Form data inserted successfully', token });
+        }
     }
   });
 });
@@ -142,7 +150,14 @@ app.post('/store-line-login-data', async function (req, res, next) {
 
           console.log(token);
 
-          res.status(200).json({ message: 'User already exists in the database', token });
+          const decodedToken = jwt.decode(token);
+          if (decodedToken.exp * 1000 < Date.now()) {
+            // Token is expired, clear localStorage
+            res.status(401).send({ message: 'Token expired' });
+          } else {
+            // Token is valid, send it along with the response
+            res.status(200).send({ message: 'User already exists in the database', token });
+          }
 
         } else {
           // User doesn't exist, insert into the database
@@ -2169,7 +2184,15 @@ app.post('/admin-login', function (req, res, next) {
           role: 'admin'
         };
         const token = jwt.sign(payload, secret, {expiresIn: '24h'})
-        res.status(200).send({ message:'Form data inserted successfully', token });
+
+        const decodedToken = jwt.decode(token);
+        if (decodedToken.exp * 1000 < Date.now()) {
+          // Token is expired, clear localStorage
+          res.status(401).send({ message: 'Token expired' });
+        } else {
+          // Token is valid, send it along with the response
+          res.status(200).send({ message: 'Form data inserted successfully', token });
+        }
       }
       else{
         res.status(500).send("No current Admin in database");
@@ -3388,7 +3411,15 @@ app.post('/super-admin-login', function (req, res, next) {
           role: 'superadmin'
         };
         const token = jwt.sign(payload, secret, {expiresIn: '24h'})
-        res.status(200).send({ message:'Form data inserted successfully', token });
+
+        const decodedToken = jwt.decode(token);
+        if (decodedToken.exp * 1000 < Date.now()) {
+          // Token is expired, clear localStorage
+          res.status(401).send({ message: 'Token expired' });
+        } else {
+          // Token is valid, send it along with the response
+          res.status(200).send({ message: 'Form data inserted successfully', token });
+        }
       }
       else{
         res.status(500).send("No current Admin in database");

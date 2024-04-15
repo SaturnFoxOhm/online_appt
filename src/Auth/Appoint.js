@@ -4,6 +4,11 @@ import { Link } from 'react-router-dom';
 
 const Appoint = () => {
   const [isBookingForSomeoneElse, setBookingForSomeoneElse] = useState(false);
+  const [showConsentModal, setShowConsentModal] = useState(true);
+
+  const handleConsentConfirm = () => {
+    setShowConsentModal(false); // Close the modal when consent is confirmed
+  };
 
   useEffect(() => {
     // Fetch user data from the server when the component mounts
@@ -153,6 +158,19 @@ const Appoint = () => {
   return (
     <div>
       <Navbar />
+
+      {/* Modal for PDPA consent */}
+      {showConsentModal && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white p-8 rounded-lg">
+            <h2 className="text-xl font-bold mb-4">PDPA Consent</h2>
+            <p>Please confirm that you agree to the PDPA terms.</p>
+            <button onClick={handleConsentConfirm} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+              Confirm
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="min-h-screen p-6 bg-gradient-to-r from-green-500 to-emerald-300 flex">
         <div className="container max-w-screen-md mx-auto">

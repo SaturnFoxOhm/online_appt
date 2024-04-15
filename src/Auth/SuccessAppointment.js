@@ -6,6 +6,15 @@ const SuccessAppointment = () => {
     const [appointmentData, setAppointmentData] = useState();
 
     useEffect(() => {
+        localStorage.removeItem('totalPrice');
+        localStorage.removeItem('InfoID');
+        localStorage.removeItem('selectedPlace');
+        localStorage.removeItem('selectedHospital');
+        localStorage.removeItem('selectedDate');
+        localStorage.removeItem('selectedSlot');
+    }, []);
+
+    useEffect(() => {
         const fetchAppointmentDetails = async () => {
             try {
                 const response = await fetch('http://localhost:5000/success-appoint', {
