@@ -161,8 +161,8 @@ const Appoint = () => {
 
       {/* Modal for PDPA consent */}
       {showConsentModal && (
-        <div className="fixed top-0 left-20 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-white p-8 rounded-lg">
+        <div className="fixed top-10 left-10 bottom-10 right-10 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white p-8 rounded-lg" style={{ zIndex: 2 }}>
             <h2 className="text-xl font-bold mb-4">ขอความยินยอมการเก็บข้อมูลส่วนบุคคล</h2>
             <p>เราให้ความสำคัญกับความเป็นส่วนตัวและความคุ้มครองข้อมูลส่วนบุคคลของท่าน ดังนั้นเราขอความยินยอมในการเก็บ ใช้ และเปิดเผยข้อมูลส่วนบุคคลของท่านตามนโยบายด้านล่างนี้:</p>
             <br/>
@@ -201,8 +201,8 @@ const Appoint = () => {
       <div className="min-h-screen p-6 bg-gradient-to-r from-green-500 to-emerald-300 flex">
         <div className="container max-w-screen-md mx-auto">
           <div className="relative">
-            <div className="progress-bar-container h-8 bg-gray-300 mt-2 mb-8 rounded-full border-2 border-gray-800 overflow-hidden">
-              <div className="progress-bar font-bold bg-yellow-500 h-full border-r-2 border-gray-800 flex items-center justify-center" style={{ width: `10%` }}> 10 %</div>
+            <div className="progress-bar-container h-8 bg-gray-300 mt-2 mb-8 rounded-full border-2 border-gray-800 overflow-hidden" style={{ zIndex: 1 }}>
+              <div className="progress-bar font-bold bg-yellow-500 h-full border-r-2 border-gray-800 flex items-center justify-center" style={{ width: `10%`, zIndex: 1 }}> 10 %</div>
             </div>
           </div>
 
