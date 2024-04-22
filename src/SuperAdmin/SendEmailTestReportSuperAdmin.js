@@ -103,7 +103,7 @@ const SendEmailTestReportSuperAdmin = () => {
                   <textarea type="text" id="text" name="text" value={text} required onChange={(e) => setText(e.target.value)} class="w-full h-48 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"/>
                   <br />
                   <br />
-                  <label htmlFor="attachment" style={{ fontSize: '18px' }}>Attachment ไฟล์แนบ (PDF):</label>
+                  <label htmlFor="attachment" style={{ fontSize: '18px' }}>Attachment / ไฟล์แนบ (PDF):</label>
                   <input type="file" id="attachment" name="attachment" required/>
                   <br />
                   <br />
