@@ -24,7 +24,7 @@ const SendEmailTestReportSuperAdmin = () => {
         // Check if appointment[1] is truthy before setting the subject
         if (data.user_info && data.user_info[1]) {
           setSubject(`ผลการตรวจของคุณ ${data.user_info[1]} จากเว็บ FastAppt`);
-          setText(`เรียน ${data.user_info[1]}\n\nทางเราได้ทำการส่งผลตรวจตามรายการตรวจที่คุณนั้นได้ทำการนัดหมายเมื่อวันที่ ${data.user_info[3]} กับทาง โรงพยาบาล ${data.user_info[10]}\n\nจึงเรียนมาเพื่อทราบ`);
+          setText(`เรียน ${data.user_info[1]}\n\nทางเราได้ทำการส่งผลตรวจตามรายการตรวจที่คุณนั้นได้ทำการนัดหมายเมื่อวันที่ ${data.user_info[3]} กับทาง โรงพยาบาล ${data.user_info[data.user_info.length - 1]}\n\nจึงเรียนมาเพื่อทราบ`);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
