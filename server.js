@@ -29,7 +29,7 @@ const upload = multer({
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  // password: 'ohm0817742474',
+  password: 'ohm0817742474',
   database: 'healthcheckupplatform'
 });
 
@@ -2972,7 +2972,7 @@ app.post('/admin-get-timeslotoffsite', async (req, res) => {
               amount.push(date.amount);
               Start_time.push(date.start_time);
               End_time.push(date.end_time);
-              hosSlotID.push(date.hosSlotID);
+              hosSlotID.push(date.offSlotID);
 
               time_slot.push({ hosSlotID, amount, Start_time, End_time });
             }
@@ -4260,7 +4260,7 @@ app.post('/super-admin-get-timeslotoffsite', async (req, res) => {
               amount.push(date.amount);
               Start_time.push(date.start_time);
               End_time.push(date.end_time);
-              hosSlotID.push(date.hosSlotID);
+              hosSlotID.push(date.offSlotID);
 
               time_slot.push({ hosSlotID, amount, Start_time, End_time });
             }
