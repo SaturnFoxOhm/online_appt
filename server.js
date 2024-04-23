@@ -4688,7 +4688,7 @@ app.get('/super-admin-get-users-appointment-transported-date/:date', async (req,
         WHERE OrderID IN (
           SELECT OrderID FROM OrdersDetails WHERE transfer = 1
         )
-        AND (MONTH(HospitalDate) = ? AND YEAR(HospitalDate) = ?) OR (MONTH(OffSiteDate) = ? AND YEAR(OffSiteDate) = ?)
+        AND ((MONTH(HospitalDate) = ? AND YEAR(HospitalDate) = ?) OR (MONTH(OffSiteDate) = ? AND YEAR(OffSiteDate) = ?))
         ORDER BY COALESCE(HospitalDate, OffSiteDate) ASC
       `;
       try {
